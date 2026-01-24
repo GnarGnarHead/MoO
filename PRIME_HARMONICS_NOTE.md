@@ -18,17 +18,30 @@ Assume an external “Axioms 1–21” list (not currently tracked in-repo). I w
 
 Everything below is a “drafted throughline” from those axioms to a theorem/proof package.
 
+## Ontology alignment note (MoO tiers)
+
+This note uses standard analytic shorthand (`\mathbb N`, `\mathbb Z/q\mathbb Z`, `U(1)`, complex phases) but the MoO ontology is stricter:
+
+* Tier 1: only `Ref(1)` is primitive certainty.
+* Tier 2: integers `Ref(N)` for `N != 1` are grounded only by explicit iterative construction (in the current prototype: `+` / `-` edges).
+* Tier 3: inferred/derived structures (non-integer rationals, congruence-class labels, harmonic/phase observables, prime-atom weights like `\Lambda`) are analysis-layer claims.
+  In particular, `*` and `/` do not directly create new tier-2 integers; they yield tier-3 results (including integer claims) that only snap to `Ref(N)` once that `Ref(N)` has been grounded by iteration.
+
+So when this note writes things like `\mathbb N={1,2,3,\dots}` or `\mathbb Z/q\mathbb Z`, read them as names for patterns/partitions over the constructed integer backbone, not as new primitive objects.
+
 ---
 
 ## Derived objects
 
 ### Natural-number layer
 
-By Axioms 1–5 and 21, we work with the unique Platonic objects
+By Axioms 1–5 and 21, we start from `1` and generate an ever-extensible integer backbone by iteration.
+For convenience, I will use the conventional shorthand
 [
 \mathbb N={1,2,3,\dots},
 ]
-and all structure is expressed as relations induced by iterated operator applications.
+to refer to the positive integers that could be constructed by continued iteration, not as a commitment to pre-baked sets.
+All structure is expressed as relations induced by iterated operator applications.
 
 ### Collapse branches
 
@@ -37,6 +50,7 @@ By Axioms 12–13, define for each modulus (q\ge 1) a collapse relation
 n\sim_q m \quad\Longleftrightarrow\quad q\mid(n-m).
 ]
 The equivalence classes ([r]_q={n:\ n\equiv r\pmod q}) are the **branches** at level (q). This is the standard “branching by self-identification” mechanism: you did not create new objects; you quotient the relational state space.
+In MoO terms, this is an analysis-layer partition over already-constructed integers, not a new object domain.
 
 The branch set is the quotient
 [
@@ -49,6 +63,7 @@ By Axiom 15, harmonic observables live on the unit circle
 [
 U(1):={z\in\mathbb C: |z|=1}.
 ]
+In MoO terms, this is an external lens / observation space used to probe structure in the constructed integers, not a new primitive domain.
 Define the basic modulus‑one phase map
 [
 e(t):=e^{2\pi i t}.
@@ -122,7 +137,7 @@ e\!\left(\frac{an}{q}\right)=e\!\left(\frac{a(r+mq)}{q}\right)
 since (e(am)=1) for integers (a,m). Pull that factor out:
 [
 \sum_{\substack{n\le N\ n\equiv r\ (q)}} \Lambda(n)\,e\!\left(\frac{an}{q}\right)
-e\!\left(\frac{ar}{q}\right)\Psi_N(q,r).
+= e\!\left(\frac{ar}{q}\right)\Psi_N(q,r).
 ]
 Sum over (r). ∎
 
