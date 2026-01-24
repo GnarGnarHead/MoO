@@ -31,7 +31,7 @@ The system is based on a few strict ideas:
 3. **Every constructed value is either:**
 
    * **Grounded (G):** actually constructed from grounded inputs.
-   * **Speculative (S):** inferred or contingent on speculative inputs / non-integer division.
+   * **Speculative (S):** inferred/derived claims (including non-integer division, and integer claims from `*` and `/` until they align to an explicitly grounded `Ref(N)`).
 
 4. **Identity is by normalization**, not by symbol:
    If multiple paths normalize to the same integer `N`, they converge on a single node `Ref(N)`.
@@ -110,7 +110,7 @@ class Graph:
         self._spec_counter = itertools.count(1)
         self._div_by_zero_node: Optional[Node] = None
         # Seed with Ref(1)
-        self.get_or_create_ref(1)
+        self._get_or_create_grounded_ref(1)
 ```
 
 The `Graph` maintains:
@@ -243,12 +243,17 @@ This encodes the epistemic rule:
 
 All operations follow a common pattern:
 
-1. If both inputs are grounded (`G,G`), use `_normalize` to get:
+1. If both inputs are grounded (`G,G`):
 
-   * integer result: → `Ref(N)` (grounded)
-   * non-integer → a **canonical speculative rational** node keyed by reduced `p/q` (so `5/2`, `10/4`, and `2 + 1/2` converge)
-   * division by zero → special speculative node
-2. If any input is speculative, attempt to compute `potential_val` using `_maybe_potential` / `_potential_division` (and compute an exact rational value when both inputs carry one).
+   * `+` / `-`: use `_normalize` and **create** the resulting `Ref(N)` (grounded).
+   * `*` / `/`: compute the exact rational result and **intern** it:
+     * non-integer → a canonical speculative rational node keyed by reduced `p/q`
+     * integer `N` → a speculative integer-claim unless `Ref(N)` already exists (then it snaps/converges to `Ref(N)`)
+2. If any input is speculative:
+
+   * when both inputs carry an exact rational value, compute the exact result and intern it by value;
+     integer results remain speculative unless the corresponding `Ref(N)` is already grounded
+   * otherwise attempt to compute `potential_val` using `_maybe_potential` / `_potential_division`
 3. Create **or reuse** a speculative node via value interning.
 4. Record an edge.
 5. If a speculative node has `potential_val = N` and `Ref(N)` already exists, snap immediately.
@@ -272,31 +277,10 @@ Subtraction is analogous.
 
 ### 6.3 Multiplication with zero-annihilation
 
-```python
-def mul(self, a: Node, b: Node) -> Node:
-    # Zero annihilation with speculative partner.
-    if (
-        (a.status == "S" or b.status == "S")
-        and ((a.status == "G" and a.id == 0) or (b.status == "G" and b.id == 0))
-    ):
-        zero = self.get_or_create_ref(0)
-        self._record_edge("*", [a, b], zero, {"result": 0, "rule": "zero_annihilation"})
-        return zero
-
-    if a.status == "G" and b.status == "G":
-        ...
-
-    potential = self._maybe_potential("*", a, b)
-    ...
-```
-
 Key behavior:
 
-* `0 * (anything, even S)` → grounded `Ref(0)` with `"rule": "zero_annihilation"`.
-* Otherwise:
-
-  * `G,G` → normalized integer.
-  * any S → speculative node (with optional potential_val).
+* If one input is definitely `0` and the other input is unknown, multiply still yields a `0` **claim** (recorded with `"rule": "zero_annihilation"`).
+* `*` does **not** create new grounded integers. Integer results are speculative claims until the corresponding `Ref(N)` is grounded by explicit iteration (`+` / `-`), at which point they snap.
 
 ### 6.4 Division
 
@@ -322,8 +306,8 @@ def div(self, a: Node, b: Node) -> Node:
 
 * Division by zero: a dedicated, reusable speculative node (`S_div_by_zero`).
 * Non-integer division: a **canonical** speculative rational node (interned by reduced `p/q`).
-* Integer division from `G,G`: grounded `Ref(N)`.
-* Any S inputs: if exact rational values are known, the result is interned by value; otherwise fall back to speculative `potential_val`.
+* Integer division: produces a speculative integer-claim unless `Ref(N)` already exists (then it snaps/converges to that grounded node).
+* If exact rational values are known, the result is interned by value; otherwise fall back to speculative `potential_val`.
 
 ---
 
@@ -332,23 +316,44 @@ def div(self, a: Node, b: Node) -> Node:
 ```python
 def demo(limit: int = 3) -> Graph:
     g = Graph()
-    rounds = max(0, int(limit))
-    for _ in range(rounds):
-        ints = [g.nodes_by_int[n] for n in sorted(g.nodes_by_int.keys())]
-        for i, a in enumerate(ints):
-            for j, b in enumerate(ints):
-                if j >= i:
-                    g.add(a, b)
-                    g.mul(a, b)
-                g.sub(a, b)
-                g.div(a, b)
+    one = g.get_or_create_ref(1)
+    zero = g.sub(one, one)
 
-    one = g.nodes_by_int.get(1)
-    two = g.nodes_by_int.get(2)
-    zero = g.nodes_by_int.get(0)
-    if one is not None and two is not None and zero is not None:
-        half = g.div(one, two)
+    # Create a speculative integer-claim that will later snap to Ref(2).
+    shadow_two = g.speculate_ref(2, reason="demo_shadow_ref")
+    g.add(shadow_two, one)  # potential_val=3, will snap once Ref(3) is grounded
+
+    limit = max(0, int(limit))
+
+    positives = {1: one}
+    for n in range(2, limit + 1):
+        positives[n] = g.add(positives[n - 1], one)
+
+    current = zero
+    for _ in range(1, limit + 1):
+        current = g.sub(current, one)
+
+    # Apply a bounded set of multiplication/division steps within the integer backbone.
+    ints = [g.nodes_by_int[n] for n in sorted(g.nodes_by_int.keys())]
+    for i, a in enumerate(ints):
+        ai = int(a.id)
+        for j, b in enumerate(ints):
+            bi = int(b.id)
+            if j >= i and abs(ai) >= 2 and abs(bi) >= 2:
+                prod = ai * bi
+                if abs(prod) <= limit:
+                    g.mul(a, b)
+            if abs(bi) >= 2 and bi != 0 and ai % bi == 0:
+                quotient = ai // bi
+                if abs(quotient) <= limit:
+                    g.div(a, b)
+
+    if limit >= 2:
+        half = g.div(one, positives[2])
         g.mul(half, zero)
+    if limit >= 3:
+        third = g.div(one, positives[3])
+        g.add(half, third)
 
     return g
 ```
@@ -356,9 +361,11 @@ def demo(limit: int = 3) -> Graph:
 This builds:
 
 * `Ref(1)` as seed.
-* A growing set of grounded integers (including `Ref(0)` and negatives) via closure rounds.
-* Speculative fractions from non-integer division (e.g. `1/2`).
-* A zero-annihilation example that collapses `0 * (speculative)` to `Ref(0)`.
+* `Ref(0)` via `1 - 1`.
+* Integers outward to `±limit` via repeated `+1` / `-1` construction steps.
+* A speculative integer-claim that snaps when its `Ref(N)` is later grounded.
+* A bounded set of integer multiplication/division facts within that backbone.
+* Speculative fractions from non-integer division (e.g. `1/2`) and a zero-annihilation example.
 
 Exports:
 

@@ -37,8 +37,8 @@ class Graph:
     Constructionist arithmetic graph.
 
     Grounded nodes (status G) represent integers Ref(N).
-    Speculative nodes (status S) capture non-integer results or operations that
-    depend on speculative inputs.
+    Speculative nodes (status S) capture non-integer rationals and inferred
+    integer claims (not yet explicitly constructed by iteration).
     """
 
     def __init__(self) -> None:
@@ -587,24 +587,27 @@ class Graph:
     def mul(self, a: Node, b: Node) -> Node:
         a = self._canonicalize_node(a)
         b = self._canonicalize_node(b)
-        # Zero annihilation with speculative partner.
-        if (
-            (a.status == "S" or b.status == "S")
-            and ((a.status == "G" and a.id == 0) or (b.status == "G" and b.id == 0))
-        ):
-            zero = self._get_or_create_grounded_ref(0)
-            self._record_edge("*", [a, b], zero, {"result": 0, "rule": "zero_annihilation"})
-            return zero
-
-        if a.status == "G" and b.status == "G":
-            kind, val = self._normalize("*", int(a.id), int(b.id))
-            assert kind == "int" and val is not None
-            out = self._get_or_create_grounded_ref(val)
-            self._record_edge("*", [a, b], out, {"result": val})
-            return out
-
         left_val = self._node_value(a)
         right_val = self._node_value(b)
+        if (left_val == 0 and right_val is None) or (right_val == 0 and left_val is None):
+            value = Fraction(0, 1)
+            out = self._intern_value(
+                value,
+                seed_op="*",
+                seed_inputs=self._input_ids([a, b]),
+                reason="zero_annihilation",
+            )
+            if out.status == "G":
+                edge_meta: Dict[str, object] = {"result": 0, "rule": "zero_annihilation"}
+            else:
+                edge_meta = {
+                    "result": "speculative",
+                    "potential_val": 0,
+                    "rule": "zero_annihilation",
+                }
+            self._record_edge("*", [a, b], out, edge_meta)
+            return self._maybe_snap_new_spec_to_existing_ref(out)
+
         if left_val is not None and right_val is not None:
             value = left_val * right_val
             out = self._intern_value(value, seed_op="*", seed_inputs=self._input_ids([a, b]))
@@ -634,28 +637,6 @@ class Graph:
         a = self._canonicalize_node(a)
         b = self._canonicalize_node(b)
         if b.status == "G" and b.id == 0:
-            node = self._div_by_zero()
-            self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
-            return node
-        if a.status == "G" and b.status == "G":
-            kind, val = self._normalize("/", int(a.id), int(b.id))
-            if kind == "int":
-                assert val is not None
-                out = self._get_or_create_grounded_ref(val)
-                self._record_edge("/", [a, b], out, {"result": val})
-                return out
-            if kind == "non_integer":
-                value = Fraction(int(a.id), int(b.id))
-                out = self._intern_value(
-                    value, seed_op="/", seed_inputs=self._input_ids([a, b]), result_tag="non_integer"
-                )
-                edge_meta = {
-                    "result": "non_integer",
-                    "value": {"p": int(value.numerator), "q": int(value.denominator)},
-                }
-                self._record_edge("/", [a, b], out, edge_meta)
-                return out
-            assert kind == "undefined"
             node = self._div_by_zero()
             self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
             return node
@@ -826,41 +807,59 @@ def eval_moo(expr: str, *, graph: Optional[Graph] = None) -> Tuple[Graph, Node]:
 
 def demo(limit: int = 3) -> Graph:
     """
-    Build a small universe from Ref(1) by repeatedly applying the four
-    fundamental operators across the grounded integer nodes discovered so far.
+    Build a small universe from the only primitive certainty: Ref(1).
 
-    `limit` is the number of synchronous closure rounds to run.
+    `limit` controls how far we iterate outward in the integer backbone
+    (approximately grounding integers in [-limit, limit]).
 
-    Notes:
-    - Negative integers are first-class nodes (grounded) and arise naturally via
-      subtraction once 0 is constructed.
-    - Non-integer division results are represented as speculative (second-class)
-      nodes.
+    This demo deliberately:
+    - treats integers as second-class (they must be explicitly constructed),
+    - treats multiplication/division outputs as third-class claims until they align
+      to an explicitly grounded integer,
+    - includes a small S→G snapping example for an unconstructed integer claim.
     """
     g = Graph()
-    rounds = max(0, int(limit))
-    for _ in range(rounds):
-        ints = [g.nodes_by_int[n] for n in sorted(g.nodes_by_int.keys())]
-        for i, a in enumerate(ints):
-            for j, b in enumerate(ints):
-                # Commutative ops: avoid duplicate work by only computing once
-                # for each unordered pair.
-                if j >= i:
-                    g.add(a, b)
-                    g.mul(a, b)
-                # Non-commutative ops: compute on all ordered pairs.
-                g.sub(a, b)
-                g.div(a, b)
+    one = g.get_or_create_ref(1)
+    zero = g.sub(one, one)
 
-    # A tiny post-pass to ensure the demo includes a speculative fraction and a
-    # zero-annihilation example without feeding second-class nodes back into the
-    # closure loop.
-    one = g.nodes_by_int.get(1)
-    two = g.nodes_by_int.get(2)
-    zero = g.nodes_by_int.get(0)
-    if one is not None and two is not None and zero is not None:
-        half = g.div(one, two)
-        g.mul(half, zero)
+    # Create speculative "shadow refs" that will later snap to grounded Refs.
+    shadow_two = g.speculate_ref(2, reason="demo_shadow_ref")
+    g.add(shadow_two, one)  # potential_val=3, will snap once Ref(3) is grounded
+
+    limit = max(0, int(limit))
+
+    positives = {1: one}
+    for n in range(2, limit + 1):
+        positives[n] = g.add(positives[n - 1], one)
+
+    current = zero
+    for _ in range(1, limit + 1):
+        current = g.sub(current, one)
+
+    # Apply a bounded set of multiplication/division steps on the grounded integer
+    # backbone so the demo exercises all operators without blowing up.
+    ints = [g.nodes_by_int[n] for n in sorted(g.nodes_by_int.keys())]
+    for i, a in enumerate(ints):
+        ai = int(a.id)
+        for j, b in enumerate(ints):
+            bi = int(b.id)
+            if j >= i and abs(ai) >= 2 and abs(bi) >= 2:
+                prod = ai * bi
+                if abs(prod) <= limit:
+                    g.mul(a, b)
+            if abs(bi) >= 2 and bi != 0 and ai % bi == 0:
+                quotient = ai // bi
+                if abs(quotient) <= limit:
+                    g.div(a, b)
+
+    # A couple of speculative fractions (third-class) + zero annihilation.
+    half: Optional[Node] = None
+    if limit >= 2:
+        half = g.div(one, positives[2])
+        g.mul(half, zero)  # triggers zero annihilation from speculative input
+    if limit >= 3 and half is not None:
+        third = g.div(one, positives[3])
+        g.add(half, third)
 
     return g
 
