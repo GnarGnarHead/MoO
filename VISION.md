@@ -68,6 +68,11 @@ class Node:
 * **Speculative nodes** (`status == "S"`) represent ungrounded results, `Sx` (`id` is a string).
 * `metadata` records:
 
+  * for all nodes:
+    * `tier`:
+      * `1` for the single primitive certainty `Ref(1)`
+      * `2` for grounded (constructed) integers `Ref(N)` where `N != 1`
+      * `3` for speculative / inferred nodes (e.g. non-integer division)
   * for S nodes:
     * a stable **value identity** when known: `{"value": {"p": ..., "q": ...}}` (a reduced rational `p/q`)
     * plus a “seed” provenance like `{"op": ..., "inputs": [...]}` from the first time that value was seen
@@ -110,7 +115,7 @@ class Graph:
 
 The `Graph` maintains:
 
-* A unique map from `int → Ref(N)` for grounded integers (including 0 and negatives).
+* A unique map from `int → Ref(N)` for grounded integers (including 0 and negatives) that have been explicitly constructed.
 * A map from speculative IDs (`"S1"`, `"S2"`, …) → speculative nodes.
 * A **value-interning table** `p/q → Node` (reduced rationals) so speculative nodes are unique by value (e.g. `5/2`, `10/4`, and `2 + 1/2` converge on the same node).
 * A list of all edges (construction history).
@@ -154,17 +159,17 @@ def _normalize(self, op: str, a: int, b: int) -> Tuple[str, Optional[int]]:
 ```python
 def get_or_create_ref(self, n: int) -> Node:
     n = int(n)
-    node = self.nodes_by_int.get(n)
-    if node is not None:
-        self._snap_speculative_to_ref(n, node)
-        return node
-    node = Node(id=n, status="G")
-    self.nodes_by_int[n] = node
-    self._snap_speculative_to_ref(n, node)
-    return node
+    grounded = self.nodes_by_int.get(n)
+    if grounded is not None:
+        self._snap_speculative_to_ref(n, grounded)
+        return grounded
+    if n == 1:
+        return self._get_or_create_grounded_ref(1)
+    return self.speculate_ref(n, reason="unconstructed_integer")
 ```
 
 * There is exactly **one** `Ref(N)` node per integer.
+* `Ref(1)` is the only first-class primitive; other integers become grounded only when constructed by explicit edges.
 * When a new `Ref(N)` is created or reused, the graph **snaps** speculative nodes with `potential_val == N` into that grounded node.
 
 ---

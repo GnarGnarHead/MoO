@@ -49,8 +49,8 @@ class Graph:
         self._snap_events: List[Dict[str, object]] = []
         self._spec_counter = itertools.count(1)
         self._div_by_zero_node: Optional[Node] = None
-        # Seed with Ref(1)
-        self.get_or_create_ref(1)
+        # Seed with the only first-class primitive: Ref(1)
+        self._get_or_create_grounded_ref(1)
 
     # --- core helpers ---
     def _node_value(self, node: Node) -> Optional[Fraction]:
@@ -86,12 +86,19 @@ class Graph:
         """
         Return a canonical node for an exact rational value.
 
-        Integers always return grounded Refs.
+        Non-integer rationals always intern as speculative nodes.
+
+        Integer values return a grounded Ref(N) only if that Ref(N) is already
+        grounded (i.e., has been explicitly constructed). Otherwise they intern
+        as a speculative integer-claim node with potential_val=N.
         """
         value = Fraction(value.numerator, value.denominator)
         if value.denominator == 1:
             n = int(value.numerator)
-            return self.get_or_create_ref(n)
+            grounded = self.nodes_by_int.get(n)
+            if grounded is not None:
+                return grounded
+            key = (n, 1)
         else:
             key = (int(value.numerator), int(value.denominator))
 
@@ -99,7 +106,7 @@ class Graph:
         if existing is not None:
             return existing
 
-        metadata: Dict[str, object] = {"op": seed_op, "inputs": list(seed_inputs)}
+        metadata: Dict[str, object] = {"op": seed_op, "inputs": list(seed_inputs), "tier": 3}
         metadata["value"] = {"p": key[0], "q": key[1]}
         if key[1] == 1:
             metadata["potential_val"] = key[0]
@@ -137,6 +144,7 @@ class Graph:
         return node
 
     def _new_spec_node(self, metadata: Dict[str, object]) -> Node:
+        metadata.setdefault("tier", 3)
         node_id = f"S{next(self._spec_counter)}"
         node = Node(id=node_id, status="S", metadata=metadata)
         self.speculative_nodes[node_id] = node
@@ -167,16 +175,37 @@ class Graph:
                     usages += 1
         return usages
 
-    def get_or_create_ref(self, n: int) -> Node:
+    def _get_or_create_grounded_ref(self, n: int) -> Node:
         n = int(n)
         node = self.nodes_by_int.get(n)
         if node is not None:
             self._snap_speculative_to_ref(n, node)
             return node
-        node = Node(id=n, status="G")
+        metadata: Dict[str, object] = {"tier": 1 if n == 1 else 2}
+        if n == 1:
+            metadata["primitive"] = True
+        node = Node(id=n, status="G", metadata=metadata)
         self.nodes_by_int[n] = node
         self._snap_speculative_to_ref(n, node)
         return node
+
+    def get_or_create_ref(self, n: int) -> Node:
+        """
+        Public helper for referring to Ref(N).
+
+        - Ref(1) is the only first-class primitive and may be created directly.
+        - Other integers are second-class: they must be explicitly constructed.
+          If Ref(N) is not yet grounded, this returns a speculative integer-claim
+          node instead.
+        """
+        n = int(n)
+        grounded = self.nodes_by_int.get(n)
+        if grounded is not None:
+            self._snap_speculative_to_ref(n, grounded)
+            return grounded
+        if n == 1:
+            return self._get_or_create_grounded_ref(1)
+        return self.speculate_ref(n, reason="unconstructed_integer")
 
     def frontier(self) -> Dict[str, int]:
         if not self.nodes_by_int:
@@ -212,11 +241,17 @@ class Graph:
 
     def speculate_ref(self, n: int, *, reason: Optional[str] = None) -> Node:
         """
-        Compatibility helper: integers are always first-class (grounded) nodes.
-
-        The `reason` parameter is accepted but currently ignored.
+        Create a speculative node that is believed to correspond to Ref(n),
+        but is not yet grounded by an explicit construction path.
         """
-        return self.get_or_create_ref(n)
+        if n in self.nodes_by_int:
+            return self.nodes_by_int[n]
+        return self._intern_value(
+            Fraction(int(n), 1),
+            seed_op="speculate_ref",
+            seed_inputs=[],
+            reason=reason,
+        )
 
     def snap_events(self) -> List[Dict[str, object]]:
         return list(self._snap_events)
@@ -485,7 +520,7 @@ class Graph:
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("+", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            out = self.get_or_create_ref(val)
+            out = self._get_or_create_grounded_ref(val)
             self._record_edge("+", [a, b], out, {"result": val})
             return out
         left_val = self._node_value(a)
@@ -495,14 +530,17 @@ class Graph:
             out = self._intern_value(value, seed_op="+", seed_inputs=self._input_ids([a, b]))
             if value.denominator == 1:
                 n = int(value.numerator)
-                edge_meta: Dict[str, object] = {"result": n}
+                if out.status == "G":
+                    edge_meta: Dict[str, object] = {"result": n}
+                else:
+                    edge_meta = {"result": "speculative", "potential_val": n}
             else:
                 edge_meta = {
                     "result": "speculative",
                     "value": {"p": int(value.numerator), "q": int(value.denominator)},
                 }
             self._record_edge("+", [a, b], out, edge_meta)
-            return out
+            return self._maybe_snap_new_spec_to_existing_ref(out)
         potential = self._maybe_potential("+", a, b)
         metadata = {"op": "+", "inputs": self._input_ids([a, b])}
         if potential is not None:
@@ -517,7 +555,7 @@ class Graph:
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("-", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            out = self.get_or_create_ref(val)
+            out = self._get_or_create_grounded_ref(val)
             self._record_edge("-", [a, b], out, {"result": val})
             return out
         left_val = self._node_value(a)
@@ -527,14 +565,17 @@ class Graph:
             out = self._intern_value(value, seed_op="-", seed_inputs=self._input_ids([a, b]))
             if value.denominator == 1:
                 n = int(value.numerator)
-                edge_meta: Dict[str, object] = {"result": n}
+                if out.status == "G":
+                    edge_meta: Dict[str, object] = {"result": n}
+                else:
+                    edge_meta = {"result": "speculative", "potential_val": n}
             else:
                 edge_meta = {
                     "result": "speculative",
                     "value": {"p": int(value.numerator), "q": int(value.denominator)},
                 }
             self._record_edge("-", [a, b], out, edge_meta)
-            return out
+            return self._maybe_snap_new_spec_to_existing_ref(out)
         potential = self._maybe_potential("-", a, b)
         metadata = {"op": "-", "inputs": self._input_ids([a, b])}
         if potential is not None:
@@ -551,14 +592,14 @@ class Graph:
             (a.status == "S" or b.status == "S")
             and ((a.status == "G" and a.id == 0) or (b.status == "G" and b.id == 0))
         ):
-            zero = self.get_or_create_ref(0)
+            zero = self._get_or_create_grounded_ref(0)
             self._record_edge("*", [a, b], zero, {"result": 0, "rule": "zero_annihilation"})
             return zero
 
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("*", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            out = self.get_or_create_ref(val)
+            out = self._get_or_create_grounded_ref(val)
             self._record_edge("*", [a, b], out, {"result": val})
             return out
 
@@ -569,14 +610,17 @@ class Graph:
             out = self._intern_value(value, seed_op="*", seed_inputs=self._input_ids([a, b]))
             if value.denominator == 1:
                 n = int(value.numerator)
-                edge_meta: Dict[str, object] = {"result": n}
+                if out.status == "G":
+                    edge_meta: Dict[str, object] = {"result": n}
+                else:
+                    edge_meta = {"result": "speculative", "potential_val": n}
             else:
                 edge_meta = {
                     "result": "speculative",
                     "value": {"p": int(value.numerator), "q": int(value.denominator)},
                 }
             self._record_edge("*", [a, b], out, edge_meta)
-            return out
+            return self._maybe_snap_new_spec_to_existing_ref(out)
 
         potential = self._maybe_potential("*", a, b)
         metadata = {"op": "*", "inputs": self._input_ids([a, b])}
@@ -590,6 +634,28 @@ class Graph:
         a = self._canonicalize_node(a)
         b = self._canonicalize_node(b)
         if b.status == "G" and b.id == 0:
+            node = self._div_by_zero()
+            self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
+            return node
+        if a.status == "G" and b.status == "G":
+            kind, val = self._normalize("/", int(a.id), int(b.id))
+            if kind == "int":
+                assert val is not None
+                out = self._get_or_create_grounded_ref(val)
+                self._record_edge("/", [a, b], out, {"result": val})
+                return out
+            if kind == "non_integer":
+                value = Fraction(int(a.id), int(b.id))
+                out = self._intern_value(
+                    value, seed_op="/", seed_inputs=self._input_ids([a, b]), result_tag="non_integer"
+                )
+                edge_meta = {
+                    "result": "non_integer",
+                    "value": {"p": int(value.numerator), "q": int(value.denominator)},
+                }
+                self._record_edge("/", [a, b], out, edge_meta)
+                return out
+            assert kind == "undefined"
             node = self._div_by_zero()
             self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
             return node
@@ -614,14 +680,17 @@ class Graph:
             edge_meta: Dict[str, object]
             if value.denominator == 1:
                 n = int(value.numerator)
-                edge_meta = {"result": n}
+                if out.status == "G":
+                    edge_meta = {"result": n}
+                else:
+                    edge_meta = {"result": "speculative", "potential_val": n}
             else:
                 edge_meta = {
                     "result": "non_integer",
                     "value": {"p": int(value.numerator), "q": int(value.denominator)},
                 }
             self._record_edge("/", [a, b], out, edge_meta)
-            return out
+            return self._maybe_snap_new_spec_to_existing_ref(out)
 
         potential = self._potential_division(a, b)
         metadata = {"op": "/", "inputs": self._input_ids([a, b])}
