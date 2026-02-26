@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Literal
+from typing import Dict, List, Optional, Set, Tuple, Union, Literal
 import ast
 from fractions import Fraction
 import itertools
@@ -13,8 +13,7 @@ Status = Literal["G", "S"]
 NodeId = Union[int, str]
 NodeUid = int
 ValueKey = Tuple[int, int]
-GraphMode = Literal["canon", "preserve"]
-InternPolicy = Literal["none", "by_provenance", "by_value"]
+InternPolicy = Literal["none", "by_provenance"]
 
 
 @dataclass
@@ -48,37 +47,29 @@ class Graph:
     Speculative nodes (status S) capture non-integer rationals and inferred
     integer claims.
 
-    Modes:
-    - canon: value-interned, destructive snapping to grounded refs.
-    - preserve: non-destructive structure-preserving mode with value classes
-      and resolve relations.
+    Identity is non-destructive and structure-preserving:
+    derivations remain distinct while value-equivalence is tracked explicitly.
     """
 
     def __init__(
         self,
         *,
-        mode: GraphMode = "canon",
         intern_policy: Optional[InternPolicy] = None,
         max_nodes: Optional[int] = None,
         max_depth: Optional[int] = None,
         operation_budget: Optional[int] = None,
         dedupe_by_provenance: bool = False,
     ) -> None:
-        if mode not in {"canon", "preserve"}:
-            raise ValueError(f"Unsupported mode: {mode}")
-
         resolved_intern_policy: InternPolicy
         if intern_policy is None:
-            if mode == "canon":
-                resolved_intern_policy = "by_value"
-            elif dedupe_by_provenance:
+            if dedupe_by_provenance:
                 resolved_intern_policy = "by_provenance"
             else:
                 resolved_intern_policy = "none"
         else:
             resolved_intern_policy = intern_policy
 
-        if resolved_intern_policy not in {"none", "by_provenance", "by_value"}:
+        if resolved_intern_policy not in {"none", "by_provenance"}:
             raise ValueError(f"Unsupported intern policy: {resolved_intern_policy}")
         if max_nodes is not None and max_nodes <= 0:
             raise ValueError("max_nodes must be > 0")
@@ -87,7 +78,6 @@ class Graph:
         if operation_budget is not None and operation_budget < 0:
             raise ValueError("operation_budget must be >= 0")
 
-        self.mode: GraphMode = mode
         self.intern_policy: InternPolicy = resolved_intern_policy
         self.max_nodes = max_nodes
         self.max_depth = max_depth
@@ -98,7 +88,6 @@ class Graph:
         self.nodes_by_uid: Dict[NodeUid, Node] = {}
         self.value_classes: Dict[ValueKey, Set[NodeUid]] = {}
         self._eq_class_ids: Dict[ValueKey, int] = {}
-        self._speculative_by_value: Dict[ValueKey, Node] = {}
         self._speculative_by_provenance: Dict[Tuple[object, ...], Node] = {}
         self.edges: List[Edge] = []
         self._snap_events: List[Dict[str, object]] = []
@@ -264,19 +253,12 @@ class Graph:
         reason: Optional[str] = None,
     ) -> Node:
         """
-        Return a node for an exact rational value according to mode and
-        interning policy.
+        Return a node for an exact rational value according to interning policy.
 
-        In canon mode, integer values return grounded Ref(N) only if Ref(N)
-        is already grounded. In preserve mode, integer-valued derivations are
-        represented as distinct nodes and linked via non-destructive
-        resolutions when anchors exist.
+        Integer-valued derivations remain distinct nodes and can be linked to
+        grounded anchors through non-destructive resolution relations.
         """
         key = self._normalize_value_key(value)
-        if self.mode == "canon" and key[1] == 1:
-            grounded = self.nodes_by_int.get(key[0])
-            if grounded is not None:
-                return grounded
 
         metadata: Dict[str, object] = {"op": seed_op, "inputs": self._input_ids(seed_inputs), "tier": 3}
         metadata["value"] = {"p": key[0], "q": key[1]}
@@ -286,11 +268,6 @@ class Graph:
             metadata["result"] = result_tag
         if reason is not None:
             metadata["reason"] = reason
-
-        if self.intern_policy == "by_value":
-            existing = self._speculative_by_value.get(key)
-            if existing is not None:
-                return existing
 
         provenance_key: Optional[Tuple[object, ...]] = None
         if self.intern_policy == "by_provenance":
@@ -307,42 +284,8 @@ class Graph:
         depth = self._derive_depth(seed_inputs)
         provenance = self._make_provenance(op=seed_op, inputs=seed_inputs, depth=depth)
         node = self._new_spec_node(metadata, value_key=key, provenance=provenance)
-        if self.intern_policy == "by_value":
-            self._speculative_by_value[key] = node
         if self.intern_policy == "by_provenance" and provenance_key is not None:
             self._speculative_by_provenance[provenance_key] = node
-        return node
-
-    def _drop_interned_value(self, node: Node) -> None:
-        value = node.metadata.get("value")
-        if isinstance(value, dict):
-            p = value.get("p")
-            q = value.get("q")
-            if isinstance(p, int) and isinstance(q, int):
-                key = (p, q)
-                existing = self._speculative_by_value.get(key)
-                if existing is node:
-                    self._speculative_by_value.pop(key, None)
-
-        stale_keys = [key for key, existing in self._speculative_by_provenance.items() if existing is node]
-        for key in stale_keys:
-            self._speculative_by_provenance.pop(key, None)
-
-    def _canonicalize_node(self, node: Node) -> Node:
-        """
-        Resolve stale speculative nodes that have already snapped/promoted to a
-        grounded Ref(N), so callers holding old references don't reintroduce
-        the speculative node into new edges.
-        """
-        if self.mode != "canon":
-            return node
-        if node.status != "S":
-            return node
-        resolved_to = node.metadata.get("resolved_to")
-        if isinstance(resolved_to, int):
-            ref = self.nodes_by_int.get(resolved_to)
-            if ref is not None:
-                return ref
         return node
 
     def _new_spec_node(
@@ -537,6 +480,88 @@ class Graph:
     def value_equivalence_class(self, node: Node) -> Optional[ValueKey]:
         return self.numeric_value(node)
 
+    def acceptance_report(self) -> Dict[str, object]:
+        checks: Dict[str, Dict[str, object]] = {}
+
+        # 1) Distinct same-value derivations can coexist.
+        distinct_same_value_classes = 0
+        for value_key, members in self.value_classes.items():
+            active_members = [uid for uid in members if uid in self.nodes_by_uid]
+            if len(active_members) < 2:
+                continue
+            if any(self.nodes_by_uid[uid].status == "S" for uid in active_members):
+                distinct_same_value_classes += 1
+        checks["distinct_same_value_nodes"] = {
+            "status": "pass" if distinct_same_value_classes > 0 else "fail",
+            "details": {"classes_with_multiplicity": distinct_same_value_classes},
+        }
+
+        # 2) Value class and eq_class consistency.
+        consistency_issues: List[str] = []
+        for value_key, members in self.value_classes.items():
+            expected_eq = self._eq_class_ids.get(value_key)
+            for uid in members:
+                node = self.nodes_by_uid.get(uid)
+                if node is None:
+                    continue
+                if node.value != value_key:
+                    consistency_issues.append(
+                        f"uid={uid} value={node.value} class={value_key}"
+                    )
+                if node.eq_class != expected_eq:
+                    consistency_issues.append(
+                        f"uid={uid} eq_class={node.eq_class} expected={expected_eq}"
+                    )
+        checks["value_equivalence_consistent"] = {
+            "status": "pass" if not consistency_issues else "fail",
+            "details": {"issues": consistency_issues[:10], "issue_count": len(consistency_issues)},
+        }
+
+        # 3) Non-destructive resolves_to for integer-valued speculative nodes.
+        required_resolutions: Set[Tuple[NodeUid, NodeUid]] = set()
+        for node in self.speculative_nodes.values():
+            if node.value is None:
+                continue
+            numerator, denominator = node.value
+            if int(denominator) != 1:
+                continue
+            anchor = self.nodes_by_int.get(int(numerator))
+            if anchor is None:
+                continue
+            required_resolutions.add((node.node_uid, anchor.node_uid))
+
+        actual_resolutions = {
+            (int(event["from_uid"]), int(event["to_uid"]))
+            for event in self._resolutions
+            if isinstance(event.get("from_uid"), int) and isinstance(event.get("to_uid"), int)
+        }
+        missing_resolutions = sorted(required_resolutions - actual_resolutions)
+        destroyed_sources = sorted(
+            src_uid for src_uid, _ in required_resolutions if src_uid not in self.speculative_nodes_by_uid()
+        )
+        checks["non_destructive_resolution"] = {
+            "status": "pass" if not missing_resolutions and not destroyed_sources else "fail",
+            "details": {
+                "required": len(required_resolutions),
+                "actual": len(actual_resolutions),
+                "missing_pairs": missing_resolutions[:10],
+                "destroyed_sources": destroyed_sources[:10],
+            },
+        }
+
+        statuses = [check["status"] for check in checks.values()]
+        if any(status == "fail" for status in statuses):
+            summary = "fail"
+        elif any(status == "pass" for status in statuses):
+            summary = "pass"
+        else:
+            summary = "na"
+
+        return {"semantics": "preserve", "summary": summary, "checks": checks}
+
+    def speculative_nodes_by_uid(self) -> Dict[NodeUid, Node]:
+        return {node.node_uid: node for node in self.speculative_nodes.values()}
+
     def stats(self, *, top_k: int = 5) -> Dict[str, object]:
         op_counts: Dict[str, int] = {}
         in_degree: Dict[NodeId, int] = {}
@@ -579,7 +604,7 @@ class Graph:
                 potential_val_hist[potential_val] = potential_val_hist.get(potential_val, 0) + 1
 
         return {
-            "mode": self.mode,
+            "semantics": "preserve",
             "intern_policy": self.intern_policy,
             "counts": {
                 "grounded_nodes": len(self.nodes_by_int),
@@ -609,14 +634,6 @@ class Graph:
             },
         }
 
-    def _replace_node(self, old: Node, new: Node) -> None:
-        for edge in self.edges:
-            if edge.output is old:
-                edge.output = new
-            for idx, inp in enumerate(edge.inputs):
-                if inp is old:
-                    edge.inputs[idx] = new
-
     def _record_resolution(self, source: Node, target: Node, *, reason: str) -> bool:
         key = (source.node_uid, target.node_uid)
         if key in self._resolution_pairs:
@@ -642,9 +659,6 @@ class Graph:
         ref_node = self.nodes_by_int.get(potential_val)
         if ref_node is None:
             return node
-        if self.mode == "canon":
-            self._snap_speculative_to_ref(potential_val, ref_node)
-            return ref_node
         created = self._record_resolution(node, ref_node, reason="potential_val_match")
         if created:
             self._snap_events.append(
@@ -655,7 +669,6 @@ class Graph:
                     "resolved_to_uid": ref_node.node_uid,
                     "usages": self._count_usages(node),
                     "spec_metadata": dict(node.metadata),
-                    "mode": self.mode,
                 }
             )
         node.metadata["resolved_to"] = potential_val
@@ -675,23 +688,11 @@ class Graph:
                 "resolved_to_uid": ref_node.node_uid,
                 "usages": usages,
                 "spec_metadata": dict(node.metadata),
-                "mode": self.mode,
             }
-
-            if self.mode == "preserve":
-                created = self._record_resolution(node, ref_node, reason="anchor_grounded")
-                if created:
-                    self._snap_events.append(event)
-                node.metadata["resolved_to"] = n
-                continue
-
-            self._snap_events.append(event)
-            self._replace_node(node, ref_node)
-            # Preserve that this speculative node was resolved.
+            created = self._record_resolution(node, ref_node, reason="anchor_grounded")
+            if created:
+                self._snap_events.append(event)
             node.metadata["resolved_to"] = n
-            self._drop_interned_value(node)
-            self.speculative_nodes.pop(node.id, None)
-            self._unregister_node(node)
 
     def to_snap_dot(self) -> str:
         lines = ["digraph G {"]
@@ -858,15 +859,9 @@ class Graph:
     # --- operations ---
     def add(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
-        a = self._canonicalize_node(a)
-        b = self._canonicalize_node(b)
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("+", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            if self.mode == "canon":
-                out = self._get_or_create_grounded_ref(val)
-                self._record_edge("+", [a, b], out, {"result": val})
-                return out
             self._get_or_create_grounded_ref(val)
             value = Fraction(val, 1)
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
@@ -877,7 +872,7 @@ class Graph:
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
             value = left_val + right_val
-            if self.mode == "preserve" and value.denominator == 1:
+            if value.denominator == 1:
                 self._get_or_create_grounded_ref(int(value.numerator))
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
@@ -893,15 +888,9 @@ class Graph:
 
     def sub(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
-        a = self._canonicalize_node(a)
-        b = self._canonicalize_node(b)
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("-", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            if self.mode == "canon":
-                out = self._get_or_create_grounded_ref(val)
-                self._record_edge("-", [a, b], out, {"result": val})
-                return out
             self._get_or_create_grounded_ref(val)
             value = Fraction(val, 1)
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
@@ -912,7 +901,7 @@ class Graph:
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
             value = left_val - right_val
-            if self.mode == "preserve" and value.denominator == 1:
+            if value.denominator == 1:
                 self._get_or_create_grounded_ref(int(value.numerator))
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
@@ -928,8 +917,6 @@ class Graph:
 
     def mul(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
-        a = self._canonicalize_node(a)
-        b = self._canonicalize_node(b)
         left_val = self._node_value(a)
         right_val = self._node_value(b)
         if (left_val == 0 and right_val is None) or (right_val == 0 and left_val is None):
@@ -962,8 +949,6 @@ class Graph:
 
     def div(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
-        a = self._canonicalize_node(a)
-        b = self._canonicalize_node(b)
         if b.status == "G" and b.id == 0:
             node = self._div_by_zero()
             self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
@@ -1109,7 +1094,7 @@ class Graph:
         }
 
         return {
-            "mode": self.mode,
+            "semantics": "preserve",
             "intern_policy": self.intern_policy,
             "nodes": [node_payload(n) for n in self._active_nodes()],
             "edges": [edge_payload(e) for e in self.edges],
@@ -1140,20 +1125,19 @@ class Graph:
         for edge in self.edges:
             for inp in edge.inputs:
                 lines.append(f'  "{inp.id}" -> "{edge.output.id}" [label="{edge.op}"];')
-        if self.mode == "preserve":
-            for event in self._resolutions:
-                src_uid = event.get("from_uid")
-                dst_uid = event.get("to_uid")
-                if not isinstance(src_uid, int) or not isinstance(dst_uid, int):
-                    continue
-                src_node = self.nodes_by_uid.get(src_uid)
-                dst_node = self.nodes_by_uid.get(dst_uid)
-                if src_node is None or dst_node is None:
-                    continue
-                lines.append(
-                    f'  "{src_node.id}" -> "{dst_node.id}" '
-                    '[label="resolves_to", style=dashed, color=blue];'
-                )
+        for event in self._resolutions:
+            src_uid = event.get("from_uid")
+            dst_uid = event.get("to_uid")
+            if not isinstance(src_uid, int) or not isinstance(dst_uid, int):
+                continue
+            src_node = self.nodes_by_uid.get(src_uid)
+            dst_node = self.nodes_by_uid.get(dst_uid)
+            if src_node is None or dst_node is None:
+                continue
+            lines.append(
+                f'  "{src_node.id}" -> "{dst_node.id}" '
+                '[label="resolves_to", style=dashed, color=blue];'
+            )
         lines.append("}")
         return "\n".join(lines)
 
@@ -1218,7 +1202,6 @@ def eval_moo(
     expr: str,
     *,
     graph: Optional[Graph] = None,
-    mode: GraphMode = "canon",
     intern_policy: Optional[InternPolicy] = None,
     max_nodes: Optional[int] = None,
     max_depth: Optional[int] = None,
@@ -1232,7 +1215,6 @@ def eval_moo(
     Returns (graph, result_node).
     """
     g = graph or Graph(
-        mode=mode,
         intern_policy=intern_policy,
         max_nodes=max_nodes,
         max_depth=max_depth,
@@ -1291,7 +1273,6 @@ def eval_moo(
 def demo(
     limit: int = 3,
     *,
-    mode: GraphMode = "canon",
     intern_policy: Optional[InternPolicy] = None,
     max_nodes: Optional[int] = None,
     max_depth: Optional[int] = None,
@@ -1311,7 +1292,6 @@ def demo(
     - includes a small S→G snapping example for an unconstructed integer claim.
     """
     g = Graph(
-        mode=mode,
         intern_policy=intern_policy,
         max_nodes=max_nodes,
         max_depth=max_depth,
@@ -1366,7 +1346,13 @@ def demo(
 if __name__ == "__main__":
     def parse_cli(
         argv: List[str],
-    ) -> Tuple[Optional[str], int, Dict[str, bool], Optional[str], Dict[str, object]]:
+    ) -> Tuple[
+        Optional[str],
+        int,
+        Dict[str, bool],
+        Optional[str],
+        Dict[str, object],
+    ]:
         flags = {
             "show_stats": False,
             "show_snap_dot": False,
@@ -1375,7 +1361,6 @@ if __name__ == "__main__":
             "show_field_ascii": False,
         }
         graph_config: Dict[str, object] = {
-            "mode": "canon",
             "view": "structure",
             "intern_policy": None,
             "max_nodes": None,
@@ -1393,8 +1378,8 @@ if __name__ == "__main__":
             if arg in {"-h", "--help"}:
                 print(
                     "Usage:\n"
-                    "  python3 constructionist_math.py [--mode canon|preserve] [--view structure|value] [--limit N]\n"
-                    "      [--intern-policy none|by_provenance|by_value] [--max-nodes N] [--max-depth N]\n"
+                    "  python3 constructionist_math.py [--view structure|value] [--limit N]\n"
+                    "      [--intern-policy none|by_provenance] [--max-nodes N] [--max-depth N]\n"
                     "      [--op-budget N] [--dedupe-by-provenance] [--maps] [--stats] [--snap-dot]\n"
                     "      [--field] [--field-csv] [--field-ascii] [--write-maps PREFIX] [<expr>]\n\n"
                     "Expr syntax: only the literal `1`, operators `+ - * /`, and parentheses.\n"
@@ -1451,16 +1436,6 @@ if __name__ == "__main__":
                 idx += 2
                 continue
 
-            if arg == "--mode":
-                if idx + 1 >= len(argv):
-                    raise SystemExit("Missing value for --mode")
-                mode = argv[idx + 1]
-                if mode not in {"canon", "preserve"}:
-                    raise SystemExit(f"Invalid --mode value: {mode!r}")
-                graph_config["mode"] = mode
-                idx += 2
-                continue
-
             if arg == "--view":
                 if idx + 1 >= len(argv):
                     raise SystemExit("Missing value for --view")
@@ -1475,7 +1450,7 @@ if __name__ == "__main__":
                 if idx + 1 >= len(argv):
                     raise SystemExit("Missing value for --intern-policy")
                 policy = argv[idx + 1]
-                if policy not in {"none", "by_provenance", "by_value"}:
+                if policy not in {"none", "by_provenance"}:
                     raise SystemExit(f"Invalid --intern-policy value: {policy!r}")
                 graph_config["intern_policy"] = policy
                 idx += 2
@@ -1527,7 +1502,6 @@ if __name__ == "__main__":
 
     expression, limit, flags, write_maps_prefix, graph_config = parse_cli(sys.argv[1:])
     graph_kwargs = {
-        "mode": graph_config["mode"],
         "intern_policy": graph_config["intern_policy"],
         "max_nodes": graph_config["max_nodes"],
         "max_depth": graph_config["max_depth"],
@@ -1556,6 +1530,7 @@ if __name__ == "__main__":
             "stats": Path(str(prefix) + ".stats.json"),
             "snap_events": Path(str(prefix) + ".snap_events.json"),
             "resolutions": Path(str(prefix) + ".resolutions.json"),
+            "acceptance": Path(str(prefix) + ".acceptance.json"),
         }
         for path in targets.values():
             if path.exists():
@@ -1578,6 +1553,9 @@ if __name__ == "__main__":
         )
         targets["resolutions"].write_text(
             json.dumps(graph.resolutions(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        targets["acceptance"].write_text(
+            json.dumps(graph.acceptance_report(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
         print("\n# WROTE_MAPS")
         for key, path in targets.items():
@@ -1602,6 +1580,8 @@ if __name__ == "__main__":
     if flags["show_snap_dot"]:
         print("\n# SNAP_DOT")
         print(graph.to_snap_dot())
+    print("\n# ACCEPTANCE")
+    print(json.dumps(graph.acceptance_report(), indent=2, sort_keys=True))
     print("# JSON")
     print(graph.to_json(indent=2))
     print("\n# DOT")

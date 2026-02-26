@@ -23,7 +23,7 @@ It is not:
 - a geometric or dimensional embedding framework,
 - a proof that classical arithmetic is invalid.
 
-The current code is a computational model of relational arithmetic construction with enforced canonical identity rules.
+The current code is a computational model of relational arithmetic construction with explicit derivation identity and value-equivalence tracking.
 
 ---
 
@@ -33,11 +33,11 @@ MoO currently implements:
 
 - A single primitive grounded node (`Ref(1)`),
 - Closure under arithmetic operations (`+`, `-`, `*`, `/`) at the graph level,
-- Canonical value interning,
-- Snapping from speculative to grounded nodes,
-- A shared canonical term-DAG/graph representing derivations.
+- Explicit value-equivalence classes (`p/q`) across nodes,
+- Non-destructive resolution links from speculative nodes to grounded anchors,
+- A shared term-DAG/graph representing derivations.
 
-This produces a canonicalized relational term graph with value interning and snapping rules, rather than a free algebra.
+This produces a structure-preserving relational term graph with explicit value projection, rather than a free algebra.
 
 ---
 
@@ -45,22 +45,22 @@ This produces a canonicalized relational term graph with value interning and sna
 
 ### 4.1 Node classes
 
-- Grounded nodes (`status == "G"`): canonical integer references `Ref(N)`.
+- Grounded nodes (`status == "G"`): integer anchor references `Ref(N)`.
 - Speculative nodes (`status == "S"`): non-grounded claims, including non-integer rationals and integer claims not yet grounded.
 
-### 4.2 Graph-level canonicalization
+### 4.2 Graph-level identity and value projection
 
 The graph enforces identity operationally via:
 
 - `nodes_by_int`: one grounded `Ref(N)` per grounded integer,
-- `_speculative_by_value`: one speculative node per reduced rational value `(p, q)`,
-- `_snap_speculative_to_ref`: speculative nodes with matching `potential_val` are rewired to grounded `Ref(N)` when grounded `N` exists.
+- `value_classes`: many derivation nodes may share one reduced rational value `(p, q)`,
+- `_snap_speculative_to_ref`: speculative nodes with matching `potential_val` record non-destructive resolution to grounded `Ref(N)`.
 
 ### 4.3 Edge history
 
-Edges preserve operation provenance (`op`, `inputs`, `output`, metadata). During snapping, edges are rewired to canonical grounded nodes, and snapped speculative nodes are removed from active speculative storage.
+Edges preserve operation provenance (`op`, `inputs`, `output`, metadata). Resolution events do not delete derivation nodes.
 
-Structural preservation exists during generation, but canonical value identity is enforced by interning and snapping.
+Structural preservation is primary; numeric identity is represented as value-equivalence and resolution relations.
 
 ---
 
@@ -86,8 +86,8 @@ Therefore, the current implementation is not a fully pure derivational model str
 
 ### 6.1 Addition and subtraction
 
-- `G,G` inputs: normalize to integer and ground/reuse `Ref(N)`.
-- Mixed/speculative inputs with known exact values: compute exact rational result and intern canonically.
+- `G,G` inputs: normalize to integer, ensure grounded `Ref(N)` exists, and produce a derivation node.
+- Mixed/speculative inputs with known exact values: compute exact rational result and keep derivation structure; integer results can resolve to `Ref(N)` anchors.
 - Unknown speculative values: create speculative node, optionally with `potential_val` when inferable.
 
 ### 6.2 Multiplication
@@ -99,22 +99,22 @@ Therefore, the current implementation is not a fully pure derivational model str
 ### 6.3 Division
 
 - Division by zero returns a reusable dedicated speculative node.
-- Non-integer outcomes are interned speculative rationals (`p/q` reduced).
+- Non-integer outcomes are represented as speculative rational nodes with reduced `p/q` value metadata.
 - Integer outcomes follow the same grounded-if-existing, otherwise speculative-claim rule.
 
 ---
 
 ## 7. Identity and Collapse Status
 
-Identity and collapse behavior is implemented operationally, but not yet axiomatized or formally proven as a mathematical system.
+Identity and resolution behavior is implemented operationally, but not yet axiomatized or formally proven as a mathematical system.
 
 Current operational rules:
 
-- strict value interning for speculative rational values,
+- explicit value-equivalence tracking for speculative and grounded nodes,
 - unique grounded identity for each grounded integer,
-- enforced speculative-to-grounded collapse via `potential_val` matching and snapping.
+- enforced speculative-to-grounded resolution via `potential_val` matching and snapping events.
 
-No current mode preserves all derivationally distinct equal-valued structures as separate long-term identities.
+Derivationally distinct equal-valued structures are preserved as separate nodes.
 
 ---
 
@@ -133,16 +133,15 @@ Primary inspection interfaces (stable in spirit, preserve signatures/shape):
 
 ### 9.1 Current
 
-- Canonicalized arithmetic graph with shared nodes,
-- Value-identity collapse enforced by interning and snapping,
+- Structure-preserving arithmetic graph with shared nodes,
+- Value-identity tracked via equivalence classes and non-destructive resolutions,
 - Speculative injection supported (`speculate_ref`),
 - No formal symmetry or invariant framework.
 
 ### 9.2 Conceptual direction
 
-- Richer structural preservation beyond strict value identity,
+- Explicit formalization of the current structure-preserving identity model,
 - Explicit invariant detection and reporting,
-- Optional non-collapse or multi-identity modes (future design choice),
 - Formal axiomatization/proof-oriented encoding of operational rules.
 
 Roadmap items are targets, not implemented guarantees.
@@ -156,7 +155,7 @@ The following remain open at the formal level:
 1. Exact axiomatization of identity across grounded and speculative strata.
 2. Conditions for collapse versus persistent structural distinction.
 3. Invariants that should be preserved under rewiring/snap operations.
-4. Notion of independence within the canonical graph.
+4. Notion of independence within the current relational graph.
 5. Criteria for proving consistency and completeness of the operational calculus.
 
 ---
@@ -171,6 +170,6 @@ MoO is currently:
 
 Recommended public positioning:
 
-> An epistemic and structural exploration of arithmetic construction from a single certainty primitive, implemented as a canonicalized relational term graph.
+> An epistemic and structural exploration of arithmetic construction from a single certainty primitive, implemented as a structure-preserving relational term graph.
 
 Avoid claims implying geometric, dimensional, or foundational replacement narratives.
