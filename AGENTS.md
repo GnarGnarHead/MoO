@@ -28,6 +28,7 @@
 - If you add tests, colocate them with the code or start a `tests/` directory using `pytest`; name tests `test_*.py`.
 
 ## Commit & Pull Request Guidelines
+- IMPORTANT: the assistant must not run `git` commands or modify anything under `.git/` (no status/log/diff, no commits, no pushes, no branch operations). Handle all version-control actions manually.
 - Commit messages: use concise, imperative summaries (e.g., “Add speculative snapping to grounded refs”). Include context if touching graph invariants.
 - Pull requests should describe behavior changes, new invariants, and any format changes to JSON/DOT exports. Note manual test commands run (e.g., `python3 constructionist_math.py`) and include sample outputs or screenshots when relevant.
 
