@@ -36,6 +36,7 @@ class Edge:
     op: str
     inputs: List[Node]
     output: Node
+    edge_uid: int = 0
     metadata: Dict[str, object] = field(default_factory=dict)
 
 
@@ -44,11 +45,13 @@ class Graph:
     Constructionist arithmetic graph.
 
     Grounded nodes (status G) represent integers Ref(N).
-    Speculative nodes (status S) capture non-integer rationals and inferred
-    integer claims.
+    Speculative nodes (status S) represent non-grounded rationals and special
+    undefined nodes (like division-by-zero).
 
-    Identity is non-destructive and structure-preserving:
-    derivations remain distinct while value-equivalence is tracked explicitly.
+    Identity is value-centric:
+    - Each reduced rational value p/q corresponds to exactly one node.
+    - Emergence/spiderweb structure is represented by many provenance-carrying
+      edges flowing into that node (distinct constructions are distinct edges).
     """
 
     def __init__(
@@ -84,17 +87,18 @@ class Graph:
         self.operation_budget = operation_budget
 
         self.nodes_by_int: Dict[int, Node] = {}
-        self.speculative_nodes: Dict[str, Node] = {}
+        self.nodes_by_value: Dict[ValueKey, Node] = {}
         self.nodes_by_uid: Dict[NodeUid, Node] = {}
         self.value_classes: Dict[ValueKey, Set[NodeUid]] = {}
         self._eq_class_ids: Dict[ValueKey, int] = {}
         self._speculative_by_provenance: Dict[Tuple[object, ...], Node] = {}
         self.edges: List[Edge] = []
-        self._snap_events: List[Dict[str, object]] = []
+        self._resolve_events: List[Dict[str, object]] = []
         self._resolutions: List[Dict[str, object]] = []
         self._resolution_pairs: Set[Tuple[NodeUid, NodeUid]] = set()
         self._spec_counter = itertools.count(1)
         self._node_uid_counter = itertools.count(1)
+        self._edge_uid_counter = itertools.count(1)
         self._created_seq_counter = itertools.count(1)
         self._eq_class_counter = itertools.count(1)
         self._operation_count = 0
@@ -124,6 +128,12 @@ class Graph:
             return None
         normalized = Fraction(p, q)
         return self._normalize_value_key(normalized)
+
+    def _id_for_value_key(self, value_key: ValueKey) -> NodeId:
+        p, q = int(value_key[0]), int(value_key[1])
+        if q == 1:
+            return int(p)
+        return f"{p}/{q}"
 
     def _ensure_node_limit(self) -> None:
         if self.max_nodes is None:
@@ -179,6 +189,147 @@ class Graph:
     def _node_depth(self, node: Node) -> int:
         depth = node.provenance.get("depth")
         return int(depth) if isinstance(depth, int) else 0
+
+    def _integer_level(self, n: int) -> int:
+        # Primitive-centered backbone:
+        # Ref(1)=1, Ref(2)=2, ..., Ref(0)=2, Ref(-1)=3, ...
+        return int(n) if n >= 1 else 2 - int(n)
+
+    def _node_level(self, node: Node, *, memo: Optional[Dict[NodeUid, int]] = None) -> int:
+        """
+        MoO semantic level anchored at Ref(1)=1.
+
+        - Nodes with provenance inputs derive level recursively from inputs.
+        - No-input integer anchors/claims use primitive-centered integer levels.
+        - Falls back to depth+1 when no other signal is available.
+        """
+        if memo is None:
+            memo = {}
+        cached = memo.get(node.node_uid)
+        if cached is not None:
+            return cached
+
+        inputs_obj = node.provenance.get("inputs")
+        input_levels: List[int] = []
+        if isinstance(inputs_obj, list):
+            for parent_uid in inputs_obj:
+                if not isinstance(parent_uid, int):
+                    continue
+                parent = self.nodes_by_uid.get(parent_uid)
+                if parent is None:
+                    continue
+                input_levels.append(self._node_level(parent, memo=memo))
+
+        if input_levels:
+            level = max(input_levels) + 1
+        elif node.value is not None and int(node.value[1]) == 1:
+            level = self._integer_level(int(node.value[0]))
+        else:
+            level = self._node_depth(node) + 1
+
+        memo[node.node_uid] = int(level)
+        return int(level)
+
+    def _epistemic_order(self, node: Node) -> int:
+        """
+        Epistemic hierarchy:
+        - Order 1: Ref(1) primitive certainty
+        - Order 2: grounded integer refs (memory-dependent constructed certainty)
+        - Order 3: speculative nodes
+        """
+        if node.status == "G" and node.id == 1:
+            return 1
+        if node.status == "G":
+            return 2
+        return 3
+
+    def _constructible_from_one(
+        self,
+        node: Node,
+        *,
+        memo: Optional[Dict[NodeUid, bool]] = None,
+        visiting: Optional[Set[NodeUid]] = None,
+        edges_by_output_uid: Optional[Dict[NodeUid, List[Edge]]] = None,
+    ) -> bool:
+        """
+        Whether a node is constructible from the primitive Ref(1) under current graph evidence.
+
+        Grounded refs are treated as constructible backbone nodes.
+        Speculative nodes are constructible when there exists at least one recorded
+        derivation edge into that node whose inputs are all constructible.
+        """
+        if memo is None:
+            memo = {}
+        if visiting is None:
+            visiting = set()
+        if edges_by_output_uid is None:
+            edges_by_output_uid = {}
+            for edge in self.edges:
+                edges_by_output_uid.setdefault(edge.output.node_uid, []).append(edge)
+
+        cached = memo.get(node.node_uid)
+        if cached is not None:
+            return cached
+
+        if node.node_uid in visiting:
+            return False
+        visiting.add(node.node_uid)
+
+        if node.status == "G":
+            memo[node.node_uid] = True
+            visiting.discard(node.node_uid)
+            return True
+
+        incoming = edges_by_output_uid.get(node.node_uid, [])
+        result = False
+        for edge in incoming:
+            if not edge.inputs:
+                continue
+            if all(
+                self._constructible_from_one(
+                    inp,
+                    memo=memo,
+                    visiting=visiting,
+                    edges_by_output_uid=edges_by_output_uid,
+                )
+                for inp in edge.inputs
+            ):
+                result = True
+                break
+        memo[node.node_uid] = result
+        visiting.discard(node.node_uid)
+        return result
+
+    def _epistemic_summary(
+        self,
+        nodes: List[Node],
+        *,
+        constructible_cache: Optional[Dict[NodeUid, bool]] = None,
+    ) -> Dict[str, object]:
+        if constructible_cache is None:
+            constructible_cache = {}
+
+        edges_by_output_uid: Dict[NodeUid, List[Edge]] = {}
+        for edge in self.edges:
+            edges_by_output_uid.setdefault(edge.output.node_uid, []).append(edge)
+
+        order_counts = {"1": 0, "2": 0, "3": 0}
+        constructible_counts = {"true": 0, "false": 0}
+        for node in nodes:
+            order = self._epistemic_order(node)
+            order_counts[str(order)] = order_counts.get(str(order), 0) + 1
+            constructible = self._constructible_from_one(
+                node,
+                memo=constructible_cache,
+                edges_by_output_uid=edges_by_output_uid,
+            )
+            key = "true" if constructible else "false"
+            constructible_counts[key] = constructible_counts.get(key, 0) + 1
+
+        return {
+            "order_counts": order_counts,
+            "constructible_from_one_counts": constructible_counts,
+        }
 
     def _derive_depth(self, inputs: List[Node]) -> int:
         if not inputs:
@@ -253,39 +404,38 @@ class Graph:
         reason: Optional[str] = None,
     ) -> Node:
         """
-        Return a node for an exact rational value according to interning policy.
+        Return the canonical node for an exact reduced rational value.
 
-        Integer-valued derivations remain distinct nodes and can be linked to
-        grounded anchors through non-destructive resolution relations.
+        In value-centric semantics, each reduced rational p/q corresponds to exactly
+        one node. Distinct derivations are represented as distinct edges into that
+        node, not as duplicate nodes.
         """
         key = self._normalize_value_key(value)
+        existing = self.nodes_by_value.get(key)
+        if existing is not None:
+            return existing
 
         metadata: Dict[str, object] = {"op": seed_op, "inputs": self._input_ids(seed_inputs), "tier": 3}
-        metadata["value"] = {"p": key[0], "q": key[1]}
-        if key[1] == 1:
-            metadata["potential_val"] = key[0]
+        metadata["value"] = {"p": int(key[0]), "q": int(key[1])}
+        if int(key[1]) == 1:
+            metadata["potential_val"] = int(key[0])
         if result_tag is not None:
             metadata["result"] = result_tag
         if reason is not None:
             metadata["reason"] = reason
 
-        provenance_key: Optional[Tuple[object, ...]] = None
-        if self.intern_policy == "by_provenance":
-            provenance_key = self._provenance_key(
-                op=seed_op,
-                inputs=seed_inputs,
-                value_key=key,
-                metadata=metadata,
-            )
-            existing = self._speculative_by_provenance.get(provenance_key)
-            if existing is not None:
-                return existing
-
         depth = self._derive_depth(seed_inputs)
         provenance = self._make_provenance(op=seed_op, inputs=seed_inputs, depth=depth)
-        node = self._new_spec_node(metadata, value_key=key, provenance=provenance)
-        if self.intern_policy == "by_provenance" and provenance_key is not None:
-            self._speculative_by_provenance[provenance_key] = node
+        node = Node(
+            id=self._id_for_value_key(key),
+            status="S",
+            node_uid=self._next_node_uid(),
+            value=key,
+            provenance=provenance,
+            metadata=metadata,
+        )
+        self.nodes_by_value[key] = node
+        self._register_node(node)
         return node
 
     def _new_spec_node(
@@ -299,9 +449,14 @@ class Graph:
         if value_key is None:
             value_key = self._value_key_from_metadata(metadata)
         if value_key is not None:
-            metadata["value"] = {"p": int(value_key[0]), "q": int(value_key[1])}
-            if value_key[1] == 1:
-                metadata.setdefault("potential_val", int(value_key[0]))
+            # Value-bearing nodes are canonicalized via _intern_value (one node per p/q).
+            op = metadata.get("op")
+            seed_op = op if isinstance(op, str) else "speculative"
+            return self._intern_value(
+                Fraction(int(value_key[0]), int(value_key[1])),
+                seed_op=seed_op,
+                seed_inputs=[],
+            )
         if provenance is None:
             op = metadata.get("op")
             provenance = {
@@ -316,11 +471,10 @@ class Graph:
             id=node_id,
             status="S",
             node_uid=self._next_node_uid(),
-            value=value_key,
+            value=None,
             provenance=provenance,
             metadata=metadata,
         )
-        self.speculative_nodes[node_id] = node
         self._register_node(node)
         return node
 
@@ -359,7 +513,13 @@ class Graph:
         metadata: Optional[Dict[str, object]] = None,
     ) -> Edge:
         edge_meta = metadata or {}
-        edge = Edge(op=op, inputs=inputs, output=output, metadata=edge_meta)
+        edge = Edge(
+            op=op,
+            inputs=inputs,
+            output=output,
+            edge_uid=int(next(self._edge_uid_counter)),
+            metadata=edge_meta,
+        )
         self.edges.append(edge)
         return edge
 
@@ -375,30 +535,44 @@ class Graph:
 
     def _get_or_create_grounded_ref(self, n: int) -> Node:
         n = int(n)
-        node = self.nodes_by_int.get(n)
-        if node is not None:
-            self._snap_speculative_to_ref(n, node)
-            return node
-        metadata: Dict[str, object] = {"tier": 1 if n == 1 else 2}
-        if n == 1:
-            metadata["primitive"] = True
-        metadata["value"] = {"p": n, "q": 1}
-        node = Node(
-            id=n,
-            status="G",
-            node_uid=self._next_node_uid(),
-            value=(n, 1),
-            provenance={
-                "op": "anchor",
-                "inputs": [],
-                "created_seq": self._next_created_seq(),
-                "depth": 0,
-            },
-            metadata=metadata,
-        )
+        grounded = self.nodes_by_int.get(n)
+        if grounded is not None:
+            self.nodes_by_value.setdefault((n, 1), grounded)
+            return grounded
+
+        key: ValueKey = (n, 1)
+        node = self.nodes_by_value.get(key)
+        if node is None:
+            metadata: Dict[str, object] = {"tier": 1 if n == 1 else 2}
+            if n == 1:
+                metadata["primitive"] = True
+            metadata["value"] = {"p": n, "q": 1}
+            metadata.setdefault("potential_val", n)
+            node = Node(
+                id=n,
+                status="G",
+                node_uid=self._next_node_uid(),
+                value=key,
+                provenance={
+                    "op": "anchor",
+                    "inputs": [],
+                    "created_seq": self._next_created_seq(),
+                    "depth": 0,
+                },
+                metadata=metadata,
+            )
+            self.nodes_by_value[key] = node
+            self._register_node(node)
+        else:
+            # Promote the canonical value-node to a grounded Ref(N) anchor.
+            node.status = "G"
+            node.metadata["tier"] = 1 if n == 1 else 2
+            node.metadata.setdefault("value", {"p": n, "q": 1})
+            node.metadata.setdefault("potential_val", n)
+            if n == 1:
+                node.metadata["primitive"] = True
+
         self.nodes_by_int[n] = node
-        self._register_node(node)
-        self._snap_speculative_to_ref(n, node)
         return node
 
     def get_or_create_ref(self, n: int) -> Node:
@@ -413,7 +587,7 @@ class Graph:
         n = int(n)
         grounded = self.nodes_by_int.get(n)
         if grounded is not None:
-            self._snap_speculative_to_ref(n, grounded)
+            self._resolve_speculative_to_ref(n, grounded)
             return grounded
         if n == 1:
             return self._get_or_create_grounded_ref(1)
@@ -465,8 +639,8 @@ class Graph:
             reason=reason,
         )
 
-    def snap_events(self) -> List[Dict[str, object]]:
-        return list(self._snap_events)
+    def resolve_events(self) -> List[Dict[str, object]]:
+        return list(self._resolve_events)
 
     def resolutions(self) -> List[Dict[str, object]]:
         return list(self._resolutions)
@@ -483,17 +657,20 @@ class Graph:
     def acceptance_report(self) -> Dict[str, object]:
         checks: Dict[str, Dict[str, object]] = {}
 
-        # 1) Distinct same-value derivations can coexist.
-        distinct_same_value_classes = 0
-        for value_key, members in self.value_classes.items():
+        # 1) Canonicalization: one active node per reduced value.
+        value_cardinality_issues: List[str] = []
+        for value_key, members in sorted(self.value_classes.items()):
             active_members = [uid for uid in members if uid in self.nodes_by_uid]
-            if len(active_members) < 2:
-                continue
-            if any(self.nodes_by_uid[uid].status == "S" for uid in active_members):
-                distinct_same_value_classes += 1
-        checks["distinct_same_value_nodes"] = {
-            "status": "pass" if distinct_same_value_classes > 0 else "fail",
-            "details": {"classes_with_multiplicity": distinct_same_value_classes},
+            if len(active_members) != 1:
+                value_cardinality_issues.append(
+                    f"value={value_key} active_members={len(active_members)} uids={sorted(active_members)[:5]}"
+                )
+        checks["one_node_per_value"] = {
+            "status": "pass" if not value_cardinality_issues else "fail",
+            "details": {
+                "issue_count": len(value_cardinality_issues),
+                "issues": value_cardinality_issues[:10],
+            },
         }
 
         # 2) Value class and eq_class consistency.
@@ -517,36 +694,29 @@ class Graph:
             "details": {"issues": consistency_issues[:10], "issue_count": len(consistency_issues)},
         }
 
-        # 3) Non-destructive resolves_to for integer-valued speculative nodes.
-        required_resolutions: Set[Tuple[NodeUid, NodeUid]] = set()
-        for node in self.speculative_nodes.values():
-            if node.value is None:
-                continue
-            numerator, denominator = node.value
-            if int(denominator) != 1:
-                continue
-            anchor = self.nodes_by_int.get(int(numerator))
-            if anchor is None:
-                continue
-            required_resolutions.add((node.node_uid, anchor.node_uid))
-
-        actual_resolutions = {
-            (int(event["from_uid"]), int(event["to_uid"]))
-            for event in self._resolutions
-            if isinstance(event.get("from_uid"), int) and isinstance(event.get("to_uid"), int)
+        # 3) Spiderweb preservation: multiple distinct derivations should survive as edges.
+        incoming_signatures: Dict[NodeUid, Set[Tuple[str, Tuple[NodeUid, ...]]]] = {}
+        for edge in self.edges:
+            sig = (edge.op, tuple(int(inp.node_uid) for inp in edge.inputs))
+            incoming_signatures.setdefault(edge.output.node_uid, set()).add(sig)
+        nodes_with_multiple_derivations = sum(1 for sigs in incoming_signatures.values() if len(sigs) >= 2)
+        checks["multiple_derivations_preserved"] = {
+            "status": "pass" if nodes_with_multiple_derivations > 0 else "fail",
+            "details": {"nodes_with_multiple_derivations": nodes_with_multiple_derivations},
         }
-        missing_resolutions = sorted(required_resolutions - actual_resolutions)
-        destroyed_sources = sorted(
-            src_uid for src_uid, _ in required_resolutions if src_uid not in self.speculative_nodes_by_uid()
-        )
-        checks["non_destructive_resolution"] = {
-            "status": "pass" if not missing_resolutions and not destroyed_sources else "fail",
-            "details": {
-                "required": len(required_resolutions),
-                "actual": len(actual_resolutions),
-                "missing_pairs": missing_resolutions[:10],
-                "destroyed_sources": destroyed_sources[:10],
-            },
+
+        # 4) Grounding consistency for integer anchors.
+        grounding_issues: List[str] = []
+        for n, node in sorted(self.nodes_by_int.items()):
+            if node.status != "G":
+                grounding_issues.append(f"Ref({n}) status={node.status}")
+            if node.value != (int(n), 1):
+                grounding_issues.append(f"Ref({n}) value={node.value}")
+            if self.nodes_by_value.get((int(n), 1)) is not node:
+                grounding_issues.append(f"Ref({n}) nodes_by_value mismatch")
+        checks["grounding_consistent"] = {
+            "status": "pass" if not grounding_issues else "fail",
+            "details": {"issues": grounding_issues[:10], "issue_count": len(grounding_issues)},
         }
 
         statuses = [check["status"] for check in checks.values()]
@@ -557,10 +727,154 @@ class Graph:
         else:
             summary = "na"
 
-        return {"semantics": "preserve", "summary": summary, "checks": checks}
+        active_nodes = self._active_nodes()
+        constructible_cache: Dict[NodeUid, bool] = {}
+        return {
+            "semantics": "value_nodes",
+            "summary": summary,
+            "checks": checks,
+            "epistemic": self._epistemic_summary(
+                active_nodes, constructible_cache=constructible_cache
+            ),
+        }
 
     def speculative_nodes_by_uid(self) -> Dict[NodeUid, Node]:
-        return {node.node_uid: node for node in self.speculative_nodes.values()}
+        return {node.node_uid: node for node in self.nodes_by_uid.values() if node.status == "S"}
+
+    def structure_report(
+        self,
+        *,
+        focus_node: Optional[Node] = None,
+        top_k_classes: int = 8,
+        max_focus_members: int = 20,
+    ) -> Dict[str, object]:
+        active_nodes = self._active_nodes()
+        level_cache: Dict[NodeUid, int] = {}
+        constructible_cache: Dict[NodeUid, bool] = {}
+        level_hist: Dict[int, int] = {}
+        depth_hist: Dict[int, int] = {}
+        for node in active_nodes:
+            level = self._node_level(node, memo=level_cache)
+            level_hist[level] = level_hist.get(level, 0) + 1
+            depth = int(node.provenance.get("depth", 0))
+            depth_hist[depth] = depth_hist.get(depth, 0) + 1
+
+        incoming_edge_counts: Dict[ValueKey, int] = {}
+        for edge in self.edges:
+            if edge.output.value is None:
+                continue
+            incoming_edge_counts[edge.output.value] = incoming_edge_counts.get(edge.output.value, 0) + 1
+
+        class_rows: List[Dict[str, object]] = []
+        uid_to_node = self.nodes_by_uid
+        for value_key, members in self.value_classes.items():
+            active_members = [uid for uid in members if uid in uid_to_node]
+            if not active_members:
+                continue
+            grounded = [uid for uid in active_members if uid_to_node[uid].status == "G"]
+            speculative = [uid for uid in active_members if uid_to_node[uid].status == "S"]
+            class_rows.append(
+                {
+                    "value": {"p": int(value_key[0]), "q": int(value_key[1])},
+                    "label": self._value_key_label(value_key),
+                    "eq_class": self._eq_class_ids.get(value_key),
+                    "derivations_in": int(incoming_edge_counts.get(value_key, 0)),
+                    "grounded": bool(grounded),
+                    "speculative": bool(speculative),
+                }
+            )
+
+        class_rows.sort(
+            key=lambda row: (
+                -int(row["derivations_in"]),
+                str(row["label"]),
+            )
+        )
+
+        anchor_fanin: Dict[NodeUid, int] = {}
+        for event in self._resolutions:
+            to_uid = event.get("to_uid")
+            if isinstance(to_uid, int):
+                anchor_fanin[to_uid] = anchor_fanin.get(to_uid, 0) + 1
+        anchor_rows: List[Dict[str, object]] = []
+        for uid, count in sorted(anchor_fanin.items(), key=lambda item: (-item[1], item[0])):
+            node = uid_to_node.get(uid)
+            if node is None:
+                continue
+            anchor_rows.append({"uid": uid, "id": node.id, "count": count})
+
+        focus_payload: Optional[Dict[str, object]] = None
+        if focus_node is not None:
+            focus_value = self.value_equivalence_class(focus_node)
+            if focus_value is None:
+                focus_payload = {
+                    "node_uid": focus_node.node_uid,
+                    "node_level": self._node_level(focus_node, memo=level_cache),
+                    "node_epistemic_order": self._epistemic_order(focus_node),
+                    "node_constructible_from_one": self._constructible_from_one(
+                        focus_node, memo=constructible_cache
+                    ),
+                    "node_depth_debug": self._node_depth(focus_node),
+                    "value_class": None,
+                }
+            else:
+                member_uids = sorted(
+                    uid for uid in self.value_classes.get(focus_value, set()) if uid in uid_to_node
+                )
+                member_rows: List[Dict[str, object]] = []
+                for uid in member_uids[:max_focus_members]:
+                    node = uid_to_node[uid]
+                    depth = self._node_depth(node)
+                    member_rows.append(
+                        {
+                            "uid": uid,
+                            "id": node.id,
+                            "status": node.status,
+                            "op": node.provenance.get("op"),
+                            "level": self._node_level(node, memo=level_cache),
+                            "epistemic_order": self._epistemic_order(node),
+                            "constructible_from_one": self._constructible_from_one(
+                                node, memo=constructible_cache
+                            ),
+                            "depth_debug": depth,
+                            "resolved_to": node.metadata.get("resolved_to"),
+                        }
+                    )
+                focus_payload = {
+                    "node_uid": focus_node.node_uid,
+                    "node_id": focus_node.id,
+                    "node_level": self._node_level(focus_node, memo=level_cache),
+                    "node_epistemic_order": self._epistemic_order(focus_node),
+                    "node_constructible_from_one": self._constructible_from_one(
+                        focus_node, memo=constructible_cache
+                    ),
+                    "node_depth_debug": self._node_depth(focus_node),
+                    "value_class": self._value_key_label(focus_value),
+                    "class_size": len(member_uids),
+                    "members": member_rows,
+                    "truncated": len(member_uids) > max_focus_members,
+                }
+
+        return {
+            "semantics": "value_nodes",
+            "counts": {
+                "nodes": len(active_nodes),
+                "edges": len(self.edges),
+                "grounded_nodes": len(self.nodes_by_int),
+                "speculative_nodes": sum(1 for node in active_nodes if node.status == "S"),
+                "value_classes": len(class_rows),
+                "resolutions": len(self._resolutions),
+            },
+            "epistemic": self._epistemic_summary(
+                active_nodes, constructible_cache=constructible_cache
+            ),
+            "level_histogram": dict(sorted(level_hist.items())),
+            "depth_histogram": dict(sorted(depth_hist.items())),
+            "depth_histogram_debug": dict(sorted(depth_hist.items())),
+            "top_value_classes": class_rows[: max(0, top_k_classes)],
+            "anchor_resolution_fanin": anchor_rows,
+            "focus": focus_payload,
+        }
 
     def stats(self, *, top_k: int = 5) -> Dict[str, object]:
         op_counts: Dict[str, int] = {}
@@ -575,7 +889,8 @@ class Graph:
                 out_degree[inp.id] = out_degree.get(inp.id, 0) + 1
                 in_degree[edge.output.id] = in_degree.get(edge.output.id, 0) + 1
 
-        all_nodes = list(self.nodes_by_int.values()) + list(self.speculative_nodes.values())
+        all_nodes = list(self.nodes_by_uid.values())
+        constructible_cache: Dict[NodeUid, bool] = {}
         for node in all_nodes:
             in_degree.setdefault(node.id, 0)
             out_degree.setdefault(node.id, 0)
@@ -594,24 +909,32 @@ class Graph:
             n: int(output_edge_counts.get(n, 0)) for n in grounded_ints
         }
         multi_constructed_grounded = {n: c for n, c in grounded_constructions.items() if c > 1}
+        resolution_fanin: Dict[int, int] = {}
+        for event in self._resolutions:
+            to_id = event.get("to_id")
+            if isinstance(to_id, int):
+                resolution_fanin[to_id] = resolution_fanin.get(to_id, 0) + 1
+        multi_resolved_grounded = {n: c for n, c in resolution_fanin.items() if c > 1}
 
         potential_val_hist: Dict[int, int] = {}
         speculative_with_potential_val = 0
-        for node in self.speculative_nodes.values():
+        for node in all_nodes:
+            if node.status != "S":
+                continue
             potential_val = node.metadata.get("potential_val")
             if isinstance(potential_val, int):
                 speculative_with_potential_val += 1
                 potential_val_hist[potential_val] = potential_val_hist.get(potential_val, 0) + 1
 
         return {
-            "semantics": "preserve",
+            "semantics": "value_nodes",
             "intern_policy": self.intern_policy,
             "counts": {
                 "grounded_nodes": len(self.nodes_by_int),
-                "speculative_nodes": len(self.speculative_nodes),
+                "speculative_nodes": sum(1 for node in all_nodes if node.status == "S"),
                 "total_nodes": len(self.nodes_by_uid),
                 "edges": len(self.edges),
-                "snap_events": len(self._snap_events),
+                "resolve_events": len(self._resolve_events),
                 "resolutions": len(self._resolutions),
                 "value_classes": len(self.value_classes),
             },
@@ -628,10 +951,18 @@ class Graph:
                 "max_constructions_into_grounded": max(grounded_constructions.values(), default=0),
                 "top_grounded_by_constructions": top({n: c for n, c in grounded_constructions.items()}),
             },
+            "resolution": {
+                "grounded_with_multiple_resolutions": len(multi_resolved_grounded),
+                "max_resolutions_into_grounded": max(resolution_fanin.values(), default=0),
+                "top_grounded_by_resolution_fanin": top({n: c for n, c in resolution_fanin.items()}),
+            },
             "speculation": {
                 "speculative_with_potential_val": speculative_with_potential_val,
                 "potential_val_histogram": potential_val_hist,
             },
+            "epistemic": self._epistemic_summary(
+                all_nodes, constructible_cache=constructible_cache
+            ),
         }
 
     def _record_resolution(self, source: Node, target: Node, *, reason: str) -> bool:
@@ -650,69 +981,38 @@ class Graph:
         )
         return True
 
-    def _maybe_snap_new_spec_to_existing_ref(self, node: Node) -> Node:
-        if node.status != "S":
-            return node
-        potential_val = node.metadata.get("potential_val")
-        if not isinstance(potential_val, int):
-            return node
-        ref_node = self.nodes_by_int.get(potential_val)
-        if ref_node is None:
-            return node
-        created = self._record_resolution(node, ref_node, reason="potential_val_match")
-        if created:
-            self._snap_events.append(
-                {
-                    "spec_id": node.id,
-                    "spec_uid": node.node_uid,
-                    "resolved_to": potential_val,
-                    "resolved_to_uid": ref_node.node_uid,
-                    "usages": self._count_usages(node),
-                    "spec_metadata": dict(node.metadata),
-                }
-            )
-        node.metadata["resolved_to"] = potential_val
+    def _maybe_resolve_new_spec_to_existing_ref(self, node: Node) -> Node:
+        # Value-centric identity collapses integer claims and grounded refs into one node.
+        # Resolution is therefore represented by grounding (promotion to status "G"),
+        # not by speculative→grounded alias edges.
         return node
 
-    def _snap_speculative_to_ref(self, n: int, ref_node: Node) -> None:
-        to_snap = [
-            node for node in self.speculative_nodes.values()
-            if node.metadata.get("potential_val") == n
-        ]
-        for node in to_snap:
-            usages = self._count_usages(node)
-            event = {
-                "spec_id": node.id,
-                "spec_uid": node.node_uid,
-                "resolved_to": n,
-                "resolved_to_uid": ref_node.node_uid,
-                "usages": usages,
-                "spec_metadata": dict(node.metadata),
-            }
-            created = self._record_resolution(node, ref_node, reason="anchor_grounded")
-            if created:
-                self._snap_events.append(event)
-            node.metadata["resolved_to"] = n
+    def _resolve_speculative_to_ref(self, n: int, ref_node: Node) -> None:
+        # See note in _maybe_resolve_new_spec_to_existing_ref().
+        return
 
-    def to_snap_dot(self) -> str:
+    def to_resolve_dot(self) -> str:
         lines = ["digraph G {"]
 
         for node in self.nodes_by_int.values():
             lines.append(
                 f'  "{node.id}" [label="{node.label()}", shape=box, style=filled, fillcolor=lightgray];'
             )
-        for node in self.speculative_nodes.values():
+        for node in sorted(
+            [n for n in self.nodes_by_uid.values() if n.status == "S"],
+            key=lambda n: (str(n.id), int(n.node_uid)),
+        ):
             lines.append(
                 f'  "{node.id}" [label="{node.label()}", shape=ellipse, style=filled, fillcolor=yellow];'
             )
 
         ghost_ids: Dict[str, str] = {}
-        for event in self._snap_events:
+        for event in self._resolve_events:
             spec_id = str(event.get("spec_id"))
             ghost_id = f"ghost_{spec_id}"
             ghost_ids[spec_id] = ghost_id
 
-        for event in self._snap_events:
+        for event in self._resolve_events:
             spec_id = str(event.get("spec_id"))
             resolved_to = event.get("resolved_to")
             spec_metadata = event.get("spec_metadata")
@@ -729,7 +1029,7 @@ class Graph:
                 'shape=ellipse, style="filled,dashed", fillcolor=lightblue, color=blue];'
             )
             lines.append(
-                f'  "{ghost_id}" -> "{resolved_to}" [label="snap", style=dashed, color=blue];'
+                f'  "{ghost_id}" -> "{resolved_to}" [label="resolve", style=dashed, color=blue];'
             )
 
             if isinstance(spec_metadata, dict):
@@ -759,11 +1059,11 @@ class Graph:
                 out_degree[inp.id] = out_degree.get(inp.id, 0) + 1
                 in_degree[edge.output.id] = in_degree.get(edge.output.id, 0) + 1
 
-        snap_counts: Dict[int, int] = {}
-        for event in self._snap_events:
+        resolve_counts: Dict[int, int] = {}
+        for event in self._resolve_events:
             resolved_to = event.get("resolved_to")
             if isinstance(resolved_to, int):
-                snap_counts[resolved_to] = snap_counts.get(resolved_to, 0) + 1
+                resolve_counts[resolved_to] = resolve_counts.get(resolved_to, 0) + 1
 
         rows: List[Dict[str, int]] = []
         for n in sorted(self.nodes_by_int.keys()):
@@ -773,14 +1073,14 @@ class Graph:
                     "constructions": int(output_edge_counts.get(n, 0)),
                     "in_degree": int(in_degree.get(n, 0)),
                     "out_degree": int(out_degree.get(n, 0)),
-                    "snap_resolutions": int(snap_counts.get(n, 0)),
+                    "resolve_links": int(resolve_counts.get(n, 0)),
                 }
             )
         return rows
 
     def field_map_csv(self) -> str:
         rows = self.field_map()
-        header = ["n", "constructions", "in_degree", "out_degree", "snap_resolutions"]
+        header = ["n", "constructions", "in_degree", "out_degree", "resolve_links"]
         lines = [",".join(header)]
         for row in rows:
             lines.append(",".join(str(row[col]) for col in header))
@@ -801,12 +1101,12 @@ class Graph:
             constructions = row["constructions"]
             in_degree = row["in_degree"]
             out_degree = row["out_degree"]
-            snap_resolutions = row["snap_resolutions"]
+            resolve_links = row["resolve_links"]
             bar_len = int(round(constructions / max_constructions * bar_width))
             bar = "#" * bar_len
             lines.append(
                 f"{n:>4} | c={constructions:>3} in={in_degree:>3} out={out_degree:>3} "
-                f"snap={snap_resolutions:>3} | {bar}"
+                f"resolve={resolve_links:>3} | {bar}"
             )
         return "\n".join(lines)
 
@@ -867,7 +1167,7 @@ class Graph:
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("+", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
         left_val = self._node_value(a)
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
@@ -877,14 +1177,14 @@ class Graph:
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("+", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
         potential = self._maybe_potential("+", a, b)
         metadata = {"op": "+", "inputs": self._input_ids([a, b])}
         if potential is not None:
             metadata["potential_val"] = potential
         out = self._create_spec_node(op="+", inputs=[a, b], metadata=metadata)
         self._record_edge("+", [a, b], out, {"result": "speculative", "potential_val": potential})
-        return self._maybe_snap_new_spec_to_existing_ref(out)
+        return self._maybe_resolve_new_spec_to_existing_ref(out)
 
     def sub(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
@@ -896,7 +1196,7 @@ class Graph:
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("-", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
         left_val = self._node_value(a)
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
@@ -906,14 +1206,14 @@ class Graph:
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("-", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
         potential = self._maybe_potential("-", a, b)
         metadata = {"op": "-", "inputs": self._input_ids([a, b])}
         if potential is not None:
             metadata["potential_val"] = potential
         out = self._create_spec_node(op="-", inputs=[a, b], metadata=metadata)
         self._record_edge("-", [a, b], out, {"result": "speculative", "potential_val": potential})
-        return self._maybe_snap_new_spec_to_existing_ref(out)
+        return self._maybe_resolve_new_spec_to_existing_ref(out)
 
     def mul(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
@@ -930,14 +1230,14 @@ class Graph:
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             edge_meta["rule"] = "zero_annihilation"
             self._record_edge("*", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
 
         if left_val is not None and right_val is not None:
             value = left_val * right_val
             out = self._intern_value(value, seed_op="*", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("*", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
 
         potential = self._maybe_potential("*", a, b)
         metadata = {"op": "*", "inputs": self._input_ids([a, b])}
@@ -945,7 +1245,7 @@ class Graph:
             metadata["potential_val"] = potential
         out = self._create_spec_node(op="*", inputs=[a, b], metadata=metadata)
         self._record_edge("*", [a, b], out, {"result": "speculative", "potential_val": potential})
-        return self._maybe_snap_new_spec_to_existing_ref(out)
+        return self._maybe_resolve_new_spec_to_existing_ref(out)
 
     def div(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
@@ -973,7 +1273,7 @@ class Graph:
 
             edge_meta = self._edge_meta_for_value(value=value, out=out, non_integer_result="non_integer")
             self._record_edge("/", [a, b], out, edge_meta)
-            return self._maybe_snap_new_spec_to_existing_ref(out)
+            return self._maybe_resolve_new_spec_to_existing_ref(out)
 
         potential = self._potential_division(a, b)
         metadata = {"op": "/", "inputs": self._input_ids([a, b])}
@@ -981,7 +1281,7 @@ class Graph:
             metadata["potential_val"] = potential
         out = self._create_spec_node(op="/", inputs=[a, b], metadata=metadata)
         self._record_edge("/", [a, b], out, {"result": "speculative", "potential_val": potential})
-        return self._maybe_snap_new_spec_to_existing_ref(out)
+        return self._maybe_resolve_new_spec_to_existing_ref(out)
 
     # --- speculative potential helpers ---
     def _maybe_potential(self, op: str, a: Node, b: Node) -> Optional[int]:
@@ -1024,6 +1324,11 @@ class Graph:
     def _value_projection_payload(self) -> Dict[str, object]:
         classes: Dict[str, Dict[str, object]] = {}
         node_to_class_label: Dict[NodeUid, str] = {}
+        incoming_edge_counts: Dict[ValueKey, int] = {}
+        for edge in self.edges:
+            if edge.output.value is None:
+                continue
+            incoming_edge_counts[edge.output.value] = incoming_edge_counts.get(edge.output.value, 0) + 1
         for value_key in sorted(self.value_classes.keys()):
             members = self.value_classes[value_key]
             active_members = sorted(uid for uid in members if uid in self.nodes_by_uid)
@@ -1034,6 +1339,7 @@ class Graph:
                 "value": {"p": int(value_key[0]), "q": int(value_key[1])},
                 "eq_class": self._eq_class_ids.get(value_key),
                 "node_uids": active_members,
+                "derivations_in": int(incoming_edge_counts.get(value_key, 0)),
             }
             for uid in active_members:
                 node_to_class_label[uid] = label
@@ -1061,14 +1367,29 @@ class Graph:
         }
 
     def to_jsonable(self) -> Dict[str, object]:
+        level_cache: Dict[NodeUid, int] = {}
+        constructible_cache: Dict[NodeUid, bool] = {}
+        edges_by_output_uid: Dict[NodeUid, List[Edge]] = {}
+        for edge in self.edges:
+            edges_by_output_uid.setdefault(edge.output.node_uid, []).append(edge)
+
         def node_payload(node: Node) -> Dict[str, object]:
             value_payload: Optional[Dict[str, int]] = None
             if node.value is not None:
                 value_payload = {"p": int(node.value[0]), "q": int(node.value[1])}
+            depth = self._node_depth(node)
             return {
                 "id": node.id,
                 "node_uid": node.node_uid,
                 "status": node.status,
+                "level": self._node_level(node, memo=level_cache),
+                "epistemic_order": self._epistemic_order(node),
+                "constructible_from_one": self._constructible_from_one(
+                    node,
+                    memo=constructible_cache,
+                    edges_by_output_uid=edges_by_output_uid,
+                ),
+                "depth_debug": depth,
                 "value": value_payload,
                 "eq_class": node.eq_class,
                 "provenance": node.provenance,
@@ -1082,6 +1403,7 @@ class Graph:
                 "input_uids": [inp.node_uid for inp in edge.inputs],
                 "output": edge.output.id,
                 "output_uid": edge.output.node_uid,
+                "edge_uid": int(edge.edge_uid),
                 "metadata": edge.metadata,
             }
 
@@ -1094,10 +1416,13 @@ class Graph:
         }
 
         return {
-            "semantics": "preserve",
+            "semantics": "value_nodes",
             "intern_policy": self.intern_policy,
             "nodes": [node_payload(n) for n in self._active_nodes()],
             "edges": [edge_payload(e) for e in self.edges],
+            "epistemic": self._epistemic_summary(
+                self._active_nodes(), constructible_cache=constructible_cache
+            ),
             "equivalence_classes": equivalence_classes,
             "resolutions": list(self._resolutions),
             "value_projection": self._value_projection_payload(),
@@ -1120,30 +1445,25 @@ class Graph:
         lines = ["digraph G {"]
         for node in sorted(self.nodes_by_int.values(), key=lambda n: int(n.id)):
             lines.append(f'  "{node.id}" [label="{node.label()}", shape=box, style=filled, fillcolor=lightgray];')
-        for node in sorted(self.speculative_nodes.values(), key=lambda n: n.node_uid):
+        for node in sorted(
+            [n for n in self.nodes_by_uid.values() if n.status == "S"],
+            key=lambda n: (str(n.id), int(n.node_uid)),
+        ):
             lines.append(f'  "{node.id}" [label="{node.label()}", shape=ellipse, style=filled, fillcolor=yellow];')
         for edge in self.edges:
             for inp in edge.inputs:
                 lines.append(f'  "{inp.id}" -> "{edge.output.id}" [label="{edge.op}"];')
-        for event in self._resolutions:
-            src_uid = event.get("from_uid")
-            dst_uid = event.get("to_uid")
-            if not isinstance(src_uid, int) or not isinstance(dst_uid, int):
-                continue
-            src_node = self.nodes_by_uid.get(src_uid)
-            dst_node = self.nodes_by_uid.get(dst_uid)
-            if src_node is None or dst_node is None:
-                continue
-            lines.append(
-                f'  "{src_node.id}" -> "{dst_node.id}" '
-                '[label="resolves_to", style=dashed, color=blue];'
-            )
         lines.append("}")
         return "\n".join(lines)
 
     def _to_dot_value_projection(self) -> str:
         lines = ["digraph G {"]
         node_to_class_node: Dict[NodeUid, str] = {}
+        incoming_edge_counts: Dict[ValueKey, int] = {}
+        for edge in self.edges:
+            if edge.output.value is None:
+                continue
+            incoming_edge_counts[edge.output.value] = incoming_edge_counts.get(edge.output.value, 0) + 1
 
         for value_key in sorted(self.value_classes.keys()):
             members = self.value_classes[value_key]
@@ -1153,10 +1473,11 @@ class Graph:
             eq_class = self._eq_class_ids.get(value_key)
             node_name = f'val_{int(value_key[0])}_{int(value_key[1])}'
             label = self._value_key_label(value_key)
+            derivations_in = int(incoming_edge_counts.get(value_key, 0))
             if isinstance(eq_class, int):
-                label = f"{label}\\nEQ:{eq_class} n={len(active_members)}"
+                label = f"{label}\\nEQ:{eq_class} in={derivations_in}"
             else:
-                label = f"{label}\\nn={len(active_members)}"
+                label = f"{label}\\nin={derivations_in}"
             for uid in active_members:
                 node_to_class_node[uid] = node_name
             has_grounded = any(
@@ -1289,7 +1610,7 @@ def demo(
     - treats integers as second-class (they must be explicitly constructed),
     - treats multiplication/division outputs as third-class claims until they align
       to an explicitly grounded integer,
-    - includes a small S→G snapping example for an unconstructed integer claim.
+    - includes a small "shadow ref" example (speculative integer point later grounded).
     """
     g = Graph(
         intern_policy=intern_policy,
@@ -1301,9 +1622,10 @@ def demo(
     one = g.get_or_create_ref(1)
     zero = g.sub(one, one)
 
-    # Create speculative "shadow refs" that will later snap to grounded Refs.
+    # Create speculative "shadow refs" that will later be grounded by the integer backbone.
     shadow_two = g.speculate_ref(2, reason="demo_shadow_ref")
-    g.add(shadow_two, one)  # potential_val=3, will snap once Ref(3) is grounded
+    # Exercises speculative integer points participating in grounded constructions.
+    g.add(shadow_two, one)
 
     limit = max(0, int(limit))
 
@@ -1343,19 +1665,158 @@ def demo(
     return g
 
 
+def fibonacci_demo(
+    terms: int = 8,
+    *,
+    intern_policy: Optional[InternPolicy] = None,
+    max_nodes: Optional[int] = None,
+    max_depth: Optional[int] = None,
+    operation_budget: Optional[int] = None,
+    dedupe_by_provenance: bool = False,
+) -> Tuple[Graph, Dict[str, object], Optional[Node]]:
+    """
+    Build a Fibonacci-focused graph from Ref(1).
+
+    The construction deliberately layers:
+    - recurrence terms F(n) = F(n-1) + F(n-2),
+    - exact rational ratios F(n+1)/F(n),
+    - subtraction back-links F(n) - F(n-1) = F(n-2),
+    - Cassini identities F(n+1)F(n-1) - F(n)^2 = (-1)^n.
+
+    The resulting graph makes value-class multiplicity and speculative-to-grounded
+    resolution easy to inspect through stats, resolve telemetry, and DOT exports.
+    """
+    terms = max(2, int(terms))
+    g = Graph(
+        intern_policy=intern_policy,
+        max_nodes=max_nodes,
+        max_depth=max_depth,
+        operation_budget=operation_budget,
+        dedupe_by_provenance=dedupe_by_provenance,
+    )
+    one = g.get_or_create_ref(1)
+
+    fib_nodes: List[Node] = [one, one]
+    for _ in range(2, terms):
+        fib_nodes.append(g.add(fib_nodes[-1], fib_nodes[-2]))
+
+    ratio_nodes: List[Node] = []
+    for idx in range(1, len(fib_nodes)):
+        ratio_nodes.append(g.div(fib_nodes[idx], fib_nodes[idx - 1]))
+
+    back_links: List[Tuple[int, int, int, Node]] = []
+    focus_node: Optional[Node] = None
+    for idx in range(2, len(fib_nodes)):
+        back_link = g.sub(fib_nodes[idx], fib_nodes[idx - 1])
+        back_links.append((idx + 1, idx, idx - 1, back_link))
+        focus_node = back_link
+
+    cassini_rows: List[Tuple[int, Node, Node, Node]] = []
+    for idx in range(1, len(fib_nodes) - 1):
+        left = g.mul(fib_nodes[idx + 1], fib_nodes[idx - 1])
+        right = g.mul(fib_nodes[idx], fib_nodes[idx])
+        identity = g.sub(left, right)
+        cassini_rows.append((idx + 1, left, right, identity))
+
+    report = fibonacci_report(
+        g,
+        fib_nodes=fib_nodes,
+        ratio_nodes=ratio_nodes,
+        back_links=back_links,
+        cassini_rows=cassini_rows,
+        focus_node=focus_node,
+    )
+    return g, report, focus_node
+
+
+def fibonacci_report(
+    graph: Graph,
+    *,
+    fib_nodes: List[Node],
+    ratio_nodes: List[Node],
+    back_links: List[Tuple[int, int, int, Node]],
+    cassini_rows: List[Tuple[int, Node, Node, Node]],
+    focus_node: Optional[Node],
+) -> Dict[str, object]:
+    level_cache: Dict[NodeUid, int] = {}
+    constructible_cache: Dict[NodeUid, bool] = {}
+
+    def value_payload(node: Node) -> Optional[Dict[str, int]]:
+        value = graph.numeric_value(node)
+        if value is None:
+            return None
+        return {"p": int(value[0]), "q": int(value[1])}
+
+    def node_payload(node: Node) -> Dict[str, object]:
+        return {
+            "id": node.id,
+            "node_uid": node.node_uid,
+            "status": node.status,
+            "value": value_payload(node),
+            "resolved_to": node.metadata.get("resolved_to"),
+            "op": node.provenance.get("op"),
+            "level": graph._node_level(node, memo=level_cache),
+            "depth_debug": graph._node_depth(node),
+            "constructible_from_one": graph._constructible_from_one(
+                node, memo=constructible_cache
+            ),
+        }
+
+    sequence = [
+        {"index": idx, **node_payload(node)}
+        for idx, node in enumerate(fib_nodes, start=1)
+    ]
+    ratios = [
+        {"label": f"F{idx + 1}/F{idx}", **node_payload(node)}
+        for idx, node in enumerate(ratio_nodes, start=1)
+    ]
+    subtraction_back_links = [
+        {
+            "label": f"F{source_idx} - F{subtract_idx} = F{result_idx}",
+            **node_payload(node),
+        }
+        for source_idx, subtract_idx, result_idx, node in back_links
+    ]
+    cassini = [
+        {
+            "n": n,
+            "label": f"F{n + 1}*F{n - 1} - F{n}^2",
+            "expected": 1 if n % 2 == 0 else -1,
+            "left": node_payload(left),
+            "right": node_payload(right),
+            "identity": node_payload(identity),
+        }
+        for n, left, right, identity in cassini_rows
+    ]
+
+    return {
+        "terms": len(fib_nodes),
+        "sequence": sequence,
+        "ratios": ratios,
+        "subtraction_back_links": subtraction_back_links,
+        "cassini": cassini,
+        "focus": graph.structure_report(
+            focus_node=focus_node,
+            top_k_classes=10,
+            max_focus_members=10,
+        )["focus"],
+    }
+
+
 if __name__ == "__main__":
     def parse_cli(
         argv: List[str],
     ) -> Tuple[
         Optional[str],
         int,
+        Optional[int],
         Dict[str, bool],
         Optional[str],
         Dict[str, object],
     ]:
         flags = {
             "show_stats": False,
-            "show_snap_dot": False,
+            "show_resolve_dot": False,
             "show_field_json": False,
             "show_field_csv": False,
             "show_field_ascii": False,
@@ -1369,6 +1830,7 @@ if __name__ == "__main__":
             "dedupe_by_provenance": False,
         }
         limit = 3
+        fibonacci_terms: Optional[int] = None
         expr_tokens: List[str] = []
         write_maps_prefix: Optional[str] = None
 
@@ -1379,16 +1841,20 @@ if __name__ == "__main__":
                 print(
                     "Usage:\n"
                     "  python3 constructionist_math.py [--view structure|value] [--limit N]\n"
+                    "      [--fibonacci N]\n"
                     "      [--intern-policy none|by_provenance] [--max-nodes N] [--max-depth N]\n"
-                    "      [--op-budget N] [--dedupe-by-provenance] [--maps] [--stats] [--snap-dot]\n"
+                    "      [--op-budget N] [--dedupe-by-provenance] [--maps] [--stats] [--resolve-dot]\n"
                     "      [--field] [--field-csv] [--field-ascii] [--write-maps PREFIX] [<expr>]\n\n"
+                    "Views:\n"
+                    "  structure: canonical value nodes with all edge occurrences (construction lens)\n"
+                    "  value:     deduped value-link projection (unique src/dst/op edges)\n\n"
                     "Expr syntax: only the literal `1`, operators `+ - * /`, and parentheses.\n"
                 )
                 raise SystemExit(0)
 
             if arg == "--maps":
                 flags["show_stats"] = True
-                flags["show_snap_dot"] = True
+                flags["show_resolve_dot"] = True
                 flags["show_field_json"] = True
                 flags["show_field_ascii"] = True
                 idx += 1
@@ -1399,8 +1865,8 @@ if __name__ == "__main__":
                 idx += 1
                 continue
 
-            if arg == "--snap-dot":
-                flags["show_snap_dot"] = True
+            if arg == "--resolve-dot":
+                flags["show_resolve_dot"] = True
                 idx += 1
                 continue
 
@@ -1433,6 +1899,16 @@ if __name__ == "__main__":
                     limit = int(argv[idx + 1])
                 except ValueError as exc:
                     raise SystemExit(f"Invalid --limit value: {argv[idx + 1]!r}") from exc
+                idx += 2
+                continue
+
+            if arg == "--fibonacci":
+                if idx + 1 >= len(argv):
+                    raise SystemExit("Missing value for --fibonacci")
+                try:
+                    fibonacci_terms = int(argv[idx + 1])
+                except ValueError as exc:
+                    raise SystemExit(f"Invalid --fibonacci value: {argv[idx + 1]!r}") from exc
                 idx += 2
                 continue
 
@@ -1498,9 +1974,11 @@ if __name__ == "__main__":
             break
 
         expression = " ".join(expr_tokens).strip() if expr_tokens else None
-        return expression, limit, flags, write_maps_prefix, graph_config
+        return expression, limit, fibonacci_terms, flags, write_maps_prefix, graph_config
 
-    expression, limit, flags, write_maps_prefix, graph_config = parse_cli(sys.argv[1:])
+    expression, limit, fibonacci_terms, flags, write_maps_prefix, graph_config = parse_cli(sys.argv[1:])
+    if expression is not None and fibonacci_terms is not None:
+        raise SystemExit("Cannot combine --fibonacci with an expression.")
     graph_kwargs = {
         "intern_policy": graph_config["intern_policy"],
         "max_nodes": graph_config["max_nodes"],
@@ -1509,6 +1987,8 @@ if __name__ == "__main__":
         "dedupe_by_provenance": graph_config["dedupe_by_provenance"],
     }
     view = str(graph_config["view"])
+    result: Optional[Node] = None
+    fibonacci_payload: Optional[Dict[str, object]] = None
 
     if expression is not None:
         graph, result = eval_moo(expression, **graph_kwargs)
@@ -1516,6 +1996,10 @@ if __name__ == "__main__":
         print(expression)
         print("\n# RESULT")
         print(result.label())
+    elif fibonacci_terms is not None:
+        graph, fibonacci_payload, result = fibonacci_demo(terms=fibonacci_terms, **graph_kwargs)
+        print("# DEMO")
+        print(f"fibonacci:{fibonacci_terms}")
     else:
         graph = demo(limit=limit, **graph_kwargs)
 
@@ -1523,15 +2007,18 @@ if __name__ == "__main__":
         prefix = Path(write_maps_prefix)
         targets = {
             "dot": Path(str(prefix) + ".dot"),
-            "snap_dot": Path(str(prefix) + ".snap.dot"),
+            "resolve_dot": Path(str(prefix) + ".resolve.dot"),
             "field_json": Path(str(prefix) + ".field.json"),
             "field_csv": Path(str(prefix) + ".field.csv"),
             "field_ascii": Path(str(prefix) + ".field.txt"),
             "stats": Path(str(prefix) + ".stats.json"),
-            "snap_events": Path(str(prefix) + ".snap_events.json"),
+            "resolve_events": Path(str(prefix) + ".resolve_events.json"),
             "resolutions": Path(str(prefix) + ".resolutions.json"),
             "acceptance": Path(str(prefix) + ".acceptance.json"),
+            "structure": Path(str(prefix) + ".structure.json"),
         }
+        if fibonacci_payload is not None:
+            targets["fibonacci"] = Path(str(prefix) + ".fibonacci.json")
         for path in targets.values():
             if path.exists():
                 raise SystemExit(f"Refusing to overwrite existing file: {path}")
@@ -1539,7 +2026,7 @@ if __name__ == "__main__":
                 raise SystemExit(f"Directory does not exist: {path.parent}")
 
         targets["dot"].write_text(graph.to_dot_view(view=view) + "\n", encoding="utf-8")
-        targets["snap_dot"].write_text(graph.to_snap_dot() + "\n", encoding="utf-8")
+        targets["resolve_dot"].write_text(graph.to_resolve_dot() + "\n", encoding="utf-8")
         targets["field_json"].write_text(
             json.dumps(graph.field_map(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
@@ -1548,8 +2035,8 @@ if __name__ == "__main__":
         targets["stats"].write_text(
             json.dumps(graph.stats(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
-        targets["snap_events"].write_text(
-            json.dumps(graph.snap_events(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        targets["resolve_events"].write_text(
+            json.dumps(graph.resolve_events(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
         targets["resolutions"].write_text(
             json.dumps(graph.resolutions(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -1557,15 +2044,27 @@ if __name__ == "__main__":
         targets["acceptance"].write_text(
             json.dumps(graph.acceptance_report(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
+        targets["structure"].write_text(
+            json.dumps(graph.structure_report(focus_node=result), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        if fibonacci_payload is not None:
+            targets["fibonacci"].write_text(
+                json.dumps(fibonacci_payload, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
         print("\n# WROTE_MAPS")
         for key, path in targets.items():
             print(f"{key}: {path}")
 
+    if fibonacci_payload is not None:
+        print("\n# FIBONACCI")
+        print(json.dumps(fibonacci_payload, indent=2, sort_keys=True))
     if flags["show_stats"]:
         print("\n# STATS")
         print(json.dumps(graph.stats(), indent=2, sort_keys=True))
-        print("\n# SNAP_EVENTS")
-        print(json.dumps(graph.snap_events(), indent=2, sort_keys=True))
+        print("\n# RESOLVE_EVENTS")
+        print(json.dumps(graph.resolve_events(), indent=2, sort_keys=True))
         print("\n# RESOLUTIONS")
         print(json.dumps(graph.resolutions(), indent=2, sort_keys=True))
     if flags["show_field_json"]:
@@ -1577,11 +2076,13 @@ if __name__ == "__main__":
     if flags["show_field_ascii"]:
         print("\n# FIELD_ASCII")
         print(graph.field_map_ascii())
-    if flags["show_snap_dot"]:
-        print("\n# SNAP_DOT")
-        print(graph.to_snap_dot())
+    if flags["show_resolve_dot"]:
+        print("\n# RESOLVE_DOT")
+        print(graph.to_resolve_dot())
     print("\n# ACCEPTANCE")
     print(json.dumps(graph.acceptance_report(), indent=2, sort_keys=True))
+    print("\n# STRUCTURE")
+    print(json.dumps(graph.structure_report(focus_node=result), indent=2, sort_keys=True))
     print("# JSON")
     print(graph.to_json(indent=2))
     print("\n# DOT")

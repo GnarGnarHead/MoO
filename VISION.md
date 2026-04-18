@@ -17,13 +17,24 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 
 MoO is a constructionist epistemic experiment built around one primitive certainty event represented as `1`.
 
+### 2.1 Lenses / Identification (Explicit “Filters”)
+
+MoO takes the “only if you specify in what sense you are identifying them” move literally: the runtime keeps multiple coexisting identifications over the same constructed state.
+
+- **Structure identity**: derivation nodes remain distinct (provenance is preserved).
+- **Value identity**: one node exists per reduced rational value class `(p, q)`.
+- **Construction identity**: distinct constructions are preserved as distinct edges/events landing on that value node.
+- **Anchor identity**: grounded `Ref(N)` anchors are unique; grounding is represented by promoting the value-node `(N,1)` to status `G`.
+
+These are not competing truths; they are different projections of the same graph.
+
 It is not:
 
 - a replacement for ZFC/Peano-style foundations,
 - a geometric or dimensional embedding framework,
 - a proof that classical arithmetic is invalid.
 
-The current code is a computational model of relational arithmetic construction with explicit derivation identity and value-equivalence tracking.
+The current code is a computational model of relational arithmetic construction with explicit edge-history (construction identity) over canonical value nodes.
 
 ---
 
@@ -33,11 +44,17 @@ MoO currently implements:
 
 - A single primitive grounded node (`Ref(1)`),
 - Closure under arithmetic operations (`+`, `-`, `*`, `/`) at the graph level,
-- Explicit value-equivalence classes (`p/q`) across nodes,
-- Non-destructive resolution links from speculative nodes to grounded anchors,
-- A shared term-DAG/graph representing derivations.
+- Canonical value nodes: one node per reduced rational value (`p/q`),
+- A shared edge-history representing derivations (many derivations can land on the same value node),
+- Grounding/promotion of integer value nodes into `Ref(N)` anchors when the integer backbone explicitly constructs them.
 
 This produces a structure-preserving relational term graph with explicit value projection, rather than a free algebra.
+
+### 3.1 Infinity Stance (Potential, Not Completed)
+
+MoO does not assume a completed infinite totality at runtime. Every graph is finite and parameterized by budgets (`limit`, `max_nodes`, `max_depth`, `operation_budget`). “Infinity” appears only as an extendable frontier: you can always continue iterating `+1` / `-1` outward from `Ref(1)` to ground more integers.
+
+MoO also does not treat divergent sums as having ordinary numeric values. If you want regularization-style assignments (e.g. analytic continuation / Ramanujan summation, like the `-1/12` association), that belongs as an additional analysis lens with explicit rules, not as a replacement for ordinary meanings.
 
 ---
 
@@ -46,21 +63,41 @@ This produces a structure-preserving relational term graph with explicit value p
 ### 4.1 Node classes
 
 - Grounded nodes (`status == "G"`): integer anchor references `Ref(N)`.
-- Speculative nodes (`status == "S"`): non-grounded claims, including non-integer rationals and integer claims not yet grounded.
+- Speculative nodes (`status == "S"`): non-grounded value points (including non-integer rationals and integer-valued points not yet grounded), plus special undefined nodes like division-by-zero.
+
+### 4.1.1 Taxonomy mapping (one screen)
+
+MoO uses a few overlapping tags; this block is the intended alignment in the current implementation:
+
+- `status`:
+  - `G`: grounded integer anchor `Ref(N)`.
+  - `S`: speculative derivation/claim node.
+- `metadata["tier"]` (conceptual tier label):
+  - `1`: the primitive `Ref(1)` anchor.
+  - `2`: grounded integer anchors `Ref(N)` for `N != 1`.
+  - `3`: speculative/analysis-layer nodes (rationals, integer-valued points not yet grounded, undefined nodes like division-by-zero).
+- `epistemic_order` (reported, derived):
+  - `1`: `Ref(1)` (primitive certainty event).
+  - `2`: other grounded `Ref(N)` (iteration/memory-dependent certainty).
+  - `3`: speculative nodes.
+- `constructible_from_one` (reported, evidence tag):
+  - `True` for grounded anchors.
+  - `True` for speculative nodes that have at least one witnessed derivation edge whose inputs are all constructible.
+  - `False` for isolated/injected speculative claims with no witness edge yet (e.g. `speculate_ref(n)` before it participates in any construction).
 
 ### 4.2 Graph-level identity and value projection
 
 The graph enforces identity operationally via:
 
 - `nodes_by_int`: one grounded `Ref(N)` per grounded integer,
-- `value_classes`: many derivation nodes may share one reduced rational value `(p, q)`,
-- `_snap_speculative_to_ref`: speculative nodes with matching `potential_val` record non-destructive resolution to grounded `Ref(N)`.
+- `nodes_by_value`: one node per reduced rational value `(p, q)`,
+- `value_classes`: explicit value projection (in the current semantics this is 1:1 with value-nodes).
 
 ### 4.3 Edge history
 
-Edges preserve operation provenance (`op`, `inputs`, `output`, metadata). Resolution events do not delete derivation nodes.
+Edges preserve operation provenance (`op`, `inputs`, `output`, metadata). In value-centric semantics, the “spiderweb” is primarily the edge history.
 
-Structural preservation is primary; numeric identity is represented as value-equivalence and resolution relations.
+Structural preservation is primary; numeric identity is represented by canonical value nodes, and emergence is represented by edge history (not duplicated nodes).
 
 ---
 
@@ -76,7 +113,7 @@ Other integers become grounded when construction paths produce them (notably via
 
 ### 5.3 Prototype injection path (`speculate_ref`)
 
-The prototype includes `speculate_ref(n)` which can inject speculative integer claims directly. This is used in demo flows to exercise snapping behavior.
+The prototype includes `speculate_ref(n)` which can inject speculative integer points directly. This is used in demo flows to exercise grounding/promotion behavior.
 
 Therefore, the current implementation is not a fully pure derivational model strictly from operations on `1`.
 
@@ -88,6 +125,7 @@ Therefore, the current implementation is not a fully pure derivational model str
 
 - `G,G` inputs: normalize to integer, ensure grounded `Ref(N)` exists, and produce a derivation node.
 - Mixed/speculative inputs with known exact values: compute exact rational result and keep derivation structure; integer results can resolve to `Ref(N)` anchors.
+- Mixed/speculative inputs with known exact values: compute exact rational result and keep derivation structure; integer results can be grounded when the integer backbone explicitly constructs them.
 - Unknown speculative values: create speculative node, optionally with `potential_val` when inferable.
 
 ### 6.2 Multiplication
@@ -106,15 +144,15 @@ Therefore, the current implementation is not a fully pure derivational model str
 
 ## 7. Identity and Collapse Status
 
-Identity and resolution behavior is implemented operationally, but not yet axiomatized or formally proven as a mathematical system.
+Identity and grounding behavior is implemented operationally, but not yet axiomatized or formally proven as a mathematical system.
 
 Current operational rules:
 
-- explicit value-equivalence tracking for speculative and grounded nodes,
-- unique grounded identity for each grounded integer,
-- enforced speculative-to-grounded resolution via `potential_val` matching and snapping events.
+- one node per reduced rational value (`p/q`),
+- unique grounded identity for each grounded integer (`Ref(N)`),
+- grounding as promotion of the integer value-node `(N,1)` to status `G`.
 
-Derivationally distinct equal-valued structures are preserved as separate nodes.
+Derivationally distinct equal-valued structures are preserved as distinct edges/events.
 
 ---
 
@@ -124,8 +162,15 @@ Primary inspection interfaces (stable in spirit, preserve signatures/shape):
 
 - `to_json()` / `to_jsonable()` for machine-readable graph state,
 - `to_dot()` for graph visualization,
-- `to_snap_dot()` and `snap_events()` for snapping telemetry,
+- `to_resolve_dot()` and `resolve_events()` for legacy resolution/grounding diagnostics (under value-centric semantics, most emergence is observed through edges).
+- node/report epistemic annotations: `epistemic_order` and `constructible_from_one`,
 - `stats()` / field-map helpers for aggregate diagnostics.
+
+`epistemic_order` is intended as a ranked stance on certainty:
+
+- Order 1: the primitive `Ref(1)` certainty event,
+- Order 2: grounded integer refs (iteration/memory dependent),
+- Order 3: speculative nodes (claims, including non-integer rationals and ungrounded integer claims).
 
 ---
 
@@ -134,7 +179,7 @@ Primary inspection interfaces (stable in spirit, preserve signatures/shape):
 ### 9.1 Current
 
 - Structure-preserving arithmetic graph with shared nodes,
-- Value-identity tracked via equivalence classes and non-destructive resolutions,
+- Canonical value nodes with explicit edge-history,
 - Speculative injection supported (`speculate_ref`),
 - No formal symmetry or invariant framework.
 
@@ -154,7 +199,7 @@ The following remain open at the formal level:
 
 1. Exact axiomatization of identity across grounded and speculative strata.
 2. Conditions for collapse versus persistent structural distinction.
-3. Invariants that should be preserved under rewiring/snap operations.
+3. Invariants that should be preserved under rewiring/resolve operations.
 4. Notion of independence within the current relational graph.
 5. Criteria for proving consistency and completeness of the operational calculus.
 

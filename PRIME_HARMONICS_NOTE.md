@@ -25,7 +25,7 @@ This note uses standard analytic shorthand (`\mathbb N`, `\mathbb Z/q\mathbb Z`,
 * Tier 1: only `Ref(1)` is primitive certainty.
 * Tier 2: integers `Ref(N)` for `N != 1` are grounded only by explicit iterative construction (in the current prototype: `+` / `-` edges).
 * Tier 3: inferred/derived structures (non-integer rationals, congruence-class labels, harmonic/phase observables, prime-atom weights like `\Lambda`) are analysis-layer claims.
-  In particular, `*` and `/` do not directly create new tier-2 integers; they yield tier-3 results (including integer claims) that only snap to `Ref(N)` once that `Ref(N)` has been grounded by iteration.
+  In particular, `*` and `/` do not directly create new tier-2 integers; they yield tier-3 results (including integer claims) that only resolve to `Ref(N)` once that `Ref(N)` has been grounded by iteration.
 
 So when this note writes things like `\mathbb N={1,2,3,\dots}` or `\mathbb Z/q\mathbb Z`, read them as names for patterns/partitions over the constructed integer backbone, not as new primitive objects.
 
