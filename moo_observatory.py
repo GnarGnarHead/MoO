@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from moo_corpus import Corpus, CorpusConfig, best_baseline_for_target, bounded
+from moo_set_closure import closure_round_delta, complexity_key
 
 
 @dataclass(frozen=True)
@@ -58,10 +59,6 @@ def _parse_targets(raw: str) -> Tuple[Target, ...]:
     return tuple(targets)
 
 
-def _complexity_key(value: Fraction) -> Tuple[int, int, int]:
-    return (int(value.denominator), abs(int(value.numerator)), int(value.numerator))
-
-
 def _best_in_set(values: Iterable[Fraction], *, target: float) -> Tuple[Fraction, float]:
     best: Optional[Tuple[float, Fraction]] = None
     for value in values:
@@ -75,7 +72,7 @@ def _best_in_set(values: Iterable[Fraction], *, target: float) -> Tuple[Fraction
             continue
         if row[0] == best[0]:
             # Deterministic tie-break: prefer simpler rationals.
-            if _complexity_key(value) < _complexity_key(best[1]):
+            if complexity_key(value) < complexity_key(best[1]):
                 best = row
     if best is None:
         return Fraction(0, 1), float("inf")
@@ -117,37 +114,18 @@ def extend_corpus(
     for round_idx in range(current_round + 1, to_round + 1):
         corpus.append_event("round_started", {"round": round_idx}, round_idx=round_idx)
 
-        s_list = sorted(s_prev, key=_complexity_key)
-        delta_list = sorted(delta_prev, key=_complexity_key)
-        new_delta: set[Fraction] = set()
-        witness: Dict[Fraction, Tuple[str, Fraction, Fraction]] = {}
-
-        for a in delta_list:
-            for b in s_list:
-                candidates: List[Tuple[str, Fraction]] = []
-                candidates.append(("+", a + b))
-                candidates.append(("*", a * b))
-                candidates.append(("-", a - b))
-                candidates.append(("-", b - a))
-                if b != 0:
-                    candidates.append(("/", a / b))
-                if a != 0:
-                    candidates.append(("/", b / a))
-
-                for op, out in candidates:
-                    if out in s_prev or out in new_delta:
-                        continue
-                    if not bounded(out, config=config):
-                        continue
-                    new_delta.add(out)
-                    witness.setdefault(out, (op, a, b))
+        new_delta, witness = closure_round_delta(
+            s_prev=s_prev,
+            delta_prev=delta_prev,
+            allow=lambda v: bounded(v, config=config),
+        )
 
         size_prev = len(s_prev)
         s_now = s_prev.union(new_delta)
         size_now = len(s_now)
 
         # Store new values + first witness occurrence.
-        for value in sorted(new_delta, key=_complexity_key):
+        for value in sorted(new_delta, key=complexity_key):
             op, a, b = witness.get(value, ("?", Fraction(0, 1), Fraction(0, 1)))
             corpus.insert_new_value(
                 value=value,
@@ -303,4 +281,3 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
 
 if __name__ == "__main__":
     main()
-

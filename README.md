@@ -23,6 +23,7 @@ Regularization-style readings of divergent objects (e.g. analytic continuation /
 - `PRIME_HARMONICS_NOTE.md`: speculative research note (analysis-layer, not runtime semantics).
 - `moo_observatory.py`: persistent “observatory” runner (incremental closure-round corpus + probe logs).
 - `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by `moo_observatory.py`.
+- `moo_set_closure.py`: shared set-closure round-stepper used by `constant_probe.py` and `moo_observatory.py`.
 - `constant_probe.py`: stateless closure probe (JSON report; useful for quick ad-hoc checks).
 - `waterfall_view.py` / `attractor_view.py`: analysis/visualization scripts over demo-generated graphs.
 

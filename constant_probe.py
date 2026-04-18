@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from fractions import Fraction
 from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
+from moo_set_closure import bounded, closure_round_delta
+
 
 @dataclass(frozen=True)
 class Target:
@@ -24,20 +26,6 @@ class ProbeConfig:
     max_abs_value: Optional[float]
     top_k: int
     targets: Tuple[Target, ...]
-
-
-def _bounded(value: Fraction, config: ProbeConfig) -> bool:
-    p = int(value.numerator)
-    q = int(value.denominator)
-    if q <= 0:
-        return False
-    if abs(p) > config.max_abs_p:
-        return False
-    if abs(q) > config.max_abs_q:
-        return False
-    if config.max_abs_value is not None and abs(float(value)) > config.max_abs_value:
-        return False
-    return True
 
 
 def _format_fraction(value: Fraction) -> str:
@@ -81,44 +69,20 @@ def closure_probe(config: ProbeConfig) -> Dict[str, object]:
     improvement_chains: Dict[str, List[Dict[str, object]]] = {}
 
     for round_idx in range(1, config.rounds + 1):
-        new_values: Set[Fraction] = set()
-
-        s_list = list(s_prev)
-        for a in delta_prev:
-            for b in s_list:
-                # Addition and multiplication (commutative)
-                add = a + b
-                if _bounded(add, config):
-                    new_values.add(add)
-
-                mul = a * b
-                if _bounded(mul, config):
-                    new_values.add(mul)
-
-                # Subtraction (both directions)
-                sub_ab = a - b
-                if _bounded(sub_ab, config):
-                    new_values.add(sub_ab)
-
-                sub_ba = b - a
-                if _bounded(sub_ba, config):
-                    new_values.add(sub_ba)
-
-                # Division (both directions), excluding division by zero
-                if b != 0:
-                    div_ab = a / b
-                    if _bounded(div_ab, config):
-                        new_values.add(div_ab)
-                if a != 0:
-                    div_ba = b / a
-                    if _bounded(div_ba, config):
-                        new_values.add(div_ba)
-
-        new_delta = new_values.difference(s_prev)
+        new_delta, _ = closure_round_delta(
+            s_prev=s_prev,
+            delta_prev=delta_prev,
+            allow=lambda v: bounded(
+                v,
+                max_abs_p=config.max_abs_p,
+                max_abs_q=config.max_abs_q,
+                max_abs_value=config.max_abs_value,
+            ),
+        )
         for value in new_delta:
             depth.setdefault(value, round_idx)
 
-        s_now = s_prev.union(new_values)
+        s_now = s_prev.union(new_delta)
 
         round_report: Dict[str, object] = {
             "round": round_idx,

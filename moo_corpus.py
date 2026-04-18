@@ -7,6 +7,8 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
+from moo_set_closure import bounded as _bounded
+
 
 SCHEMA_VERSION = 1
 
@@ -317,17 +319,12 @@ class Corpus:
 
 
 def bounded(value: Fraction, *, config: CorpusConfig) -> bool:
-    p = int(value.numerator)
-    q = int(value.denominator)
-    if q <= 0:
-        return False
-    if abs(p) > config.max_abs_p:
-        return False
-    if abs(q) > config.max_abs_q:
-        return False
-    if config.max_abs_value is not None and abs(float(value)) > config.max_abs_value:
-        return False
-    return True
+    return _bounded(
+        value,
+        max_abs_p=config.max_abs_p,
+        max_abs_q=config.max_abs_q,
+        max_abs_value=config.max_abs_value,
+    )
 
 
 def best_baseline_for_target(

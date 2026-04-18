@@ -18,6 +18,7 @@ htmlcov/
 # OS / editor
 .DS_Store
 .vscode/
+.codex
 
 # Project outputs
 out/
