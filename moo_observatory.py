@@ -2,61 +2,14 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import signal
-from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from moo_corpus import Corpus, CorpusConfig, best_baseline_for_target, bounded
 from moo_set_closure import closure_round_delta, complexity_key
-
-
-@dataclass(frozen=True)
-class Target:
-    name: str
-    value: float
-
-
-def _parse_targets(raw: str) -> Tuple[Target, ...]:
-    known: Dict[str, Target] = {
-        "pi": Target("pi", math.pi),
-        "e": Target("e", math.e),
-        "tau": Target("tau", math.tau),
-        "sqrt2": Target("sqrt2", math.sqrt(2.0)),
-        "sqrt3": Target("sqrt3", math.sqrt(3.0)),
-        "phi": Target("phi", (1.0 + math.sqrt(5.0)) / 2.0),
-        "ln2": Target("ln2", math.log(2.0)),
-        "ln10": Target("ln10", math.log(10.0)),
-    }
-
-    names = [part.strip() for part in raw.split(",") if part.strip()]
-    if not names:
-        raise SystemExit("No targets specified.")
-
-    expanded: List[str] = []
-    for name in names:
-        if name == "all":
-            expanded.extend(sorted(known.keys()))
-        else:
-            expanded.append(name)
-
-    targets: List[Target] = []
-    for name in expanded:
-        t = known.get(name)
-        if t is not None:
-            targets.append(t)
-            continue
-        try:
-            val = float(name)
-        except ValueError as exc:
-            raise SystemExit(
-                f"Unknown target: {name!r}. Known: {', '.join(sorted(known.keys()))} "
-                "(or pass a numeric literal like 3.14159)."
-            ) from exc
-        targets.append(Target(name=name, value=float(val)))
-    return tuple(targets)
+from moo_targets import Target, parse_targets
 
 
 def _best_in_set(values: Iterable[Fraction], *, target: float) -> Tuple[Fraction, float]:
@@ -259,7 +212,7 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         max_abs_q=max(1, int(args.max_abs_q)),
         max_abs_value=float(args.max_abs_value) if args.max_abs_value is not None else None,
     )
-    targets = _parse_targets(str(args.targets))
+    targets = parse_targets(str(args.targets))
 
     db_path = Path(str(args.db))
     db_path.parent.mkdir(parents=True, exist_ok=True)

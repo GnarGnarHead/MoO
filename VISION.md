@@ -11,6 +11,18 @@ This document defines what MoO currently implements in `constructionist_math.py`
 
 It is a documentation alignment pass, not a claim of a new mathematical foundation.
 
+## 1.1 Repo Map (What To Read)
+
+- `constructionist_math.py`: canonical runtime graph (`Graph`, `Node`, `Edge`), demo generators, JSON/DOT exports.
+- `moo_set_closure.py`: shared set-closure “round stepper” used by probe scripts (set-of-rationals closure rounds).
+- `moo_targets.py`: shared target definitions + parser (pi/e/sqrt2/… and `all` expansion).
+- `constant_probe.py`: stateless set-closure probe (JSON report for emergence of rational approximants).
+- `moo_corpus.py`: stdlib `sqlite3` schema/helpers for persistent set-closure corpora.
+- `moo_observatory.py`: incremental set-closure runner that appends to a corpus and logs probe outcomes.
+- `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
+- `README.md`: project overview + command map.
+- `PRIME_HARMONICS_NOTE.md`: speculative analysis note (not runtime semantics).
+
 ---
 
 ## 2. Scope and Positioning

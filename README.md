@@ -24,6 +24,7 @@ Regularization-style readings of divergent objects (e.g. analytic continuation /
 - `moo_observatory.py`: persistent “observatory” runner (incremental closure-round corpus + probe logs).
 - `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by `moo_observatory.py`.
 - `moo_set_closure.py`: shared set-closure round-stepper used by `constant_probe.py` and `moo_observatory.py`.
+- `moo_targets.py`: shared target definitions + parser used by probe scripts.
 - `constant_probe.py`: stateless closure probe (JSON report; useful for quick ad-hoc checks).
 - `waterfall_view.py` / `attractor_view.py`: analysis/visualization scripts over demo-generated graphs.
 
@@ -48,6 +49,13 @@ Regularization-style readings of divergent objects (e.g. analytic continuation /
 - Preserve operational provenance while computing value-equivalence classes.
 - Observe grounded vs speculative dynamics.
 - Instrument grounding and construction behavior through JSON/DOT/stats outputs.
+
+## Smoke Checks
+
+- `python3 -m py_compile *.py` — basic syntax/type-hint sanity across scripts.
+- `python3 constructionist_math.py --limit 10 --stats` — demo build + stats + acceptance checks.
+- `python3 constant_probe.py --rounds 3 --targets pi,e,sqrt2 --top-k 1 --pretty` — quick closure probe (stateless).
+- `python3 moo_observatory.py --db out/moo_smoke.sqlite --to-round 3 --targets all` — persistent corpus extension + probes.
 
 ## Command Examples
 

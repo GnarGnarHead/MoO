@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import signal
 from pathlib import Path
 from dataclasses import dataclass
@@ -10,12 +9,7 @@ from fractions import Fraction
 from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
 from moo_set_closure import bounded, closure_round_delta
-
-
-@dataclass(frozen=True)
-class Target:
-    name: str
-    value: float
+from moo_targets import Target, parse_targets
 
 
 @dataclass(frozen=True)
@@ -166,47 +160,6 @@ def closure_probe(config: ProbeConfig) -> Dict[str, object]:
         "improvement_chains": improvement_chains,
         "rounds": rounds_payload,
     }
-
-
-def _parse_targets(raw: str) -> Tuple[Target, ...]:
-    known: Dict[str, Target] = {
-        "pi": Target("pi", math.pi),
-        "e": Target("e", math.e),
-        "tau": Target("tau", math.tau),
-        "sqrt2": Target("sqrt2", math.sqrt(2.0)),
-        "sqrt3": Target("sqrt3", math.sqrt(3.0)),
-        "phi": Target("phi", (1.0 + math.sqrt(5.0)) / 2.0),
-        "ln2": Target("ln2", math.log(2.0)),
-        "ln10": Target("ln10", math.log(10.0)),
-    }
-    names = [part.strip() for part in raw.split(",") if part.strip()]
-    if not names:
-        raise SystemExit("No targets specified.")
-
-    expanded: List[str] = []
-    for name in names:
-        if name == "all":
-            expanded.extend(sorted(known.keys()))
-        else:
-            expanded.append(name)
-
-    targets: List[Target] = []
-    for name in expanded:
-        target = known.get(name)
-        if target is not None:
-            targets.append(target)
-            continue
-        try:
-            val = float(name)
-        except ValueError as exc:
-            raise SystemExit(
-                f"Unknown target: {name!r}. Known: {', '.join(sorted(known.keys()))} "
-                "(or pass a numeric literal like 3.14159)."
-            ) from exc
-        targets.append(Target(name=name, value=float(val)))
-    return tuple(targets)
-
-
 def main(argv: Optional[Sequence[str]] = None) -> None:
     if hasattr(signal, "SIGPIPE"):
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
@@ -261,7 +214,7 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         max_abs_q=max(1, int(args.max_abs_q)),
         max_abs_value=float(args.max_abs_value) if args.max_abs_value is not None else None,
         top_k=max(1, int(args.top_k)),
-        targets=_parse_targets(str(args.targets)),
+        targets=parse_targets(str(args.targets)),
     )
     payload = closure_probe(config)
     indent = 2 if args.pretty else None
