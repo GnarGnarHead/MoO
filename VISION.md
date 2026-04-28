@@ -21,6 +21,7 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `moo_observatory.py`: incremental set-closure runner that appends to a corpus and logs probe outcomes.
 - `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
 - `README.md`: project overview + command map.
+- `TRANSCENDENTAL_ATTRACTORS_NOTE.md`: research note on rational closure and constant-directed attractor behavior.
 - `PRIME_HARMONICS_NOTE.md`: speculative analysis note (not runtime semantics).
 
 ---
@@ -67,6 +68,20 @@ This produces a structure-preserving relational term graph with explicit value p
 MoO does not assume a completed infinite totality at runtime. Every graph is finite and parameterized by budgets (`limit`, `max_nodes`, `max_depth`, `operation_budget`). “Infinity” appears only as an extendable frontier: you can always continue iterating `+1` / `-1` outward from `Ref(1)` to ground more integers.
 
 MoO also does not treat divergent sums as having ordinary numeric values. If you want regularization-style assignments (e.g. analytic continuation / Ramanujan summation, like the `-1/12` association), that belongs as an additional analysis lens with explicit rules, not as a replacement for ordinary meanings.
+
+### 3.2 Constant Visibility Through Rational Closure
+
+MoO does not construct transcendental constants directly. The current set-closure
+probes instead ask when rational approximants to constants become visible under
+finite construction from `1`.
+
+This is a research lens, not a runtime axiom: constants such as `pi`, `e`, and
+`ln2` are external targets used to measure the ordering of emergent rationals.
+The interesting structure is the first-seen round, construction witness,
+derivation multiplicity, and approximation error of each rational shadow.
+
+See `TRANSCENDENTAL_ATTRACTORS_NOTE.md` for the current observation and research
+program.
 
 ---
 

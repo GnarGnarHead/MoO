@@ -1,0 +1,759 @@
+{
+  "baseline_inspected_edges": {
+    "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+    "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+    "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+    "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+    "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+  },
+  "cells": [
+    {
+      "all_baseline_edges_matched": false,
+      "baseline_edge_match_count": 0,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 4,
+        "3": 13,
+        "4": 74,
+        "5": 1291
+      },
+      "inspected_concentration": {
+        "any_major_hits": 1,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 1,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 1,
+        "major_parent_rate": 1.0,
+        "size": 1
+      },
+      "inspected_edges": {
+        "34/21": "/:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70"
+      ],
+      "inspected_missing_count": 4,
+      "inspected_present": [
+        "34/21"
+      ],
+      "inspected_present_count": 1,
+      "matched_control_concentration": {
+        "any_major_hits": 25,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 23,
+        "major_motif_rate": 0.92,
+        "major_parent_hits": 24,
+        "major_parent_rate": 0.96,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "inspected_children": [],
+        "nontrivial_child_count": 171,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 80,
+      "report": "out/experiments/motif_persistence_r5_q80_v3.json",
+      "source_size": 1385,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "frac": "-4/3",
+        "inspected_children": [],
+        "nontrivial_child_count": 171
+      },
+      "value_cap": 3.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 19,
+        "4": 181,
+        "5": 3636
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 21,
+        "any_major_rate": 0.84,
+        "major_motif_hits": 20,
+        "major_motif_rate": 0.8,
+        "major_parent_hits": 10,
+        "major_parent_rate": 0.4,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 398,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 394,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 80,
+      "report": "out/experiments/motif_persistence_r5_q80.json",
+      "source_size": 3844,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 398,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 394
+      },
+      "value_cap": 4.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 22,
+        "4": 229,
+        "5": 4225
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 21,
+        "any_major_rate": 0.84,
+        "major_motif_hits": 20,
+        "major_motif_rate": 0.8,
+        "major_parent_hits": 8,
+        "major_parent_rate": 0.32,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 364,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 363,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 80,
+      "report": "out/experiments/motif_persistence_r5_q80_v5.json",
+      "source_size": 4484,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 364,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 363
+      },
+      "value_cap": 5.0
+    },
+    {
+      "all_baseline_edges_matched": false,
+      "baseline_edge_match_count": 0,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 4,
+        "3": 13,
+        "4": 74,
+        "5": 1351
+      },
+      "inspected_concentration": {
+        "any_major_hits": 1,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 1,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 1,
+        "major_parent_rate": 1.0,
+        "size": 1
+      },
+      "inspected_edges": {
+        "34/21": "/:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70"
+      ],
+      "inspected_missing_count": 4,
+      "inspected_present": [
+        "34/21"
+      ],
+      "inspected_present_count": 1,
+      "matched_control_concentration": {
+        "any_major_hits": 25,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 23,
+        "major_motif_rate": 0.92,
+        "major_parent_hits": 24,
+        "major_parent_rate": 0.96,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "inspected_children": [],
+        "nontrivial_child_count": 171,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 90,
+      "report": "out/experiments/motif_persistence_r5_q90_v3.json",
+      "source_size": 1445,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "frac": "-4/3",
+        "inspected_children": [],
+        "nontrivial_child_count": 171
+      },
+      "value_cap": 3.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 19,
+        "4": 181,
+        "5": 3940
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 21,
+        "any_major_rate": 0.84,
+        "major_motif_hits": 20,
+        "major_motif_rate": 0.8,
+        "major_parent_hits": 10,
+        "major_parent_rate": 0.4,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 402,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 398,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 90,
+      "report": "out/experiments/motif_persistence_r5_q90_v4.json",
+      "source_size": 4148,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 402,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 398
+      },
+      "value_cap": 4.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 22,
+        "4": 229,
+        "5": 4571
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 19,
+        "any_major_rate": 0.76,
+        "major_motif_hits": 18,
+        "major_motif_rate": 0.72,
+        "major_parent_hits": 8,
+        "major_parent_rate": 0.32,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 367,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 366,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 90,
+      "report": "out/experiments/motif_persistence_r5_q90_v5.json",
+      "source_size": 4830,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 367,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 366
+      },
+      "value_cap": 5.0
+    },
+    {
+      "all_baseline_edges_matched": false,
+      "baseline_edge_match_count": 0,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 4,
+        "3": 13,
+        "4": 74,
+        "5": 1381
+      },
+      "inspected_concentration": {
+        "any_major_hits": 1,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 1,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 1,
+        "major_parent_rate": 1.0,
+        "size": 1
+      },
+      "inspected_edges": {
+        "34/21": "/:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70"
+      ],
+      "inspected_missing_count": 4,
+      "inspected_present": [
+        "34/21"
+      ],
+      "inspected_present_count": 1,
+      "matched_control_concentration": {
+        "any_major_hits": 25,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 23,
+        "major_motif_rate": 0.92,
+        "major_parent_hits": 24,
+        "major_parent_rate": 0.96,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "inspected_children": [],
+        "nontrivial_child_count": 171,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 100,
+      "report": "out/experiments/motif_persistence_r5_v3.json",
+      "source_size": 1475,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 177,
+        "frac": "-4/3",
+        "inspected_children": [],
+        "nontrivial_child_count": 171
+      },
+      "value_cap": 3.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 19,
+        "4": 181,
+        "5": 4231
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 18,
+        "any_major_rate": 0.72,
+        "major_motif_hits": 18,
+        "major_motif_rate": 0.72,
+        "major_parent_hits": 8,
+        "major_parent_rate": 0.32,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 404,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 400,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 100,
+      "report": "out/experiments/motif_persistence_r5.json",
+      "source_size": 4439,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 404,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 400
+      },
+      "value_cap": 4.0
+    },
+    {
+      "all_baseline_edges_matched": true,
+      "baseline_edge_match_count": 5,
+      "first_seen_counts": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 22,
+        "4": 229,
+        "5": 4963
+      },
+      "inspected_concentration": {
+        "any_major_hits": 5,
+        "any_major_rate": 1.0,
+        "major_motif_hits": 5,
+        "major_motif_rate": 1.0,
+        "major_parent_hits": 2,
+        "major_parent_rate": 0.4,
+        "size": 5
+      },
+      "inspected_edges": {
+        "22/7": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "34/21": "-:mid_q_rational:low_q_rational:both_prev_round",
+        "52/75": "/:mid_q_rational:mid_q_rational:both_prev_round",
+        "87/32": "/:mid_q_rational:low_q_rational:both_prev_round",
+        "99/70": "-:mid_q_rational:low_q_rational:both_prev_round"
+      },
+      "inspected_missing": [],
+      "inspected_missing_count": 0,
+      "inspected_present": [
+        "22/7",
+        "87/32",
+        "52/75",
+        "99/70",
+        "34/21"
+      ],
+      "inspected_present_count": 5,
+      "matched_control_concentration": {
+        "any_major_hits": 19,
+        "any_major_rate": 0.76,
+        "major_motif_hits": 18,
+        "major_motif_rate": 0.72,
+        "major_parent_hits": 8,
+        "major_parent_rate": 0.32,
+        "size": 25
+      },
+      "minus_four_thirds": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 371,
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 370,
+        "rank": 1
+      },
+      "minus_four_thirds_is_top_parent": true,
+      "q_cap": 100,
+      "report": "out/experiments/motif_persistence_r5_v5.json",
+      "source_size": 5222,
+      "top_final_parent": {
+        "active_rounds": [
+          5
+        ],
+        "child_count": 371,
+        "frac": "-4/3",
+        "inspected_children": [
+          "34/21",
+          "87/32"
+        ],
+        "nontrivial_child_count": 370
+      },
+      "value_cap": 5.0
+    }
+  ],
+  "method": {
+    "baseline_cell": {
+      "q_cap": 100,
+      "value_cap": 4.0
+    },
+    "inspected_fracs": [
+      "22/7",
+      "87/32",
+      "52/75",
+      "99/70",
+      "34/21"
+    ],
+    "max_abs_p": 100,
+    "q_caps": [
+      80,
+      90,
+      100
+    ],
+    "rounds": 5,
+    "source": "motif_persistence_study.py reports over a 3x3 bounded replay grid",
+    "value_caps": [
+      3.0,
+      4.0,
+      5.0
+    ]
+  },
+  "schema_version": 1,
+  "summary": {
+    "cells": 9,
+    "full_survival_cells": 6,
+    "full_survival_cells_detail": [
+      {
+        "q_cap": 80,
+        "value_cap": 4.0
+      },
+      {
+        "q_cap": 80,
+        "value_cap": 5.0
+      },
+      {
+        "q_cap": 90,
+        "value_cap": 4.0
+      },
+      {
+        "q_cap": 90,
+        "value_cap": 5.0
+      },
+      {
+        "q_cap": 100,
+        "value_cap": 4.0
+      },
+      {
+        "q_cap": 100,
+        "value_cap": 5.0
+      }
+    ],
+    "minus_four_thirds_top_parent_all_cells": true,
+    "value_cap_3_present_counts": [
+      {
+        "missing": [
+          "22/7",
+          "87/32",
+          "52/75",
+          "99/70"
+        ],
+        "present": 1,
+        "q_cap": 80
+      },
+      {
+        "missing": [
+          "22/7",
+          "87/32",
+          "52/75",
+          "99/70"
+        ],
+        "present": 1,
+        "q_cap": 90
+      },
+      {
+        "missing": [
+          "22/7",
+          "87/32",
+          "52/75",
+          "99/70"
+        ],
+        "present": 1,
+        "q_cap": 100
+      }
+    ],
+    "value_cap_4_or_5_all_present": true
+  }
+}
