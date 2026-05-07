@@ -21,9 +21,17 @@ htmlcov/
 .codex
 
 # Project outputs
-out/
+out/*
+!out/experiments/
+out/experiments/*
+!out/experiments/dynamics/
+out/experiments/dynamics/*
+!out/experiments/dynamics/README.md
+!out/experiments/dynamics/*.pre.md
+!out/experiments/dynamics/*.analysis.md
 *.dot
 *.svg
 *.png
 *.csv
 *.json
+!out/experiments/dynamics/*.json

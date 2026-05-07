@@ -77,7 +77,8 @@ external probes:
   is recorded
 ```
 
-See `PROJECT_ALIGNMENT_NOTE.md` before interpreting old reports.
+See `CORE_CLAIMS.md` for the current claim boundary and
+`PROJECT_ALIGNMENT_NOTE.md` before interpreting old reports.
 
 ## Conceptual Framing
 
@@ -104,13 +105,25 @@ iteration of `1`.
 
 ## Doc Map
 
+- `DOCS_INDEX.md`: consolidated reading map that preserves canonical, active,
+  speculative, and historical notes without collapsing their evidence layers.
+- `CORE_CLAIMS.md`: current claim boundary: what MoO can claim now, what is
+  corpus-conditioned, what is candidate-only, and what is not yet earned.
+- `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for projected objects:
+  non-rational constants, circle-like invariants, asymptotic anchors, and
+  predictive organization tests.
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
 - `NEXT_STEPS.md`: obvious pause-point note with current state, saved artifacts, and recommended next experiments.
 - `VISION.md`: implementation-aligned specification + roadmap (what exists vs what’s aspirational).
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, discarded miscommunication artifacts, and external probes.
 - `PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note explaining how and why the repo still drifts away from the resolved MoO framing.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared rulebook for probes, scouts, lenses, and speculative studies; analysis tools must return to graph context.
+- `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory, and external-probe claims.
+- `EXPLORATORY_LEADS.md`: quarantine ledger for preserving speculative leads without promoting them to strict-stage claims.
+- `STAGE_DYNAMICS_LENS_NOTE.md`: stage-dynamics framing for persistence, accumulation, threshold-shift, recurrence, and divergence tests without claiming chaos.
+- `DYNAMICS_TEST_PROTOCOL.md`: preregistration, saved-report, and interpretation-note protocol for stage-dynamics experiments.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for strict-stage MoO, including SQLite schema and smoke-run results.
+- `EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md`: governance note for quadratic-shell, reciprocal-square, product, and delayed pi-shadow probes.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical framing for certainty, core-loop confirmation, unconfirmed constructions, and promotion by `n`.
 - `STAGE_INDEXED_UNIVERSE_NOTE.md`: core-loop rule for when positive whole numbers enter the MoO universe and when speculative constructions remain unconfirmed.
 - `STAGE_INDEXED_R100_NOTE.md`: first compact study of the strict `n=100` stage-indexed core run.
@@ -145,8 +158,12 @@ iteration of `1`.
 - `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO nodes and edge occurrences.
 - `moo_set_closure.py`: historical set-closure round-stepper that operates on generated speculative values; not aligned MoO computation.
 - `moo_targets.py`: shared target definitions + parser used by probe scripts.
+- `rational_baselines.py`: stdlib rational-baseline helpers for continued fractions, Farey neighbors, and Stern-Brocot paths.
 - `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
 - `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes in a strict-stage MoO SQLite corpus.
+- `moo_research_report.py`: read-only research-layer node dossiers and corpus-wide baseline rankings over strict graph corpora.
+- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over strict graph corpora.
+- `out/experiments/dynamics/`: narrowly tracked saved reports, preregistration notes, and paired interpretation notes for stage-dynamics experiments.
 - `moo_core_alignment_check.py`: compares a small strict-stage run through the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors through the certainty anchor.
@@ -168,7 +185,7 @@ iteration of `1`.
 - `corridor_atlas_study.py`: historical exploratory-closure corridor atlas.
 - `stage_indexed_convergence_study.py`: extracts record-improving convergence chains from a saved strict-stage MoO ledger and tests determinant/recurrence structure.
 - `emergence_baselines.py`: historical external-probe baseline over exploratory closure values.
-- `waterfall_view.py` / `attractor_view.py`: analysis/visualization scripts over demo-generated graphs.
+- `waterfall_view.py` / `attractor_view.py`: historical analysis/visualization scripts over demo-generated graphs; the attractor name is visualization terminology, not a current dynamics claim.
 
 ## Current Implementation
 
@@ -203,11 +220,16 @@ iteration of `1`.
 - `python3 moo_core_alignment_check.py --max-stage 6 --pretty` — compare small strict-stage output between the in-memory graph and SQLite corpus paths.
 - `python3 stage_indexed_analysis.py --report out/experiments/stage_indexed_core_r100.json --pretty` — summarize a saved stage-indexed core run.
 - `python3 strict_stage_moo.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-stage 80 --max-abs-p 200 --max-abs-q 200 --max-abs-value 4 --quiet --pretty` — graph-first strict-stage MoO corpus.
-- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --summary --pretty` — summarize a saved graph corpus.
-- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --node 34/21 --neighborhood --pretty` — inspect a speculative node, its inputs, and nearby graph structure.
-- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --confirmations --pretty` — list values first seen speculatively and later confirmed by the core loop.
-- `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat-prime branch non-collapse against a graph corpus.
-- `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --summary --pretty` — summarize a saved graph corpus.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --neighborhood --pretty` — inspect a speculative node, its inputs, and nearby graph structure.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --confirmations --pretty` — list values first seen speculatively and later confirmed by the core loop.
+- `python3 moo_research_report.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --pretty` — build a strict graph node dossier beside classical rational baselines.
+- `python3 moo_research_report.py --db out/experiments/strict_stage_graph_smoke.sqlite --corpus-baselines --rank-by derivation_events --control denominator --pretty` — rank rational nodes within denominator peer groups without claiming single-node unusualness.
+- `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --node 3/4 --pretty` — inspect an exact unit quadratic-shell candidate from a rational parameter.
+- `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --only-complete --pretty` — summarize unit-shell candidates whose component nodes are present in the strict corpus.
+- `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --pythagorean --max-denominator 40 --pretty` — scan existing rational node pairs for exact quadratic-shell relations.
+- `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat-prime branch non-collapse against a graph corpus.
+- `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.
 - `python3 stage_indexed_moo_ledger.py --max-stage 1000 --max-abs-p 1000 --max-abs-q 1000 --max-abs-value 4 --pretty` — bounded strict-stage MoO ledger with speculative rational nodes.
 
 ## Command Examples
@@ -221,7 +243,7 @@ iteration of `1`.
 ## Analysis Views
 
 - `python3 waterfall_view.py --n-min 1 --n-max 20` — normalized waterfall (`x=k/N`, `y=N`, `z=mass/m(0)`) with in-browser slice controls.
-- `python3 attractor_view.py --n-min 1 --n-max 20` — attractor heatmap over `N x v` for `inflow_resolve`, `mass`, `pull_ratio`, and `rank_inflow`.
+- `python3 attractor_view.py --n-min 1 --n-max 20` — historical heatmap over `N x v` for `inflow_resolve`, `mass`, `pull_ratio`, and `rank_inflow`; the script name predates the current attractor guardrails.
 
 See [VISION.md](VISION.md) for the implementation-aligned specification and roadmap split.
 

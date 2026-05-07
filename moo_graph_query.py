@@ -4,10 +4,12 @@ import argparse
 from fractions import Fraction
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Set, Tuple
 
 from moo_graph_corpus import format_key, normalize_key
+from moo_research_utils import connect_readonly, positive_int
 
 
 Key = Tuple[int, int]
@@ -19,9 +21,7 @@ def _parse_key(raw: str) -> Key:
 
 
 def _connect(path: Path) -> sqlite3.Connection:
-    conn = sqlite3.connect(str(path))
-    conn.row_factory = sqlite3.Row
-    return conn
+    return connect_readonly(path)
 
 
 def _node_status(row: sqlite3.Row) -> str:
@@ -434,7 +434,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--top-derived", action="store_true")
     parser.add_argument("--summary", action="store_true")
-    parser.add_argument("--limit", type=int, default=25)
+    parser.add_argument("--limit", type=positive_int, default=25)
     parser.add_argument("--pretty", action="store_true")
     return parser
 
@@ -442,23 +442,23 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)
-    with _connect(Path(args.db)) as conn:
+    with closing(_connect(Path(args.db))) as conn:
         if args.node and args.neighborhood:
-            payload: object = node_neighborhood(conn, _parse_key(str(args.node)), limit=max(1, int(args.limit)))
+            payload: object = node_neighborhood(conn, _parse_key(str(args.node)), limit=int(args.limit))
         elif args.node:
-            payload: object = inspect_node(conn, _parse_key(str(args.node)), limit=max(1, int(args.limit)))
+            payload: object = inspect_node(conn, _parse_key(str(args.node)), limit=int(args.limit))
         elif args.compare:
             left, right = args.compare
             payload = compare_nodes(
                 conn,
                 _parse_key(str(left)),
                 _parse_key(str(right)),
-                limit=max(1, int(args.limit)),
+                limit=int(args.limit),
             )
         elif args.confirmations:
-            payload = {"later_confirmed": later_confirmed_nodes(conn, limit=max(1, int(args.limit)))}
+            payload = {"later_confirmed": later_confirmed_nodes(conn, limit=int(args.limit))}
         elif args.top_derived:
-            payload = {"top_derived": top_nodes(conn, limit=max(1, int(args.limit)))}
+            payload = {"top_derived": top_nodes(conn, limit=int(args.limit))}
         elif args.summary:
             payload = corpus_summary(conn)
         else:

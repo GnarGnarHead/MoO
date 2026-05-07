@@ -182,6 +182,54 @@ other values           -> Order 3 unconfirmed or relational construction
 The code can keep these field names for stability, but interpretation should
 follow the order model in this note.
 
+## Order 4 Is Not Certainty
+
+Some research notes may use `Order 4` for projected objects such as
+non-rational constants, circle-like invariants, or asymptotic anchors.
+
+This does not add another certainty tier inside the graph.
+
+Order 4 means:
+
+```text
+projected limit/invariant anchor inferred from stable Order-3 graph families
+```
+
+An Order-4 object is:
+
+```text
+analysis-layer
+non-operational
+not a runtime node
+not an operand
+not a confirmed fact
+not a theorem
+not more certain than Order 3
+```
+
+Order 4 is more abstract than Order 3, not more certain. It can guide
+inspection, but it cannot participate in strict-stage computation.
+
+Use:
+
+```text
+Order-4 projected object
+asymptotic inspection anchor
+projected invariant
+non-rational projected constant
+```
+
+Do not use:
+
+```text
+Order-4 certainty
+MoO constructs pi
+MoO defines the Euclidean circle
+```
+
+See `ORDER4_PROJECTION_PROTOCOL.md` for the required projection certificate and
+testing rules.
+
 ## Stage Versus Closure Round
 
 The core iteration stage `n` is not the same as a closure round in the analysis

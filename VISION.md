@@ -39,6 +39,9 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `stage_indexed_convergence_study.py`: structure-first convergence-chain study over a saved strict-stage MoO ledger.
 - `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
 - `README.md`: project overview + command map.
+- `DOCS_INDEX.md`: consolidated reading map for canonical, active, speculative, and historical notes.
+- `CORE_CLAIMS.md`: current claim boundary for what MoO can say, cannot say, and must keep corpus-conditioned.
+- `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected objects inferred from stable graph families.
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.
 - `PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note explaining where the repository still conflicts with the resolved MoO framing and why.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared protocol for probes, scouts, lenses, and speculative studies so external analysis returns to graph context.
@@ -161,21 +164,36 @@ generate more integers.
 
 MoO also does not treat divergent sums as having ordinary numeric values. If you want regularization-style assignments (e.g. analytic continuation / Ramanujan summation, like the `-1/12` association), that belongs as an additional analysis lens with explicit rules, not as a replacement for ordinary meanings.
 
-### 3.2 External Constant Probes
+### 3.2 External Constant Probes And Projected Anchors
 
-MoO does not construct transcendental constants directly. Current graph-first
-probes ask which already-recorded speculative rational nodes are selected by
-external constant tests after finite construction from `1`. Older set-closure
-reports remain historical comparison artifacts.
+MoO does not construct completed non-rational constants directly. Current
+graph-first probes ask which already-recorded speculative rational nodes are
+selected by external constant tests after finite construction from `1`. Older
+set-closure reports remain historical comparison artifacts.
 
-This is a research lens, not a runtime axiom: constants such as `pi`, `e`, and
-`ln2` are external targets used to test the ordering of emergent rationals. The
-MoO-native structure is the first-seen round, construction witness, derivation
-multiplicity, and speculative-node ancestry. Approximation error belongs to the
-external probe layer.
+This is a research lens, not a runtime axiom: constants such as `pi`, `e`,
+`sqrt2`, `phi`, and `ln2` are external targets used to test the ordering of
+emergent rationals. The MoO-native structure is the first-seen round,
+construction witness, derivation multiplicity, and speculative-node ancestry.
+Approximation error belongs to the external probe layer.
+
+Order-4 projected objects are allowed only as non-operational analysis anchors
+inferred from exact graph families by explicit projection rules. They are not
+runtime nodes, operands, confirmed facts, theorems, or completed objects inside
+strict MoO.
+
+Use the category `non-rational projected constants` for anchors such as:
+
+```text
+pi and e:
+  transcendental
+
+sqrt2 and phi:
+  algebraic irrational
+```
 
 See `TRANSCENDENTAL_ATTRACTORS_NOTE.md` for the current observation and research
-program.
+program, and `ORDER4_PROJECTION_PROTOCOL.md` for projected-object rules.
 
 ### 3.3 Geometric Probes as Analysis Layer
 
@@ -190,6 +208,7 @@ runtime rational emergence
 -> constraint signature
 -> speculative geometric probe subset
 -> possible concept branch
+-> possible Order-4 projected invariant if held-out graph evidence supports it
 ```
 
 See `GEOMETRIC_PROBES_NOTE.md` for guardrails and first probe families.

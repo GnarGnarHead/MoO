@@ -15,6 +15,7 @@ speculative nodes are inspected and speculated on, not operated on
 only confirmed core-loop iterations are operands
 promotion by the core loop is what permits further speculation
 MoO does not speculate on speculations
+projected objects are analysis anchors, not certainties or operands
 ```
 
 This is both an ontology/status rule and a compute rule. A speculative node
@@ -31,6 +32,10 @@ The primary method of inspection is graph inspection. Values, approximations,
 probe labels, and node summaries are not primary evidence unless they are read
 through construction edges, repeated paths, neighborhoods, and confirmation
 transitions.
+
+Order-4 projected objects may be proposed from stable graph families, but they
+remain analysis-layer anchors. They are not runtime nodes, operands, confirmed
+facts, theorems, or completed objects inside strict MoO.
 
 ## Layer 1: Strict-Stage MoO
 
@@ -180,7 +185,7 @@ an external probe selects a speculative node or chain for inspection
 Disallowed claim:
 
 ```text
-MoO has constructed the completed transcendental
+MoO has constructed the completed non-rational constant or Euclidean object
 ```
 
 For convergence work, an approximating point alone is not evidence. The object
@@ -189,6 +194,57 @@ of interest is:
 ```text
 shared convergence structure inside the MoO ledger
 ```
+
+## Layer 4: Projected Objects
+
+Projected objects are analysis-layer anchors inferred from strict graph
+families by explicit projection rules.
+
+Rule:
+
+```text
+exact source family -> projection rule -> inferred inspection anchor
+```
+
+They can be used to ask:
+
+```text
+what held-out graph structure should this anchor organize or predict?
+```
+
+They cannot be used as:
+
+```text
+runtime nodes
+operands
+confirmed facts
+theorems
+completed constants
+proof that MoO defines Euclidean objects
+```
+
+Current vocabulary:
+
+```text
+Order-4 projected object
+asymptotic inspection anchor
+projected invariant
+non-rational projected constant
+deterministic construction bloom
+constructional coordinate system over existing foundations
+```
+
+Avoid:
+
+```text
+Order-4 certainty
+MoO constructs pi
+MoO defines the Euclidean circle
+MoO is chaotic
+MoO replaces standard foundations
+```
+
+See `ORDER4_PROJECTION_PROTOCOL.md`.
 
 ## Vocabulary Cleanup
 
@@ -206,6 +262,10 @@ speculative node:
 
 probe-selected node:
   a speculative node selected after the fact by an external target or concept
+
+Order-4 projected object:
+  a non-operational analysis-layer anchor inferred from exact graph evidence by
+  an explicit projection rule
 
 center / hinge:
   allowed for exploratory closure results, but not automatically a strict-stage
