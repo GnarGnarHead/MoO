@@ -42,7 +42,7 @@ def _create_fixture(path: Path) -> None:
         )
         conn.execute("INSERT INTO meta(key, value) VALUES('schema_version', 'test')")
         conn.execute(
-            "INSERT INTO stages VALUES(5, 0, 0, 0, 0, 6, 3, 0.0)"
+            "INSERT INTO stages VALUES(5, 0, 0, 0, 0, 8, 7, 0.0)"
         )
         nodes = [
             (1, 3, 1, "3", "positive_integer", 3, 3),
@@ -51,6 +51,8 @@ def _create_fixture(path: Path) -> None:
             (4, 9, 1, "9", "positive_integer", 3, 9),
             (5, 16, 1, "16", "positive_integer", 4, 16),
             (6, 25, 1, "25", "positive_integer", 5, 25),
+            (7, 1, 1, "1", "positive_integer", 1, 1),
+            (8, 2, 1, "2", "positive_integer", 2, 2),
         ]
         conn.executemany(
             "INSERT INTO nodes(node_id, p, q, label, kind, first_stage, confirmed_stage) "
@@ -61,6 +63,10 @@ def _create_fixture(path: Path) -> None:
             (1, 3, "*", 1, 1, 4),
             (2, 4, "*", 2, 2, 5),
             (3, 5, "*", 3, 3, 6),
+            (4, 2, "*", 8, 8, 2),
+            (5, 4, "-", 2, 7, 1),
+            (6, 4, "+", 2, 7, 3),
+            (7, 2, "*", 8, 7, 8),
         ]
         conn.executemany(
             "INSERT INTO edges(edge_id, stage, op, left_node_id, right_node_id, result_node_id) "
@@ -74,6 +80,8 @@ def _create_fixture(path: Path) -> None:
             (4, 9, 1, "positive_integer", 3, 9, 1, 0, 0, 1, 0),
             (5, 16, 1, "positive_integer", 4, 16, 1, 0, 0, 1, 0),
             (6, 25, 1, "positive_integer", 5, 25, 1, 0, 0, 1, 0),
+            (7, 1, 1, "positive_integer", 1, 1, 0, 0, 0, 0, 0),
+            (8, 2, 1, "positive_integer", 2, 2, 1, 0, 0, 1, 0),
         ]
         conn.executemany(
             "INSERT INTO node_stats("
@@ -122,6 +130,14 @@ class CircleSquareProbeTests(unittest.TestCase):
         self.assertTrue(payload["completion"]["complete_family"])
         self.assertEqual(payload["completion"]["strict_self_product_witness_count"], 3)
         self.assertTrue(payload["completion"]["all_square_components_have_strict_self_product_witness"])
+        self.assertTrue(payload["prime_euclid_profile"]["euclid_parameters"]["parameter_found"])
+        self.assertEqual(
+            payload["prime_euclid_profile"]["integer_normalization"]["primitive_integer_triple"],
+            {"x": 3, "y": 4, "r": 5},
+        )
+        self.assertTrue(payload["euclid_graph"]["complete_parameter_nodes"])
+        self.assertTrue(payload["euclid_graph"]["generator_witnesses"]["m2_minus_n2_witness"]["present"])
+        self.assertTrue(payload["euclid_graph"]["generator_witnesses"]["m2_plus_n2_witness"]["present"])
         self.assertEqual(payload["phase_alignment"]["combined"]["stage_spread"], 2)
         self.assertEqual(payload["phase_alignment"]["phase_delta"], 0)
 
@@ -146,6 +162,9 @@ class CircleSquareProbeTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["candidate_count"], 1)
         self.assertEqual(payload["summary"]["complete_family_count"], 1)
         self.assertEqual(payload["summary"]["with_all_strict_self_product_witnesses_count"], 1)
+        self.assertEqual(payload["summary"]["with_euclid_parameter_count"], 1)
+        self.assertEqual(payload["summary"]["with_complete_euclid_parameter_nodes_count"], 1)
+        self.assertEqual(payload["summary"]["with_any_euclid_generator_witness_count"], 1)
         first = payload["top_low_stage_spread_complete_families"][0]
         self.assertEqual(first["shell"]["x"]["frac"], "3")
         self.assertEqual(first["shell"]["y"]["frac"], "4")

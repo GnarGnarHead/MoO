@@ -10,11 +10,14 @@ unit-shell parametrization reports
 Pythagorean shell scans
 circle-without-pi guardrail tests
 circle-square branch alignment tests
+prime/Euclid shell-alignment audits
 ```
 
 The artifacts here do not claim that MoO defines the Euclidean circle or
-constructs `pi`. They preserve strict graph reports and paired analysis notes
-for rational shell structure.
+constructs `pi`. Prime and Euclid-parameter fields are scrutiny fields after
+rational shells are cleared to primitive integer triples; they do not by
+themselves claim that primes explain MoO geometry. These artifacts preserve
+strict graph reports and paired analysis notes for rational shell structure.
 
 Each experiment should produce:
 

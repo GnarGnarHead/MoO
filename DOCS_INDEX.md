@@ -32,6 +32,7 @@ interpret old reports           -> PROJECT_ALIGNMENT_NOTE.md, archive/
 design a new research probe     -> RESEARCH_LENSES.md, ANALYSIS_TOOL_PROTOCOL.md
 run stage-dynamics research     -> research/dynamics/
 inspect Order-4 projection work -> ORDER4_PROJECTION_PROTOCOL.md, research/euler/
+inspect shell/prime alignment   -> research/geometry/
 ```
 
 ## Document Roles
@@ -129,6 +130,10 @@ runtime semantics unless a future core document explicitly promotes a rule.
   constraints as analysis-layer subsets of arithmetic construction.
 - `research/geometry/CIRCLE_SQUARE_ALIGNMENT_PROTOCOL.md`: active protocol for
   rational shell and square/self-product branch-alignment reports.
+- `research/geometry/PRIME_EUCLID_SHELL_ALIGNMENT_PROTOCOL.md`: active
+  protocol for clearing rational shells into primitive integer triples,
+  recovering Euclid parameters, and adding prime-factor scrutiny without
+  promoting primes to an explanation before controls.
 - `research/number_theory/RELATED_WORKS_NOTE.md`: rational trees, continued
   fractions, construction cost, experimental math, and external baselines.
 - `research/number_theory/FERMAT_PRIME_PROBE_NOTE.md`: Fermat-prime
@@ -219,7 +224,11 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
 - `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over
   strict graph corpora.
 - `moo_circle_square_probe.py`: read-only rational shell and square-component
-  branch-alignment probe over strict graph corpora.
+  branch-alignment probe over strict graph corpora, including primitive-triple
+  and Euclid-parameter scrutiny fields.
+- `prime_shell_features.py`: stdlib helpers for rational shell
+  integerization, primitive triples, prime factor payloads, and Euclid
+  parameter recovery.
 - `moo_graph_invariants.py`: shared graph-invariant helper functions for node
   and family reports.
 - `rational_baselines.py`: stdlib rational-baseline helpers for continued

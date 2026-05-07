@@ -91,12 +91,20 @@ x_square, y_square, r_square
 component presence
 square component presence
 self-product witness status
+common-denominator integerized triple
+primitive integer triple
+Euclid m,n parameter recovery when available
+prime-factor profile after rational normalization
 stage_spread
 phase_delta
 graph_invariant_summary
 neighborhood overlap
 baseline envelope
 ```
+
+Prime and Euclid-parameter fields are governed by
+`PRIME_EUCLID_SHELL_ALIGNMENT_PROTOCOL.md`. They are scrutiny fields, not proof
+that primes explain MoO geometry.
 
 ## Phase Language
 
@@ -186,6 +194,9 @@ matched nonshell triples
 operation-label shuffles
 held-out strict corpora
 stage-window holdouts
+common-denominator matched shells
+primitive-radius matched shells
+Euclid-parameter-size matched shells
 ```
 
 ## Allowed Claims

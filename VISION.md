@@ -33,7 +33,12 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `moo_graph_invariants.py`: shared graph-invariant helper functions for node and family reports.
 - `moo_research_report.py`: read-only node dossiers and corpus-wide baseline rankings over strict graph corpora.
 - `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over strict graph corpora.
-- `moo_circle_square_probe.py`: read-only circle-square branch alignment probe over strict graph corpora.
+- `moo_circle_square_probe.py`: read-only circle-square branch alignment probe
+  over strict graph corpora, with primitive-triple and Euclid-parameter
+  scrutiny fields.
+- `prime_shell_features.py`: rational shell integerization, primitive triple,
+  prime-factor, and Euclid-parameter helpers for geometry/number-theory bridge
+  probes.
 - `moo_core_alignment_check.py`: small-run agreement check between the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors; base `1` remains the certainty anchor.

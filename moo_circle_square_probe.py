@@ -24,6 +24,7 @@ from moo_research_utils import (
     require_strict_alignment,
     strict_alignment_payload,
 )
+from prime_shell_features import shell_prime_profile
 from rational_baselines import format_key, normalize_key
 
 
@@ -80,12 +81,14 @@ def _claim_boundary(claim_status: str) -> Dict[str, object]:
         "allowed_claim_language": [
             "This report exposes rational quadratic-shell candidates and their associated square components in a strict MoO graph corpus.",
             "A circle-square alignment candidate means shell and square component nodes are present with named graph-invariant timing and witness fields.",
+            "Prime and Euclid-parameter features are scrutiny fields computed after rational shells are cleared to primitive integer triples.",
             "Literal self-product witnesses are audited under the strict operand rule; rational square nodes may be present without rational self-product edges.",
         ],
         "disallowed_claim_language": [
             "Do not claim MoO squares the circle from this report.",
             "Do not claim MoO defines the Euclidean circle.",
             "Do not claim MoO constructs pi.",
+            "Do not treat prime features as MoO-native evidence unless they explain graph timing beyond size and denominator controls.",
             "Do not treat absence of rational self-product witnesses as a failure; speculative rational nodes are not operands in strict-stage MoO.",
         ],
     }
@@ -206,6 +209,191 @@ def strict_self_product_witness(
     }
 
 
+def _value_node_payload(value: Fraction, nodes: Dict[Key, sqlite3.Row]) -> Dict[str, object]:
+    key = fraction_key(value)
+    row = nodes.get(key)
+    return {
+        "value": fraction_record(value),
+        "present": row is not None,
+        "node": node_payload(row) if row is not None else None,
+    }
+
+
+def _strict_binary_witness(
+    conn: sqlite3.Connection,
+    left: Fraction,
+    op: str,
+    right: Fraction,
+    result: Fraction,
+    nodes: Dict[Key, sqlite3.Row],
+) -> Dict[str, object]:
+    left_row = nodes.get(fraction_key(left))
+    right_row = nodes.get(fraction_key(right))
+    result_row = nodes.get(fraction_key(result))
+    if left_row is None or right_row is None or result_row is None:
+        missing = []
+        if left_row is None:
+            missing.append("left")
+        if right_row is None:
+            missing.append("right")
+        if result_row is None:
+            missing.append("result")
+        return {
+            "present": False,
+            "reason": "required_node_absent",
+            "missing": missing,
+            "left": _value_node_payload(left, nodes),
+            "right": _value_node_payload(right, nodes),
+            "result": _value_node_payload(result, nodes),
+        }
+
+    predicates = [
+        (
+            int(left_row["node_id"]),
+            int(right_row["node_id"]),
+            int(result_row["node_id"]),
+        )
+    ]
+    if op in {"+", "*"} and int(left_row["node_id"]) != int(right_row["node_id"]):
+        predicates.append(
+            (
+                int(right_row["node_id"]),
+                int(left_row["node_id"]),
+                int(result_row["node_id"]),
+            )
+        )
+
+    for left_id, right_id, result_id in predicates:
+        row = conn.execute(
+            """
+            SELECT edge_id, stage, op
+            FROM edges
+            WHERE op = ?
+              AND left_node_id = ?
+              AND right_node_id = ?
+              AND result_node_id = ?
+            ORDER BY stage, edge_id
+            LIMIT 1
+            """,
+            (op, left_id, right_id, result_id),
+        ).fetchone()
+        if row is not None:
+            return {
+                "present": True,
+                "edge_id": int(row["edge_id"]),
+                "stage": int(row["stage"]),
+                "op": str(row["op"]),
+                "left": _value_node_payload(left, nodes),
+                "right": _value_node_payload(right, nodes),
+                "result": _value_node_payload(result, nodes),
+            }
+
+    return {
+        "present": False,
+        "reason": "no_retained_strict_binary_edge_recorded",
+        "left": _value_node_payload(left, nodes),
+        "right": _value_node_payload(right, nodes),
+        "result": _value_node_payload(result, nodes),
+    }
+
+
+def _euclid_graph_payload(
+    conn: sqlite3.Connection,
+    prime_profile: Dict[str, object],
+    nodes: Dict[Key, sqlite3.Row],
+) -> Dict[str, object]:
+    euclid = prime_profile.get("euclid_parameters")
+    if not isinstance(euclid, dict) or not bool(euclid.get("parameter_found")):
+        return {
+            "parameter_found": False,
+            "reason": euclid.get("reason") if isinstance(euclid, dict) else "missing_euclid_profile",
+            "node_presence": {},
+            "generator_witnesses": {},
+            "complete_parameter_nodes": False,
+            "any_generator_witness_present": False,
+        }
+
+    params = euclid.get("parameters")
+    if not isinstance(params, dict):
+        return {
+            "parameter_found": False,
+            "reason": "missing_euclid_parameters",
+            "node_presence": {},
+            "generator_witnesses": {},
+            "complete_parameter_nodes": False,
+            "any_generator_witness_present": False,
+        }
+
+    m = Fraction(int(params["m"]), 1)
+    n = Fraction(int(params["n"]), 1)
+    m2 = Fraction(int(params["m2"]), 1)
+    n2 = Fraction(int(params["n2"]), 1)
+    odd_leg = Fraction(int(params["m2_minus_n2"]), 1)
+    even_leg = Fraction(int(params["two_mn"]), 1)
+    radius = Fraction(int(params["m2_plus_n2"]), 1)
+    mn = m * n
+    two_m = 2 * m
+    two_n = 2 * n
+
+    node_presence = {
+        "m": _value_node_payload(m, nodes),
+        "n": _value_node_payload(n, nodes),
+        "m2": _value_node_payload(m2, nodes),
+        "n2": _value_node_payload(n2, nodes),
+        "mn": _value_node_payload(mn, nodes),
+        "two_m": _value_node_payload(two_m, nodes),
+        "two_n": _value_node_payload(two_n, nodes),
+        "m2_minus_n2": _value_node_payload(odd_leg, nodes),
+        "two_mn": _value_node_payload(even_leg, nodes),
+        "m2_plus_n2": _value_node_payload(radius, nodes),
+    }
+    complete_parameter_nodes = all(
+        bool(node_presence[label]["present"])
+        for label in ["m", "n", "m2", "n2", "m2_minus_n2", "two_mn", "m2_plus_n2"]
+    )
+    generator_witnesses = {
+        "m_self_product": strict_self_product_witness(
+            conn,
+            nodes.get(fraction_key(m)),
+            nodes.get(fraction_key(m2)),
+        ),
+        "n_self_product": strict_self_product_witness(
+            conn,
+            nodes.get(fraction_key(n)),
+            nodes.get(fraction_key(n2)),
+        ),
+        "m2_minus_n2_witness": _strict_binary_witness(conn, m2, "-", n2, odd_leg, nodes),
+        "m2_plus_n2_witness": _strict_binary_witness(conn, m2, "+", n2, radius, nodes),
+        "two_mn_witness": {
+            "m_times_n": _strict_binary_witness(conn, m, "*", n, mn, nodes),
+            "two_times_mn": _strict_binary_witness(conn, Fraction(2, 1), "*", mn, even_leg, nodes),
+            "two_m_times_n": _strict_binary_witness(conn, two_m, "*", n, even_leg, nodes),
+            "m_times_two_n": _strict_binary_witness(conn, m, "*", two_n, even_leg, nodes),
+        },
+    }
+    any_two_mn = any(
+        bool(payload["present"])
+        for payload in generator_witnesses["two_mn_witness"].values()
+    )
+    any_generator = any(
+        [
+            bool(generator_witnesses["m_self_product"]["present"]),
+            bool(generator_witnesses["n_self_product"]["present"]),
+            bool(generator_witnesses["m2_minus_n2_witness"]["present"]),
+            bool(generator_witnesses["m2_plus_n2_witness"]["present"]),
+            any_two_mn,
+        ]
+    )
+    return {
+        "parameter_found": True,
+        "reason": None,
+        "node_presence": node_presence,
+        "generator_witnesses": generator_witnesses,
+        "complete_parameter_nodes": complete_parameter_nodes,
+        "any_generator_witness_present": any_generator,
+    }
+
+
 def _component_payload(
     conn: sqlite3.Connection,
     label: str,
@@ -275,6 +463,7 @@ def circle_square_candidate(
         _component_payload(conn, "y", y, nodes),
         _component_payload(conn, "r", r, nodes),
     ]
+    prime_profile = shell_prime_profile(x, y, r)
     self_product_count = sum(
         1
         for component in components
@@ -308,6 +497,8 @@ def circle_square_candidate(
             "strict_self_product_witness_count": int(self_product_count),
             "all_square_components_have_strict_self_product_witness": self_product_count == 3,
         },
+        "prime_euclid_profile": prime_profile,
+        "euclid_graph": _euclid_graph_payload(conn, prime_profile, nodes),
         "phase_alignment": _phase_payload(shell_rows, square_rows),
         "graph_invariant_summary": family_graph_invariants(
             conn,
@@ -376,6 +567,21 @@ def circle_square_alignment_summary(
         for candidate in candidates
         if bool(candidate["completion"]["all_square_components_have_strict_self_product_witness"])
     ]
+    with_euclid_parameters = [
+        candidate
+        for candidate in candidates
+        if bool(candidate["prime_euclid_profile"]["euclid_parameters"]["parameter_found"])
+    ]
+    with_complete_euclid_parameter_nodes = [
+        candidate
+        for candidate in with_euclid_parameters
+        if bool(candidate["euclid_graph"]["complete_parameter_nodes"])
+    ]
+    with_any_euclid_generator_witness = [
+        candidate
+        for candidate in with_euclid_parameters
+        if bool(candidate["euclid_graph"]["any_generator_witness_present"])
+    ]
     low_spread = sorted(
         complete,
         key=lambda candidate: (
@@ -432,6 +638,9 @@ def circle_square_alignment_summary(
             "complete_family_count": len(complete),
             "with_any_strict_self_product_witness_count": len(with_any_self_product),
             "with_all_strict_self_product_witnesses_count": len(with_all_self_product),
+            "with_euclid_parameter_count": len(with_euclid_parameters),
+            "with_complete_euclid_parameter_nodes_count": len(with_complete_euclid_parameter_nodes),
+            "with_any_euclid_generator_witness_count": len(with_any_euclid_generator_witness),
             "nondegenerate": not include_degenerate,
         },
         "top_low_stage_spread_complete_families": low_spread[:limit],
@@ -502,7 +711,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         tool_path=Path(__file__),
         db_path=Path(args.db),
         argv=argv,
-        schema_version="moo_circle_square_probe.v1",
+        schema_version="moo_circle_square_probe.v2",
         include_checksums=bool(args.write or args.with_checksums),
     )
     emit_json(payload, pretty=bool(args.pretty), write=args.write)
