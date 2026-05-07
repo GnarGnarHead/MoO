@@ -36,6 +36,8 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `moo_circle_square_probe.py`: read-only circle-square branch alignment probe
   over strict graph corpora, with primitive-triple and Euclid-parameter
   scrutiny fields.
+- `primitive_euclid_branch_sweep.py`: read-only sweep of target primitive
+  Euclid branches, preserving complete, partial, and absent branch visibility.
 - `prime_shell_features.py`: rational shell integerization, primitive triple,
   prime-factor, and Euclid-parameter helpers for geometry/number-theory bridge
   probes.
@@ -49,6 +51,9 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
 - `README.md`: project overview + command map.
 - `DOCS_INDEX.md`: consolidated reading map for the current core, active research, and quarantined archive.
+- `MOO_REALIGNMENT_NOTE.md`: canonical language correction: MoO reads results
+  by order, witness, emergence, relation, and projected form, not by value
+  presence alone.
 - `CORE_CLAIMS.md`: current claim boundary for what MoO can say, cannot say, and must keep corpus-conditioned.
 - `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected objects inferred from stable graph families.
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.

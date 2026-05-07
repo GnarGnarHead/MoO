@@ -33,6 +33,17 @@ probe labels, and node summaries are not primary evidence unless they are read
 through construction edges, repeated paths, neighborhoods, and confirmation
 transitions.
 
+The primary language of interpretation is witness language:
+
+```text
+A value appearing is not enough.
+The same value can appear by different witnesses, and the witness matters.
+```
+
+Tool terms such as `provenance`, `retention`, `aperture`, and `controls` are
+bookkeeping. The MoO reading is order, witness, emergence, relation, and
+projected form. See `MOO_REALIGNMENT_NOTE.md`.
+
 Order-4 projected objects may be proposed from stable graph families, but they
 remain analysis-layer anchors. They are not runtime nodes, operands, confirmed
 facts, theorems, or completed objects inside strict MoO.

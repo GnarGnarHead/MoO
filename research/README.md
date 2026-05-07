@@ -5,7 +5,12 @@
 Research notes are scrutiny lenses and strict-corpus branches. They do not
 change MoO runtime semantics. A result from this directory gains claim weight
 only when it returns to exact graph evidence, names controls or holdouts, and is
-read through `../CORE_CLAIMS.md` and `../RESEARCH_LENSES.md`.
+read through `../MOO_REALIGNMENT_NOTE.md`, `../CORE_CLAIMS.md`, and
+`../RESEARCH_LENSES.md`.
+
+Tooling terms such as `provenance`, `retention`, `aperture`, and `controls`
+are bookkeeping. Research interpretation should translate them back into
+order, witness, emergence, relation, and projected form.
 
 ## Families
 
@@ -14,8 +19,9 @@ read through `../CORE_CLAIMS.md` and `../RESEARCH_LENSES.md`.
 - `euler/`: quadratic-shell, reciprocal-square, finite-product, and delayed
   pi-shadow probes under Order-4 discipline.
 - `geometry/`: circle, square, area, rational shell, circle-square branch
-  alignment, and prime/Euclid shell-normalization constraints as
-  analysis-layer filters over already-recorded rational graph structure.
+  alignment, prime/Euclid shell-normalization, and primitive Euclid
+  branch-sweep constraints as analysis-layer filters over already-recorded
+  rational graph structure.
 - `number_theory/`: rational baselines, continued fractions, prime/conjecture
   probes, Fermat-style corridors, and construction-cost comparisons.
 - `spectral/`: Fourier, edge-signal, null-path, and graph-spectral scouting

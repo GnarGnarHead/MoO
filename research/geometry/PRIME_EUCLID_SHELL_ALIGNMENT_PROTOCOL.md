@@ -198,3 +198,19 @@ The expected first signal is classical: small shell candidates reduce to the
 `3,4,5` primitive family. The MoO question is whether the graph sees the
 Euclid/prime grammar early and coherently enough to explain branch alignment
 beyond ordinary size and denominator baselines.
+
+## Branch Sweep Follow-Up
+
+The branch-level follow-up is governed by
+`PRIMITIVE_EUCLID_BRANCH_SWEEP_PROTOCOL.md`.
+
+It reverses the direction:
+
+```text
+Euclid m,n target branch
+-> primitive triple
+-> generator / shell / square coverage
+-> complete, partial, or absent branch category
+```
+
+This should be used before making any branch-ordering claim.

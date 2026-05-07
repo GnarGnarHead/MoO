@@ -13,14 +13,15 @@ Use this order for a first pass:
 
 ```text
 1. README.md
-2. CORE_CLAIMS.md
-3. PROJECT_ALIGNMENT_NOTE.md
-4. EPISTEMIC_ORDER_NOTE.md
-5. GRAPH_CORPUS_NOTE.md
-6. GRAPH_INVARIANTS_PROTOCOL.md
-7. ORDER4_PROJECTION_PROTOCOL.md
-8. RESEARCH_LENSES.md
-9. ANALYSIS_TOOL_PROTOCOL.md
+2. MOO_REALIGNMENT_NOTE.md
+3. CORE_CLAIMS.md
+4. PROJECT_ALIGNMENT_NOTE.md
+5. EPISTEMIC_ORDER_NOTE.md
+6. GRAPH_CORPUS_NOTE.md
+7. GRAPH_INVARIANTS_PROTOCOL.md
+8. ORDER4_PROJECTION_PROTOCOL.md
+9. RESEARCH_LENSES.md
+10. ANALYSIS_TOOL_PROTOCOL.md
 ```
 
 Then branch:
@@ -28,6 +29,7 @@ Then branch:
 ```text
 run code / inspect corpus       -> README.md, GRAPH_CORPUS_NOTE.md
 understand the theory           -> CORE_CLAIMS.md, VISION.md
+align report language           -> MOO_REALIGNMENT_NOTE.md
 interpret old reports           -> PROJECT_ALIGNMENT_NOTE.md, archive/
 design a new research probe     -> RESEARCH_LENSES.md, ANALYSIS_TOOL_PROTOCOL.md
 run stage-dynamics research     -> research/dynamics/
@@ -64,6 +66,7 @@ When documents conflict, prefer:
 
 ```text
 CORE_CLAIMS.md
+MOO_REALIGNMENT_NOTE.md
 PROJECT_ALIGNMENT_NOTE.md
 EPISTEMIC_ORDER_NOTE.md
 GRAPH_CORPUS_NOTE.md
@@ -75,6 +78,9 @@ RESEARCH_LENSES.md
 ## Canonical Core
 
 - `README.md`: front-door overview, command map, and current repository shape.
+- `MOO_REALIGNMENT_NOTE.md`: canonical language correction for reading MoO
+  results by order, witness, emergence, relation, and projected form rather
+  than by value presence alone.
 - `CORE_CLAIMS.md`: consolidated claim boundary; what MoO can and cannot
   currently say.
 - `VISION.md`: implementation-aligned design note and roadmap.
@@ -134,6 +140,9 @@ runtime semantics unless a future core document explicitly promotes a rule.
   protocol for clearing rational shells into primitive integer triples,
   recovering Euclid parameters, and adding prime-factor scrutiny without
   promoting primes to an explanation before controls.
+- `research/geometry/PRIMITIVE_EUCLID_BRANCH_SWEEP_PROTOCOL.md`: active
+  protocol for target-branch sweeps over primitive Euclid triples, preserving
+  complete, partial, and absent branch visibility as first-class data.
 - `research/number_theory/RELATED_WORKS_NOTE.md`: rational trees, continued
   fractions, construction cost, experimental math, and external baselines.
 - `research/number_theory/FERMAT_PRIME_PROBE_NOTE.md`: Fermat-prime
@@ -226,6 +235,9 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
 - `moo_circle_square_probe.py`: read-only rational shell and square-component
   branch-alignment probe over strict graph corpora, including primitive-triple
   and Euclid-parameter scrutiny fields.
+- `primitive_euclid_branch_sweep.py`: read-only primitive Euclid branch sweep
+  that records target branch generator, shell, square, and self-product witness
+  visibility over strict graph corpora.
 - `prime_shell_features.py`: stdlib helpers for rational shell
   integerization, primitive triples, prime factor payloads, and Euclid
   parameter recovery.

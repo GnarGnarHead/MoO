@@ -35,6 +35,25 @@ Avoid as a primary claim:
 squaring the circle
 ```
 
+MoO-native correction:
+
+```text
+A value appearing is not enough.
+The same value can appear by different witnesses, and the witness matters.
+```
+
+For this protocol, the central distinction is:
+
+```text
+square witnessed through spine:
+  the square value appears by positive-integer confirmation
+
+square witnessed through branch:
+  the square value appears by the inspected self-product relation v * v
+```
+
+Only the second reading supports branch-square emergence.
+
 ## Branch Definitions
 
 ### Circle-Like Branch

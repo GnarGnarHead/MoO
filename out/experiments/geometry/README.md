@@ -11,13 +11,27 @@ Pythagorean shell scans
 circle-without-pi guardrail tests
 circle-square branch alignment tests
 prime/Euclid shell-alignment audits
+primitive Euclid branch sweeps
 ```
 
 The artifacts here do not claim that MoO defines the Euclidean circle or
 constructs `pi`. Prime and Euclid-parameter fields are scrutiny fields after
-rational shells are cleared to primitive integer triples; they do not by
-themselves claim that primes explain MoO geometry. These artifacts preserve
-strict graph reports and paired analysis notes for rational shell structure.
+rational shells are cleared to primitive integer triples; branch-sweep reports
+also preserve partial and absent target branches as data. These artifacts do
+not by themselves claim that primes explain MoO geometry. They preserve strict
+graph reports and paired analysis notes for rational shell structure.
+
+Read geometry artifacts through MoO witness language:
+
+```text
+value appears
+value appears through the counting spine
+value appears through the inspected branch
+projected form organizes later witnessed emergence
+```
+
+Tool terms such as `provenance`, `retention`, and `aperture` are bookkeeping
+for order, witness, emergence, relation, and field of observation.
 
 Each experiment should produce:
 
@@ -28,5 +42,6 @@ Each experiment should produce:
 ```
 
 Reports should use the invariant vocabulary in
-`../../../GRAPH_INVARIANTS_PROTOCOL.md` and the claim boundary in
+`../../../GRAPH_INVARIANTS_PROTOCOL.md`, the realignment vocabulary in
+`../../../MOO_REALIGNMENT_NOTE.md`, and the claim boundary in
 `../../../CORE_CLAIMS.md`.

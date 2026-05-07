@@ -28,6 +28,13 @@ stage / confirmation status
 corpus bounds
 ```
 
+A shorter MoO-native rule:
+
+```text
+A value appearing is not enough.
+The same value can appear by different witnesses, and the witness matters.
+```
+
 Projected-object claims also need:
 
 ```text
@@ -201,6 +208,22 @@ graph evidence:
 The same rational value can be ordinary under one projection and structurally
 interesting under another. MoO does not decide that from the value alone.
 
+In MoO language:
+
+```text
+value presence:
+  the value appears
+
+witnessed emergence:
+  the value appears by a named construction path
+
+branch emergence:
+  the witness belongs to the relation or branch being studied
+```
+
+Value presence is the weakest reading. Witnessed emergence is the object of
+study.
+
 ## Current Strong Claims
 
 MoO can currently claim:
@@ -364,6 +387,7 @@ Read these in order when checking a claim:
 
 ```text
 README.md
+MOO_REALIGNMENT_NOTE.md
 CORE_CLAIMS.md
 PROJECT_ALIGNMENT_NOTE.md
 EPISTEMIC_ORDER_NOTE.md

@@ -41,6 +41,16 @@ structure better than controls.
 The strongest evidence is not approximation accuracy. It is predictive
 organization.
 
+MoO-native reading:
+
+```text
+Order 4 is projected form.
+It is inferred from stable witnessed emergence.
+It does not repair missing witnesses inside the graph.
+```
+
+See `MOO_REALIGNMENT_NOTE.md` for the shared witness/emergence vocabulary.
+
 ## Relationship To Orders 1-3
 
 The current MoO order language remains:

@@ -13,6 +13,9 @@
 
 Everything else is constructed from iterations of `1`.
 
+MoO does not chase values. A value appearing is not enough. The same value can
+appear by different witnesses, and the witness matters.
+
 MoO began as an attempt to prove `2` from `1`. That attempt failed as certainty:
 to get `2`, a previous instance of `1` has to be preserved and used again. That
 previous instance is already once removed from the immediate certainty.
@@ -181,6 +184,27 @@ other values           -> Order 3 unconfirmed or relational construction
 
 The code can keep these field names for stability, but interpretation should
 follow the order model in this note.
+
+Some newer tools also use bookkeeping words:
+
+```text
+provenance
+retention
+aperture
+controls
+holdout
+```
+
+Those words are useful for reports, but the MoO reading is:
+
+```text
+witness
+field of observation
+ordinary explanation check
+future witnessed structure
+```
+
+See `MOO_REALIGNMENT_NOTE.md` for the canonical language correction.
 
 ## Order 4 Is Not Certainty
 
