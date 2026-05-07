@@ -85,5 +85,6 @@ MoO has Lyapunov exponents
 MoO has strange attractors
 ```
 
-See `../../../DYNAMICS_TEST_PROTOCOL.md` and
-`../../../STAGE_DYNAMICS_LENS_NOTE.md` for the active protocol.
+See `../../../research/dynamics/DYNAMICS_TEST_PROTOCOL.md` and
+`../../../research/dynamics/STAGE_DYNAMICS_LENS_NOTE.md` for the active
+protocol.

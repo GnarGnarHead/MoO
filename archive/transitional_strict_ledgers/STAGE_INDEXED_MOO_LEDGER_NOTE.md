@@ -4,7 +4,7 @@
 >
 > This run preserved speculative rational nodes and first construction records, but it did
 > not preserve every edge occurrence as a graph-native corpus. For current core
-> MoO graph work, prefer `GRAPH_CORPUS_NOTE.md`, `moo_graph_corpus.py`, and
+> MoO graph work, prefer `../../GRAPH_CORPUS_NOTE.md`, `moo_graph_corpus.py`, and
 > `strict_stage_moo.py`.
 >
 > Summary artifact:

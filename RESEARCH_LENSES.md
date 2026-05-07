@@ -207,7 +207,8 @@ graph_native_observable:
   construction witnesses, return-to-zero corridors, and prime/composite
   neighborhood differences.
 query_or_report:
-  Delayed. Governance starts in EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md.
+  Delayed. Governance starts in
+  research/euler/EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md.
 metric:
   partial-sum construction cost, denominator growth, witness diversity,
   prime-product versus sum agreement, prime/composite residuals.
@@ -288,7 +289,8 @@ graph_native_observable:
   bands; confirmation transitions; top-k construction-gathering nodes;
   edge-local symbolic motif distributions.
 query_or_report:
-  DYNAMICS_TEST_PROTOCOL.md defines planned report shapes. Future tool target:
+  research/dynamics/DYNAMICS_TEST_PROTOCOL.md defines planned report shapes.
+  Future tool target:
   python3 moo_dynamics_probe.py --stage-persistence --checkpoints 10,20,40,60,80
 metric:
   top-k checkpoint appearances, witness diversity, operation diversity,

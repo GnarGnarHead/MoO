@@ -1,10 +1,11 @@
 # Documentation Index
 
-> Status: non-destructive documentation map.
+> Status: active repository map.
 >
-> This index consolidates how to read the repository without deleting, moving,
-> or demoting older notes. Historical and speculative documents are preserved;
-> their category tells readers how much claim weight they currently carry.
+> This index is the navigation layer after the quarantine restructure. Root
+> files define the current MoO spine. `research/` holds active scrutiny lenses
+> and strict-corpus branches. `archive/` preserves older leads without letting
+> them read as current strict-stage evidence.
 
 ## How To Read The Repo
 
@@ -16,8 +17,9 @@ Use this order for a first pass:
 3. PROJECT_ALIGNMENT_NOTE.md
 4. EPISTEMIC_ORDER_NOTE.md
 5. GRAPH_CORPUS_NOTE.md
-6. RESEARCH_LENSES.md
-7. ANALYSIS_TOOL_PROTOCOL.md
+6. ORDER4_PROJECTION_PROTOCOL.md
+7. RESEARCH_LENSES.md
+8. ANALYSIS_TOOL_PROTOCOL.md
 ```
 
 Then branch:
@@ -25,9 +27,10 @@ Then branch:
 ```text
 run code / inspect corpus       -> README.md, GRAPH_CORPUS_NOTE.md
 understand the theory           -> CORE_CLAIMS.md, VISION.md
-interpret old reports           -> PROJECT_ALIGNMENT_NOTE.md, EXPLORATORY_LEADS.md
+interpret old reports           -> PROJECT_ALIGNMENT_NOTE.md, archive/
 design a new research probe     -> RESEARCH_LENSES.md, ANALYSIS_TOOL_PROTOCOL.md
-run stage-dynamics research     -> STAGE_DYNAMICS_LENS_NOTE.md, DYNAMICS_TEST_PROTOCOL.md
+run stage-dynamics research     -> research/dynamics/
+inspect Order-4 projection work -> ORDER4_PROJECTION_PROTOCOL.md, research/euler/
 ```
 
 ## Document Roles
@@ -62,6 +65,7 @@ CORE_CLAIMS.md
 PROJECT_ALIGNMENT_NOTE.md
 EPISTEMIC_ORDER_NOTE.md
 GRAPH_CORPUS_NOTE.md
+ORDER4_PROJECTION_PROTOCOL.md
 RESEARCH_LENSES.md
 ```
 
@@ -75,109 +79,152 @@ RESEARCH_LENSES.md
   exploratory closure, discarded miscommunication artifacts, and external
   probes.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical certainty/order framing: `1`, confirmed
-  core-loop iterations, speculative constructions, and promotion by `n`.
-- `STAGE_INDEXED_UNIVERSE_NOTE.md`: stage-indexed universe rule for when
-  positive whole numbers become confirmed.
+  core-loop iterations, speculative constructions, Order-4 analysis anchors,
+  and promotion by `n`.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage direction for aligned
   strict-stage MoO corpora.
 - `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for non-operational
   projected objects inferred from stable graph families.
 
-## Research Protocols And Guardrails
+## Protocols And Guardrails
 
 - `RESEARCH_LENSES.md`: claim-discipline matrix for lenses, controls,
   promotion criteria, and kill criteria.
 - `ANALYSIS_TOOL_PROTOCOL.md`: rulebook for probes and scouts; every analysis
   signal must return to exact graph context.
-- `DYNAMICS_TEST_PROTOCOL.md`: preregistration, saved-report, and
-  interpretation-note protocol for stage-dynamics work.
 - `ORDER4_PROJECTION_PROTOCOL.md`: projection-certificate protocol for
   non-rational constants, circle-like invariants, asymptotic anchors, controls,
   holdouts, and predictive organization tests.
+- `research/dynamics/DYNAMICS_TEST_PROTOCOL.md`: preregistration, saved-report,
+  and interpretation-note protocol for stage-dynamics work.
 - `out/experiments/dynamics/README.md`: local artifact convention for dynamics
   reports, preregistration notes, and analysis notes.
-- `EXPLORATORY_LEADS.md`: quarantine ledger preserving speculative leads without
-  promoting them to strict-stage claims.
-- `PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note explaining how older repo
-  language drifted and how to read around it.
+- `AGENTS.md`: repository guidelines for coding, testing, documentation layout,
+  and collaboration.
 
-## Active Strict Or Near-Strict Research Branches
+## Active Research
 
-- `STAGE_DYNAMICS_LENS_NOTE.md`: stage-dynamics framing for persistence,
-  threshold shifts, recurrence, and neighborhood divergence without claiming
-  chaos.
-- `EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md`: governance note for
-  unit-quadratic-shell, reciprocal-square, finite-product, and delayed
+Research notes are scrutiny lenses or strict-corpus branches. They do not change
+runtime semantics unless a future core document explicitly promotes a rule.
+
+- `research/README.md`: directory-level map for active research notes.
+- `research/euler/EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md`: governance
+  note for unit-quadratic-shell, reciprocal-square, finite-product, and delayed
   pi-shadow probes.
-- `CONVERGENCE_STRUCTURE_NOTE.md`: structure-first convergence-chain study over
-  a bounded strict-stage ledger; approximating points are secondary to shared
-  structure.
-- `STAGE_INDEXED_R100_NOTE.md`: first compact study of the strict stage-indexed
-  core run through `n=100`.
-- `STAGE_INDEXED_MOO_LEDGER_NOTE.md`: transitional strict-stage node-summary
-  ledger. Useful evidence, but graph-first SQLite storage is now preferred.
-- `WITNESS_THRESHOLD_NOTE.md`: completed audit of witness availability under
-  value-aperture changes.
-- `CONSTRUCTION_APERTURE_NOTE.md`: first corpus-wide first-witness aperture
-  metric. Historical data should be checked against strict graph corpora before
-  promotion.
+- `research/dynamics/STAGE_DYNAMICS_LENS_NOTE.md`: stage-dynamics framing for
+  persistence, threshold shifts, recurrence, and neighborhood divergence
+  without claiming chaos.
+- `research/dynamics/DYNAMICS_TEST_PROTOCOL.md`: protocol for saving and
+  interpreting stage-dynamics research artifacts.
+- `research/geometry/GEOMETRIC_PROBES_NOTE.md`: circle, square, area, and shape
+  constraints as analysis-layer subsets of arithmetic construction.
+- `research/number_theory/RELATED_WORKS_NOTE.md`: rational trees, continued
+  fractions, construction cost, experimental math, and external baselines.
+- `research/number_theory/FERMAT_PRIME_PROBE_NOTE.md`: Fermat-prime
+  non-collapse probe over graph branch structure.
+- `research/number_theory/FERMAT_LITTLE_PROBE_NOTE.md`: Fermat Little
+  return-corridor probe through the certainty anchor.
+- `research/number_theory/PRIME_FACTOR_AND_CONJECTURE_PROBES_NOTE.md`: prime
+  factors, Sophie Germain, twin-prime, Goldbach, Euler-product, and
+  Godel-style probes.
+- `research/number_theory/PRIME_HARMONICS_NOTE.md`: speculative
+  prime-harmonics branch hierarchy.
+- `research/spectral/FOURIER_ANALYSIS_LENS_NOTE.md`: Fourier as projection
+  discipline over MoO edge structure.
+- `research/spectral/SPECTRAL_SCOUT_NOTE.md`: edge-derived spectral signatures
+  as scouts for graph neighborhoods.
+- `research/spectral/NULL_GEODESIC_LENS_NOTE.md`: nontrivial construction paths
+  that collapse under chosen projections.
+- `research/spectral/SPECTRAL_NULL_RELATED_WORKS_NOTE.md`: related works for
+  spectral scouts, edge flows, Hodge-style analysis, null-like paths, and
+  graph/TDA methods.
+- `research/strict_stage/STAGE_INDEXED_UNIVERSE_NOTE.md`: stage-indexed
+  universe rule for when positive whole numbers become confirmed.
+- `research/strict_stage/STAGE_INDEXED_R100_NOTE.md`: first compact study of
+  the strict stage-indexed core run through `n=100`.
+- `research/strict_stage/CONVERGENCE_STRUCTURE_NOTE.md`: structure-first
+  convergence-chain study over a bounded strict-stage ledger; approximating
+  points are secondary to shared structure.
+- `research/strict_stage/WITNESS_THRESHOLD_NOTE.md`: completed audit of witness
+  availability under value-aperture changes.
+- `research/strict_stage/CONSTRUCTION_APERTURE_NOTE.md`: first corpus-wide
+  first-witness aperture metric. Historical data should be checked against
+  strict graph corpora before promotion.
 
-## Active Speculative Lenses
+## Historical Archive
 
-These are useful lenses, not current runtime semantics:
+The archive preserves exploratory closure, transitional ledgers, and working
+logs. These files may contain useful leads, but they are not current
+strict-stage MoO evidence unless reproduced through a strict graph query.
 
-- `GEOMETRIC_PROBES_NOTE.md`: circle, square, area, and shape constraints as
-  analysis-layer subsets of arithmetic construction.
-- `FERMAT_PRIME_PROBE_NOTE.md`: Fermat-prime non-collapse probe over graph
-  branch structure.
-- `FERMAT_LITTLE_PROBE_NOTE.md`: Fermat Little return-corridor probe through
-  the certainty anchor.
-- `PRIME_FACTOR_AND_CONJECTURE_PROBES_NOTE.md`: prime factors, Sophie Germain,
-  twin-prime, Goldbach, Euler-product, and Godel-style probes.
-- `PRIME_HARMONICS_NOTE.md`: speculative prime-harmonics branch hierarchy.
-- `FOURIER_ANALYSIS_LENS_NOTE.md`: Fourier as projection discipline over MoO
-  edge structure.
-- `SPECTRAL_SCOUT_NOTE.md`: edge-derived spectral signatures as scouts for
-  graph neighborhoods.
-- `NULL_GEODESIC_LENS_NOTE.md`: nontrivial construction paths that collapse
-  under chosen projections.
-- `SPECTRAL_NULL_RELATED_WORKS_NOTE.md`: related works for spectral scouts,
-  edge flows, Hodge-style analysis, null-like paths, and graph/TDA methods.
-- `RELATED_WORKS_NOTE.md`: rational trees, continued fractions, construction
-  cost, experimental math, and external baselines.
-- `CAMBRIDGE_ARC_MOTIFS_NOTE.md`: Hardy-Littlewood/Ramanujan-style rational
-  arc analogy for MoO motifs; exploratory only.
-- `TRANSCENDENTAL_ATTRACTORS_NOTE.md`: historical external-constant probe note.
-  Read current "attractor" language through `CORE_CLAIMS.md`.
+- `archive/README.md`: archive map and interpretation rules.
+- `archive/exploratory_closure/EXPLORATORY_LEADS.md`: quarantine ledger
+  preserving speculative leads without promoting them to strict-stage claims.
+- `archive/exploratory_closure/RESEARCH_TOOLS_NOTE.md`: historical research-tool
+  workflow for closure studies.
+- `archive/exploratory_closure/RESIDUAL_EMERGENCE_NOTE.md`: residual study
+  after filtering the arithmetic skeleton.
+- `archive/exploratory_closure/MOTIF_GRAPH_NOTE.md`: closure-mode motif graph
+  study.
+- `archive/exploratory_closure/MOTIF_PERSISTENCE_NOTE.md`: round-prefix motif
+  persistence study.
+- `archive/exploratory_closure/MOTIF_MASS_NOTE.md`: motif-mass pass over saved
+  `n=6` artifacts.
+- `archive/exploratory_closure/SATURATION_LAYER_NOTE.md`: comparison of `n=5`
+  emergence and saturated `n=6` bounded closure universe.
+- `archive/exploratory_closure/CONSTRUCTION_CENTERS_NOTE.md`: rational/motif
+  centers under exploratory closure.
+- `archive/exploratory_closure/CONCEPT_BRANCHES_NOTE.md`: squarehood,
+  trianglehood, and shape-anchor study.
+- `archive/exploratory_closure/BINDING_STRUCTURE_NOTE.md`: binding-profile pass
+  over inspected speculative nodes.
+- `archive/exploratory_closure/CORRIDOR_ATLAS_NOTE.md`: target-blind native
+  corridor atlas over saved `n=6` closure corpus.
+- `archive/exploratory_closure/CAMBRIDGE_ARC_MOTIFS_NOTE.md`:
+  Hardy-Littlewood/Ramanujan-style rational arc analogy for MoO motifs;
+  exploratory only.
+- `archive/exploratory_closure/TRANSCENDENTAL_ATTRACTORS_NOTE.md`: historical
+  external-constant probe note. Read current "attractor" language through
+  `CORE_CLAIMS.md`.
+- `archive/transitional_strict_ledgers/STAGE_INDEXED_MOO_LEDGER_NOTE.md`:
+  transitional strict-stage node-summary ledger. Useful evidence, but
+  graph-first SQLite storage is now preferred.
+- `archive/misalignment/PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note
+  explaining how older repo language drifted and how to read around it.
+- `archive/working_logs/NEXT_STEPS.md`: pause-point working log with preserved
+  findings, saved artifacts, and suggested experiments.
 
-## Historical Exploratory Archive
+## Code Map
 
-These documents preserve closure-mode and historical research. They may contain
-valuable leads, but they are not strict-stage MoO computation unless reproduced
-through a strict graph query.
-
-- `RESEARCH_TOOLS_NOTE.md`: historical research-tool workflow for closure
-  studies.
-- `RESIDUAL_EMERGENCE_NOTE.md`: residual study after filtering the arithmetic
-  skeleton.
-- `MOTIF_GRAPH_NOTE.md`: closure-mode motif graph study.
-- `MOTIF_PERSISTENCE_NOTE.md`: round-prefix motif persistence study.
-- `MOTIF_MASS_NOTE.md`: motif-mass pass over saved `n=6` artifacts.
-- `SATURATION_LAYER_NOTE.md`: comparison of `n=5` emergence and saturated `n=6`
-  bounded closure universe.
-- `CONSTRUCTION_CENTERS_NOTE.md`: rational/motif centers under exploratory
-  closure.
-- `CONCEPT_BRANCHES_NOTE.md`: squarehood, trianglehood, and shape-anchor study.
-- `BINDING_STRUCTURE_NOTE.md`: binding-profile pass over inspected speculative
-  nodes.
-- `CORRIDOR_ATLAS_NOTE.md`: target-blind native corridor atlas over saved `n=6`
-  closure corpus.
-
-## Working Logs And Operational Notes
-
-- `NEXT_STEPS.md`: pause-point working log with preserved findings, saved
-  artifacts, and suggested experiments.
-- `AGENTS.md`: repository guidelines for coding, testing, and collaboration.
+- `constructionist_math.py`: in-memory MoO graph runtime and demo/export
+  surface.
+- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO
+  nodes and edge occurrences.
+- `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes
+  in a strict-stage MoO SQLite corpus.
+- `moo_research_report.py`: read-only research-layer node dossiers and
+  corpus-wide baseline rankings over strict graph corpora.
+- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over
+  strict graph corpora.
+- `rational_baselines.py`: stdlib rational-baseline helpers for continued
+  fractions, Farey neighbors, and Stern-Brocot paths.
+- `moo_core_alignment_check.py`: compares a small strict-stage run through the
+  in-memory graph runtime and SQLite corpus path.
+- `moo_observatory.py` and `moo_corpus.py`: historical exploratory closure-round
+  corpus runner and SQLite helpers.
+- `moo_set_closure.py`: historical set-closure round-stepper that operates on
+  generated speculative values; not aligned MoO computation.
+- `moo_targets.py`: shared target definitions and parser used by probe scripts.
+- `fermat_prime_probe.py` and `fermat_little_probe.py`: graph-first analysis
+  probes for Fermat-style branch and return-corridor questions.
+- Historical analysis scripts (`constant_probe.py`, `native_emergence_scan.py`,
+  `residual_emergence_study.py`, `motif_*`, `saturation_layer_study.py`,
+  `construction_aperture_study.py`, `concept_branch_study.py`,
+  `binding_structure_study.py`, `corridor_atlas_study.py`,
+  `stage_indexed_*`, `waterfall_view.py`, `attractor_view.py`) remain at root
+  for compatibility, but their evidence layer is historical or transitional
+  unless a current protocol says otherwise.
 
 ## Preservation Rules
 

@@ -377,14 +377,14 @@ ANALYSIS_TOOL_PROTOCOL.md
 For stage-dynamics research, also read:
 
 ```text
-STAGE_DYNAMICS_LENS_NOTE.md
-DYNAMICS_TEST_PROTOCOL.md
+research/dynamics/STAGE_DYNAMICS_LENS_NOTE.md
+research/dynamics/DYNAMICS_TEST_PROTOCOL.md
 out/experiments/dynamics/README.md
 ```
 
 For speculative or historical leads, also read:
 
 ```text
-EXPLORATORY_LEADS.md
+archive/exploratory_closure/EXPLORATORY_LEADS.md
 DOCS_INDEX.md
 ```

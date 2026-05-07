@@ -2,7 +2,7 @@
 
 > Status: speculative research note (not part of the Python prototype in `constructionist_math.py`).
 >
-> This is not a project version file. See `VISION.md` for the current prototype version and the main design/prototype narrative.
+> This is not a project version file. See `../../VISION.md` for the current prototype version and the main design/prototype narrative.
 
 ## Axiomatic basis
 

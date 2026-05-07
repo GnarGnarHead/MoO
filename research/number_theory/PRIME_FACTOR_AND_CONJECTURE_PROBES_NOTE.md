@@ -24,7 +24,8 @@ prime whole number:
 This is not a new primality theorem. It is a structural distinction inside the
 MoO graph.
 
-The current `STAGE_INDEXED_R100_NOTE.md` already records the first clear signal:
+The current `../strict_stage/STAGE_INDEXED_R100_NOTE.md` already records the
+first clear signal:
 among promoted values from `3..100`, the additive-only promotions are exactly
 the primes in that range. The strong MoO claim is not "MoO discovers primes."
 It is:
@@ -201,9 +202,9 @@ reference point for Goldbach-style additive prime questions. The later
 Helfgott proof of ternary Goldbach explicitly uses major arcs, minor arcs,
 exponential sums, and rigorous computation.
 
-The existing `CAMBRIDGE_ARC_MOTIFS_NOTE.md` already has the right warning: MoO
-does not implement the circle method. Still, the analogy becomes cleaner after
-alignment:
+The existing `../../archive/exploratory_closure/CAMBRIDGE_ARC_MOTIFS_NOTE.md`
+already has the right warning: MoO does not implement the circle method. Still,
+the analogy becomes cleaner after alignment:
 
 ```text
 classical major arc:

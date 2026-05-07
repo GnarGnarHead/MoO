@@ -240,7 +240,8 @@ MoO, but it is a useful analogy for the motif results. In that tradition,
 important arithmetic signal can concentrate near rational boundary points,
 roots of unity, Farey arcs, and cusp-like sites.
 
-See `CAMBRIDGE_ARC_MOTIFS_NOTE.md` for the focused note.
+See `../../archive/exploratory_closure/CAMBRIDGE_ARC_MOTIFS_NOTE.md` for the
+focused historical note.
 
 Relevant works and threads:
 

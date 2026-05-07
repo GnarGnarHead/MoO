@@ -73,8 +73,8 @@ moo_graph_query.py
 stage_indexed_moo_ledger.py
 stage_indexed_convergence_study.py
 GRAPH_CORPUS_NOTE.md
-STAGE_INDEXED_MOO_LEDGER_NOTE.md
-CONVERGENCE_STRUCTURE_NOTE.md
+archive/transitional_strict_ledgers/STAGE_INDEXED_MOO_LEDGER_NOTE.md
+research/strict_stage/CONVERGENCE_STRUCTURE_NOTE.md
 ```
 
 The older `stage_indexed_moo_field_rough_20260430` run reached confirmed
@@ -124,10 +124,10 @@ constant_probe.py
 motif_graph_study.py
 motif_persistence_study.py
 motif_mass_study.py
-CONSTRUCTION_CENTERS_NOTE.md
-MOTIF_GRAPH_NOTE.md
-MOTIF_PERSISTENCE_NOTE.md
-SATURATION_LAYER_NOTE.md
+archive/exploratory_closure/CONSTRUCTION_CENTERS_NOTE.md
+archive/exploratory_closure/MOTIF_GRAPH_NOTE.md
+archive/exploratory_closure/MOTIF_PERSISTENCE_NOTE.md
+archive/exploratory_closure/SATURATION_LAYER_NOTE.md
 ```
 
 This layer can say:

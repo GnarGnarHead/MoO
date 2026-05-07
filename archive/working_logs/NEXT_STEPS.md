@@ -1,10 +1,12 @@
 # Next Steps
 
-> Status: pause point.
+> Status: archived pause point.
 >
 > Current default bounded corpus is parked at generated iteration `n = 6`.
 > Current canonical strict-stage graph corpus smoke run has confirmed operands
 > through `U80`.
+> Some document references preserve their original flat-layout names. Use
+> `../../DOCS_INDEX.md` for the current repository map.
 
 ## Current State
 

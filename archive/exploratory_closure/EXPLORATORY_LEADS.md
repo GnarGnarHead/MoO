@@ -38,7 +38,7 @@ claim_status: lead
 source_mode:
   bounded exploratory closure, not aligned strict-stage MoO
 source_artifacts:
-  NEXT_STEPS.md
+  ../working_logs/NEXT_STEPS.md
   MOTIF_GRAPH_NOTE.md
   MOTIF_PERSISTENCE_NOTE.md
   MOTIF_MASS_NOTE.md
@@ -81,9 +81,9 @@ claim_status: observation
 source_mode:
   external constants selected historical rationals for inspection
 source_artifacts:
-  NEXT_STEPS.md
+  ../working_logs/NEXT_STEPS.md
   TRANSCENDENTAL_ATTRACTORS_NOTE.md
-  CONVERGENCE_STRUCTURE_NOTE.md
+  ../../research/strict_stage/CONVERGENCE_STRUCTURE_NOTE.md
 bounds:
   mixed historical reports; strict graph dossiers must name their own SQLite
   corpus config

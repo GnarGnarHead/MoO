@@ -1,0 +1,484 @@
+{
+  "claim_boundary": {
+    "allowed_claim_language": [
+      "This report exposes exact rational unit-quadratic-shell candidates over a strict MoO graph corpus.",
+      "A complete candidate means the relevant rational component nodes are present in this corpus.",
+      "The parametrization is an external probe until MoO-native orbit and refinement criteria are defined."
+    ],
+    "claim_status": "observation",
+    "disallowed_claim_language": [
+      "Do not claim MoO defines the circle from x*x + y*y = r*r alone.",
+      "Do not claim MoO constructs pi from this report.",
+      "Do not treat the unit-shell parametrization as an internal MoO derivation."
+    ],
+    "evidence_layer": "strict",
+    "object_language": "unit_quadratic_shell"
+  },
+  "completion": {
+    "complete_point": true,
+    "component_derivation_events": 26,
+    "max_component_first_stage": 25,
+    "t_node_present": true,
+    "x_node_present": true,
+    "y_node_present": true
+  },
+  "corpus": {
+    "alignment": {
+      "non_core_operand_edges": 0,
+      "operand_rule": "only confirmed positive core-loop iterations may be operands",
+      "speculative_input_edges": 0,
+      "speculative_nodes_are_operands": false,
+      "status": "pass"
+    },
+    "config": {
+      "generator": "strict_stage_moo_graph",
+      "max_abs_p": 200,
+      "max_abs_q": 200,
+      "max_abs_value": 4.0,
+      "max_stage": 80,
+      "retain_confirmed_edges": true
+    },
+    "edges": 9559,
+    "latest_stage": {
+      "candidate_events": 636,
+      "elapsed_seconds": 0.006639614002779126,
+      "new_edges": 233,
+      "new_nodes": 57,
+      "retained_events": 233,
+      "stage": 80,
+      "total_edges": 9559,
+      "total_nodes": 3522
+    },
+    "nodes": 3522,
+    "schema_version": "1"
+  },
+  "experiment_id": "order4_unit_shell_t_3_over_4_u80_v1",
+  "parameter": {
+    "formula_role": "t",
+    "node": {
+      "baseline": {
+        "component_height": 4,
+        "continued_fraction": {
+          "length": 3,
+          "max_abs_partial_quotient": 3,
+          "terms": [
+            0,
+            1,
+            3
+          ]
+        },
+        "denominator_height": 4,
+        "farey": {
+          "left": {
+            "frac": "2/3",
+            "p": 2,
+            "q": 3
+          },
+          "order": 4,
+          "right": {
+            "frac": "1",
+            "p": 1,
+            "q": 1
+          }
+        },
+        "frac": "3/4",
+        "numerator_abs": 3,
+        "p": 3,
+        "q": 4,
+        "stern_brocot": {
+          "applicable": true,
+          "depth": 3,
+          "path": "LRR",
+          "path_runs": [
+            {
+              "count": 1,
+              "turn": "L"
+            },
+            {
+              "count": 2,
+              "turn": "R"
+            }
+          ],
+          "reason": null
+        },
+        "value_float": 0.75
+      },
+      "incoming_edge_examples": [
+        {
+          "edge_id": 47,
+          "left": "3",
+          "op": "/",
+          "right": "4",
+          "stage": 4
+        },
+        {
+          "edge_id": 143,
+          "left": "6",
+          "op": "/",
+          "right": "8",
+          "stage": 8
+        },
+        {
+          "edge_id": 285,
+          "left": "9",
+          "op": "/",
+          "right": "12",
+          "stage": 12
+        }
+      ],
+      "key": {
+        "frac": "3/4",
+        "p": 3,
+        "q": 4
+      },
+      "node": {
+        "confirmed_stage": null,
+        "first_stage": 4,
+        "frac": "3/4",
+        "kind": "rational",
+        "node_id": 15,
+        "p": 3,
+        "q": 4,
+        "status": "speculative"
+      },
+      "present": true,
+      "stats": {
+        "*": 0,
+        "+": 0,
+        "-": 0,
+        "/": 20,
+        "derivation_events": 20
+      }
+    },
+    "value": {
+      "frac": "3/4",
+      "p": 3,
+      "q": 4,
+      "value_float": 0.75
+    }
+  },
+  "point": {
+    "x": {
+      "formula": "(1 - t*t) / (1 + t*t)",
+      "node": {
+        "baseline": {
+          "component_height": 25,
+          "continued_fraction": {
+            "length": 5,
+            "max_abs_partial_quotient": 3,
+            "terms": [
+              0,
+              3,
+              1,
+              1,
+              3
+            ]
+          },
+          "denominator_height": 25,
+          "farey": {
+            "left": {
+              "frac": "5/18",
+              "p": 5,
+              "q": 18
+            },
+            "order": 25,
+            "right": {
+              "frac": "2/7",
+              "p": 2,
+              "q": 7
+            }
+          },
+          "frac": "7/25",
+          "numerator_abs": 7,
+          "p": 7,
+          "q": 25,
+          "stern_brocot": {
+            "applicable": true,
+            "depth": 7,
+            "path": "LLLRLRR",
+            "path_runs": [
+              {
+                "count": 3,
+                "turn": "L"
+              },
+              {
+                "count": 1,
+                "turn": "R"
+              },
+              {
+                "count": 1,
+                "turn": "L"
+              },
+              {
+                "count": 2,
+                "turn": "R"
+              }
+            ],
+            "reason": null
+          },
+          "value_float": 0.28
+        },
+        "incoming_edge_examples": [
+          {
+            "edge_id": 1046,
+            "left": "7",
+            "op": "/",
+            "right": "25",
+            "stage": 25
+          },
+          {
+            "edge_id": 3849,
+            "left": "14",
+            "op": "/",
+            "right": "50",
+            "stage": 50
+          },
+          {
+            "edge_id": 8382,
+            "left": "21",
+            "op": "/",
+            "right": "75",
+            "stage": 75
+          }
+        ],
+        "key": {
+          "frac": "7/25",
+          "p": 7,
+          "q": 25
+        },
+        "node": {
+          "confirmed_stage": null,
+          "first_stage": 25,
+          "frac": "7/25",
+          "kind": "rational",
+          "node_id": 362,
+          "p": 7,
+          "q": 25,
+          "status": "speculative"
+        },
+        "present": true,
+        "stats": {
+          "*": 0,
+          "+": 0,
+          "-": 0,
+          "/": 3,
+          "derivation_events": 3
+        }
+      },
+      "value": {
+        "frac": "7/25",
+        "p": 7,
+        "q": 25,
+        "value_float": 0.28
+      }
+    },
+    "y": {
+      "formula": "(2*t) / (1 + t*t)",
+      "node": {
+        "baseline": {
+          "component_height": 25,
+          "continued_fraction": {
+            "length": 3,
+            "max_abs_partial_quotient": 24,
+            "terms": [
+              0,
+              1,
+              24
+            ]
+          },
+          "denominator_height": 25,
+          "farey": {
+            "left": {
+              "frac": "23/24",
+              "p": 23,
+              "q": 24
+            },
+            "order": 25,
+            "right": {
+              "frac": "1",
+              "p": 1,
+              "q": 1
+            }
+          },
+          "frac": "24/25",
+          "numerator_abs": 24,
+          "p": 24,
+          "q": 25,
+          "stern_brocot": {
+            "applicable": true,
+            "depth": 24,
+            "path": "LRRRRRRRRRRRRRRRRRRRRRRR",
+            "path_runs": [
+              {
+                "count": 1,
+                "turn": "L"
+              },
+              {
+                "count": 23,
+                "turn": "R"
+              }
+            ],
+            "reason": null
+          },
+          "value_float": 0.96
+        },
+        "incoming_edge_examples": [
+          {
+            "edge_id": 1067,
+            "left": "24",
+            "op": "/",
+            "right": "25",
+            "stage": 25
+          },
+          {
+            "edge_id": 3886,
+            "left": "48",
+            "op": "/",
+            "right": "50",
+            "stage": 50
+          },
+          {
+            "edge_id": 8435,
+            "left": "72",
+            "op": "/",
+            "right": "75",
+            "stage": 75
+          }
+        ],
+        "key": {
+          "frac": "24/25",
+          "p": 24,
+          "q": 25
+        },
+        "node": {
+          "confirmed_stage": null,
+          "first_stage": 25,
+          "frac": "24/25",
+          "kind": "rational",
+          "node_id": 376,
+          "p": 24,
+          "q": 25,
+          "status": "speculative"
+        },
+        "present": true,
+        "stats": {
+          "*": 0,
+          "+": 0,
+          "-": 0,
+          "/": 3,
+          "derivation_events": 3
+        }
+      },
+      "value": {
+        "frac": "24/25",
+        "p": 24,
+        "q": 25,
+        "value_float": 0.96
+      }
+    }
+  },
+  "quadratic_check": {
+    "exact": true,
+    "form": "x*x + y*y",
+    "target": {
+      "frac": "1",
+      "p": 1,
+      "q": 1,
+      "value_float": 1.0
+    },
+    "value": {
+      "frac": "1",
+      "p": 1,
+      "q": 1,
+      "value_float": 1.0
+    }
+  },
+  "relation_status": "external_parametrized_candidate_relation",
+  "report_metadata": {
+    "checksums_included": true,
+    "command": "moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --node 3/4 --experiment-id order4_unit_shell_t_3_over_4_u80_v1 --write out/experiments/dynamics/order4_unit_shell_t_3_over_4_u80_v1.json --pretty",
+    "db_path": "out/experiments/strict_stage_graph_smoke.sqlite",
+    "db_sha256": "cd7955fac53e0c293aba05112d6001742ce6bd9d2d7ed8faf71c2e218dceaa5e",
+    "generated_at_utc": "2026-05-07T09:11:09Z",
+    "schema_version": "moo_circle_probe.v1",
+    "tool": "moo_circle_probe.py",
+    "tool_path": "/home/scott/Programming/MoO/moo_circle_probe.py",
+    "tool_sha256": "eda4c95f79a2e07181b83a79d0f3ecf65b77c59d175b7baf475c5b3e2741ab01"
+  },
+  "report_type": "unit_shell_dossier",
+  "symmetry_coverage": {
+    "all_variants_complete": false,
+    "complete_variant_count": 1,
+    "variant_count": 4,
+    "variants": [
+      {
+        "complete": false,
+        "x": {
+          "frac": "-7/25",
+          "p": -7,
+          "q": 25,
+          "value_float": -0.28
+        },
+        "x_node_present": false,
+        "y": {
+          "frac": "-24/25",
+          "p": -24,
+          "q": 25,
+          "value_float": -0.96
+        },
+        "y_node_present": false
+      },
+      {
+        "complete": false,
+        "x": {
+          "frac": "-7/25",
+          "p": -7,
+          "q": 25,
+          "value_float": -0.28
+        },
+        "x_node_present": false,
+        "y": {
+          "frac": "24/25",
+          "p": 24,
+          "q": 25,
+          "value_float": 0.96
+        },
+        "y_node_present": true
+      },
+      {
+        "complete": false,
+        "x": {
+          "frac": "7/25",
+          "p": 7,
+          "q": 25,
+          "value_float": 0.28
+        },
+        "x_node_present": true,
+        "y": {
+          "frac": "-24/25",
+          "p": -24,
+          "q": 25,
+          "value_float": -0.96
+        },
+        "y_node_present": false
+      },
+      {
+        "complete": true,
+        "x": {
+          "frac": "7/25",
+          "p": 7,
+          "q": 25,
+          "value_float": 0.28
+        },
+        "x_node_present": true,
+        "y": {
+          "frac": "24/25",
+          "p": 24,
+          "q": 25,
+          "value_float": 0.96
+        },
+        "y_node_present": true
+      }
+    ]
+  }
+}

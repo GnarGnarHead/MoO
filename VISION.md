@@ -39,31 +39,16 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `stage_indexed_convergence_study.py`: structure-first convergence-chain study over a saved strict-stage MoO ledger.
 - `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
 - `README.md`: project overview + command map.
-- `DOCS_INDEX.md`: consolidated reading map for canonical, active, speculative, and historical notes.
+- `DOCS_INDEX.md`: consolidated reading map for the current core, active research, and quarantined archive.
 - `CORE_CLAIMS.md`: current claim boundary for what MoO can say, cannot say, and must keep corpus-conditioned.
 - `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected objects inferred from stable graph families.
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.
-- `PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note explaining where the repository still conflicts with the resolved MoO framing and why.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared protocol for probes, scouts, lenses, and speculative studies so external analysis returns to graph context.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for aligned MoO.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical order framing: `1` as the only certainty, confirmed core-loop iterations as second order, and unconfirmed or relational constructions as third order.
-- `STAGE_INDEXED_UNIVERSE_NOTE.md`: core-loop rule for when positive whole numbers enter the MoO universe and when speculative constructions remain unconfirmed.
-- `STAGE_INDEXED_R100_NOTE.md`: first compact study of the strict `n=100` stage-indexed core run.
-- `STAGE_INDEXED_MOO_LEDGER_NOTE.md`: transitional node-summary strict-stage run; useful evidence, but graph-first storage is now canonical.
-- `CONVERGENCE_STRUCTURE_NOTE.md`: first convergence-chain study showing why approximating points matter only through shared structure.
-- `TRANSCENDENTAL_ATTRACTORS_NOTE.md`: research note separating rational closure from external constant probes.
-- `WITNESS_THRESHOLD_NOTE.md`: audit showing how value aperture changes witness availability and construction timing.
-- `CONSTRUCTION_APERTURE_NOTE.md`: first corpus-wide metric for first-witness construction aperture.
-- `CONCEPT_BRANCHES_NOTE.md`: first concept-family probe, separating shape anchors such as `3` and `4` from generated families.
-- `PRIME_HARMONICS_NOTE.md`: speculative analysis note (not runtime semantics).
-- `PRIME_FACTOR_AND_CONJECTURE_PROBES_NOTE.md`: speculative analysis note for prime factors, Sophie Germain/twin-prime/Goldbach corridors, Euler-product pi shadows, and Godel-style coding.
-- `FERMAT_PRIME_PROBE_NOTE.md`: speculative Fermat-prime non-collapse probe over graph branch structure.
-- `FERMAT_LITTLE_PROBE_NOTE.md`: speculative Fermat Little return-corridor probe preserving self-reference through `1`.
-- `GEOMETRIC_PROBES_NOTE.md`: speculative analysis note for geometric constraint probes over emergent arithmetic patterns.
-- `FOURIER_ANALYSIS_LENS_NOTE.md`: speculative analysis note treating Fourier's body of work as projection discipline over MoO edge structure.
-- `SPECTRAL_SCOUT_NOTE.md`: speculative analysis-tool concept for using edge-derived spectral signatures to scout graph neighborhoods for inspection.
-- `NULL_GEODESIC_LENS_NOTE.md`: speculative analysis-lens note for nontrivial construction paths that collapse under a chosen projection.
-- `SPECTRAL_NULL_RELATED_WORKS_NOTE.md`: related-works pass for spectral scouting and null-like paths, emphasizing edge-flow and Hodge-style analysis.
+- `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory, and external-probe claims.
+- `research/`: active scrutiny lenses and strict-corpus research branches grouped by family.
+- `archive/`: historical exploratory closure notes, transitional ledgers, working logs, and misalignment audits.
 
 ---
 
@@ -192,8 +177,9 @@ sqrt2 and phi:
   algebraic irrational
 ```
 
-See `TRANSCENDENTAL_ATTRACTORS_NOTE.md` for the current observation and research
-program, and `ORDER4_PROJECTION_PROTOCOL.md` for projected-object rules.
+See `archive/exploratory_closure/TRANSCENDENTAL_ATTRACTORS_NOTE.md` for the
+historical observation and `ORDER4_PROJECTION_PROTOCOL.md` for current
+projected-object rules.
 
 ### 3.3 Geometric Probes as Analysis Layer
 
@@ -211,7 +197,8 @@ runtime rational emergence
 -> possible Order-4 projected invariant if held-out graph evidence supports it
 ```
 
-See `GEOMETRIC_PROBES_NOTE.md` for guardrails and first probe families.
+See `research/geometry/GEOMETRIC_PROBES_NOTE.md` for guardrails and first
+probe families.
 
 ---
 

@@ -6,7 +6,7 @@
 > arithmetic shadows: reciprocal-square mass, finite products, zeros, and prime
 > factorization. This note does not claim that MoO constructs `pi` or defines
 > the Euclidean circle. Any later `pi` or circle-like Order-4 language must
-> follow `ORDER4_PROJECTION_PROTOCOL.md`.
+> follow `../../ORDER4_PROJECTION_PROTOCOL.md`.
 
 ## Claim Boundary
 
