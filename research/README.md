@@ -13,8 +13,9 @@ read through `../CORE_CLAIMS.md` and `../RESEARCH_LENSES.md`.
   shifts, recurrence, and neighborhood-divergence protocols.
 - `euler/`: quadratic-shell, reciprocal-square, finite-product, and delayed
   pi-shadow probes under Order-4 discipline.
-- `geometry/`: circle, square, area, and shape constraints as analysis-layer
-  filters over already-recorded rational graph structure.
+- `geometry/`: circle, square, area, rational shell, and circle-square branch
+  alignment constraints as analysis-layer filters over already-recorded
+  rational graph structure.
 - `number_theory/`: rational baselines, continued fractions, prime/conjecture
   probes, Fermat-style corridors, and construction-cost comparisons.
 - `spectral/`: Fourier, edge-signal, null-path, and graph-spectral scouting

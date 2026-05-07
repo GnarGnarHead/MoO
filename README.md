@@ -118,6 +118,9 @@ iteration of `1`.
 - `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for projected objects:
   non-rational constants, circle-like invariants, asymptotic anchors, and
   predictive organization tests.
+- `GRAPH_INVARIANTS_PROTOCOL.md`: shared vocabulary for graph-native invariant
+  fields such as arrival, witness diversity, operation signature, neighborhood
+  overlap, and baseline-adjusted rank.
 - `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory,
   and external-probe claims.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for strict-stage
@@ -133,15 +136,21 @@ iteration of `1`.
 - `out/experiments/dynamics/`: narrowly tracked saved reports,
   preregistration notes, and paired interpretation notes for stage-dynamics and
   Order-4 protocol experiments.
+- `out/experiments/geometry/`: narrowly tracked saved reports,
+  preregistration notes, and paired interpretation notes for rational shell and
+  circle-without-pi experiments.
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
 - `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
 - `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO
   nodes and edge occurrences.
 - `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes
   in a strict-stage MoO SQLite corpus.
-- `moo_research_report.py`, `moo_circle_probe.py`, and `rational_baselines.py`:
-  read-only research-layer reporting, circle/shell probing, and rational
-  baseline helpers over strict graph corpora.
+- `moo_research_report.py`, `moo_circle_probe.py`,
+  `moo_circle_square_probe.py`, and `rational_baselines.py`: read-only
+  research-layer reporting, circle/shell probing, circle-square branch
+  alignment probing, and rational baseline helpers over strict graph corpora.
+- `moo_graph_invariants.py`: shared invariant helpers used by research reports
+  so probes describe graph evidence with the same vocabulary.
 - `moo_observatory.py`: historical exploratory closure-round corpus runner.
 - `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by the historical observatory runner.
 - `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO nodes and edge occurrences.

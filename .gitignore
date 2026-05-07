@@ -35,3 +35,9 @@ out/experiments/dynamics/*
 *.csv
 *.json
 !out/experiments/dynamics/*.json
+!out/experiments/geometry/
+out/experiments/geometry/*
+!out/experiments/geometry/README.md
+!out/experiments/geometry/*.pre.md
+!out/experiments/geometry/*.analysis.md
+!out/experiments/geometry/*.json

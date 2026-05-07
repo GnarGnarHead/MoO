@@ -10,6 +10,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
+from moo_graph_invariants import family_graph_invariants
 from moo_research_utils import (
     connect_readonly,
     emit_json,
@@ -268,18 +269,49 @@ def _light_component_metrics(
     keys: Iterable[Key],
     nodes: Dict[Key, sqlite3.Row],
     stats: Dict[int, Dict[str, int]],
-) -> Dict[str, Optional[int]]:
+) -> Dict[str, object]:
+    key_list = [normalize_key(*key) for key in keys]
     stages: List[int] = []
+    confirmation_lags: List[int] = []
+    denominator_heights: List[int] = []
+    component_heights: List[int] = []
+    op_counts: Counter[str] = Counter()
     witnesses = 0
-    for key in keys:
-        row = nodes.get(normalize_key(*key))
+    present = 0
+    for normalized in key_list:
+        denominator_heights.append(int(normalized[1]))
+        component_heights.append(max(abs(int(normalized[0])), int(normalized[1])))
+        row = nodes.get(normalized)
         if row is None:
             continue
+        present += 1
         stages.append(int(row["first_stage"]))
-        witnesses += int(stats.get(int(row["node_id"]), _stats_payload(None))["derivation_events"])
+        if row["confirmed_stage"] is not None:
+            confirmation_lags.append(int(row["confirmed_stage"]) - int(row["first_stage"]))
+        node_stats = stats.get(int(row["node_id"]), _stats_payload(None))
+        witnesses += int(node_stats["derivation_events"])
+        for op in ("+", "-", "*", "/"):
+            op_counts[op] += int(node_stats.get(op, 0))
     return {
         "max_component_first_stage": max(stages) if stages else None,
         "component_derivation_events": witnesses,
+        "graph_invariant_summary": {
+            "vocabulary_version": "graph_invariants.v1",
+            "component_count": len(key_list),
+            "present_component_count": int(present),
+            "missing_component_count": len(key_list) - present,
+            "max_first_stage": max(stages) if stages else None,
+            "max_confirmation_lag": max(confirmation_lags) if confirmation_lags else None,
+            "total_incoming_derivation_events": int(witnesses),
+            "aggregate_operation_signature": {
+                "incoming_derivation_events": int(witnesses),
+                "counts": {op: int(op_counts[op]) for op in sorted(op_counts) if int(op_counts[op])},
+            },
+            "baseline_envelope": {
+                "max_denominator_height": max(denominator_heights) if denominator_heights else None,
+                "max_component_height": max(component_heights) if component_heights else None,
+            },
+        },
     }
 
 
@@ -328,6 +360,11 @@ def unit_shell_dossier_for_t(
     x_node = _node_with_stats(fraction_key(x), nodes, stats, conn=conn)
     y_node = _node_with_stats(fraction_key(y), nodes, stats, conn=conn)
     components = [t_node, x_node, y_node]
+    component_keys = [
+        ("t", t_key),
+        ("x", fraction_key(x)),
+        ("y", fraction_key(y)),
+    ]
     return {
         "report_type": "unit_shell_dossier",
         "corpus": _corpus_payload(conn),
@@ -356,6 +393,7 @@ def unit_shell_dossier_for_t(
             "max_component_first_stage": _max_stage(components),
             "component_derivation_events": _witness_total(components),
         },
+        "graph_invariant_summary": family_graph_invariants(conn, component_keys),
         "symmetry_coverage": _symmetry_payload(x, y, nodes),
     }
 
@@ -418,6 +456,7 @@ def _unit_shell_candidate(
         "y_node_present": y_key in nodes,
         "max_component_first_stage": metrics["max_component_first_stage"],
         "component_derivation_events": metrics["component_derivation_events"],
+        "graph_invariant_summary": metrics["graph_invariant_summary"],
         "symmetry_variant_count": symmetry["variant_count"],
         "symmetry_complete_variants": symmetry["complete_variant_count"],
     }
@@ -581,6 +620,7 @@ def pythagorean_shell_summary(
                     "complete_shell": r_key in nodes,
                     "max_component_first_stage": metrics["max_component_first_stage"],
                     "component_derivation_events": metrics["component_derivation_events"],
+                    "graph_invariant_summary": metrics["graph_invariant_summary"],
                     "quadratic_check": {
                         "form": "x*x + y*y",
                         "value": fraction_record(quadratic_form(x, y)),

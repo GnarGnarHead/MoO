@@ -18,6 +18,7 @@ from moo_research_utils import (
     require_strict_alignment,
     strict_alignment_payload,
 )
+from moo_graph_invariants import node_graph_invariants
 from rational_baselines import (
     baseline_features,
     continued_fraction,
@@ -480,6 +481,7 @@ def node_dossier(
                 "outgoing_participation": _outgoing_summary(conn, node_id, limit=limit),
             },
             "baseline_ratios": _ratio_payload(node, baselines, stats),
+            "graph_invariants": node_graph_invariants(conn, key),
         }
     )
     return payload

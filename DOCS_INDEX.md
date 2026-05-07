@@ -17,9 +17,10 @@ Use this order for a first pass:
 3. PROJECT_ALIGNMENT_NOTE.md
 4. EPISTEMIC_ORDER_NOTE.md
 5. GRAPH_CORPUS_NOTE.md
-6. ORDER4_PROJECTION_PROTOCOL.md
-7. RESEARCH_LENSES.md
-8. ANALYSIS_TOOL_PROTOCOL.md
+6. GRAPH_INVARIANTS_PROTOCOL.md
+7. ORDER4_PROJECTION_PROTOCOL.md
+8. RESEARCH_LENSES.md
+9. ANALYSIS_TOOL_PROTOCOL.md
 ```
 
 Then branch:
@@ -65,6 +66,7 @@ CORE_CLAIMS.md
 PROJECT_ALIGNMENT_NOTE.md
 EPISTEMIC_ORDER_NOTE.md
 GRAPH_CORPUS_NOTE.md
+GRAPH_INVARIANTS_PROTOCOL.md
 ORDER4_PROJECTION_PROTOCOL.md
 RESEARCH_LENSES.md
 ```
@@ -83,6 +85,9 @@ RESEARCH_LENSES.md
   and promotion by `n`.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage direction for aligned
   strict-stage MoO corpora.
+- `GRAPH_INVARIANTS_PROTOCOL.md`: shared graph-native invariant vocabulary for
+  arrival, witnesses, operation signatures, neighborhood overlap, and
+  baseline-adjusted rank.
 - `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for non-operational
   projected objects inferred from stable graph families.
 
@@ -92,6 +97,8 @@ RESEARCH_LENSES.md
   promotion criteria, and kill criteria.
 - `ANALYSIS_TOOL_PROTOCOL.md`: rulebook for probes and scouts; every analysis
   signal must return to exact graph context.
+- `GRAPH_INVARIANTS_PROTOCOL.md`: minimum invariant vocabulary used by strict
+  graph reports and projected-anchor probes.
 - `ORDER4_PROJECTION_PROTOCOL.md`: projection-certificate protocol for
   non-rational constants, circle-like invariants, asymptotic anchors, controls,
   holdouts, and predictive organization tests.
@@ -99,6 +106,8 @@ RESEARCH_LENSES.md
   and interpretation-note protocol for stage-dynamics work.
 - `out/experiments/dynamics/README.md`: local artifact convention for dynamics
   reports, preregistration notes, and analysis notes.
+- `out/experiments/geometry/README.md`: local artifact convention for
+  geometry-adjacent rational shell reports and analysis notes.
 - `AGENTS.md`: repository guidelines for coding, testing, documentation layout,
   and collaboration.
 
@@ -118,6 +127,8 @@ runtime semantics unless a future core document explicitly promotes a rule.
   interpreting stage-dynamics research artifacts.
 - `research/geometry/GEOMETRIC_PROBES_NOTE.md`: circle, square, area, and shape
   constraints as analysis-layer subsets of arithmetic construction.
+- `research/geometry/CIRCLE_SQUARE_ALIGNMENT_PROTOCOL.md`: active protocol for
+  rational shell and square/self-product branch-alignment reports.
 - `research/number_theory/RELATED_WORKS_NOTE.md`: rational trees, continued
   fractions, construction cost, experimental math, and external baselines.
 - `research/number_theory/FERMAT_PRIME_PROBE_NOTE.md`: Fermat-prime
@@ -207,6 +218,10 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
   corpus-wide baseline rankings over strict graph corpora.
 - `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over
   strict graph corpora.
+- `moo_circle_square_probe.py`: read-only rational shell and square-component
+  branch-alignment probe over strict graph corpora.
+- `moo_graph_invariants.py`: shared graph-invariant helper functions for node
+  and family reports.
 - `rational_baselines.py`: stdlib rational-baseline helpers for continued
   fractions, Farey neighbors, and Stern-Brocot paths.
 - `moo_core_alignment_check.py`: compares a small strict-stage run through the

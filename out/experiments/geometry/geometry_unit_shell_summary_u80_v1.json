@@ -1,0 +1,1249 @@
+{
+  "claim_boundary": {
+    "allowed_claim_language": [
+      "This report exposes exact rational unit-quadratic-shell candidates over a strict MoO graph corpus.",
+      "A complete candidate means the relevant rational component nodes are present in this corpus.",
+      "The parametrization is an external probe until MoO-native orbit and refinement criteria are defined."
+    ],
+    "claim_status": "lead",
+    "disallowed_claim_language": [
+      "Do not claim MoO defines the circle from x*x + y*y = r*r alone.",
+      "Do not claim MoO constructs pi from this report.",
+      "Do not treat the unit-shell parametrization as an internal MoO derivation."
+    ],
+    "evidence_layer": "strict",
+    "object_language": "unit_quadratic_shell"
+  },
+  "corpus": {
+    "alignment": {
+      "non_core_operand_edges": 0,
+      "operand_rule": "only confirmed positive core-loop iterations may be operands",
+      "speculative_input_edges": 0,
+      "speculative_nodes_are_operands": false,
+      "status": "pass"
+    },
+    "config": {
+      "generator": "strict_stage_moo_graph",
+      "max_abs_p": 200,
+      "max_abs_q": 200,
+      "max_abs_value": 4.0,
+      "max_stage": 80,
+      "retain_confirmed_edges": true
+    },
+    "edges": 9559,
+    "latest_stage": {
+      "candidate_events": 636,
+      "elapsed_seconds": 0.006639614002779126,
+      "new_edges": 233,
+      "new_nodes": 57,
+      "retained_events": 233,
+      "stage": 80,
+      "total_edges": 9559,
+      "total_nodes": 3522
+    },
+    "nodes": 3522,
+    "schema_version": "1"
+  },
+  "experiment_id": "geometry_unit_shell_summary_u80_v1",
+  "parameters": {
+    "max_abs_value": 4.0,
+    "max_denominator": 40,
+    "only_complete": true
+  },
+  "report_metadata": {
+    "checksums_included": true,
+    "command": "moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --max-denominator 40 --max-abs-value 4 --only-complete --limit 12 --experiment-id geometry_unit_shell_summary_u80_v1 --with-checksums --write out/experiments/geometry/geometry_unit_shell_summary_u80_v1.json --pretty",
+    "db_path": "out/experiments/strict_stage_graph_smoke.sqlite",
+    "db_sha256": "cd7955fac53e0c293aba05112d6001742ce6bd9d2d7ed8faf71c2e218dceaa5e",
+    "generated_at_utc": "2026-05-07T09:44:05Z",
+    "schema_version": "moo_circle_probe.v1",
+    "tool": "moo_circle_probe.py",
+    "tool_path": "/home/scott/Programming/MoO/moo_circle_probe.py",
+    "tool_sha256": "2d5a628d9cb07c9f21fbaffd8b8d54c501990082c7bd516dd5710384bc5008d1"
+  },
+  "report_type": "unit_shell_summary",
+  "summary": {
+    "all_symmetry_variants_complete_count": 3,
+    "candidate_count": 27,
+    "complete_parameter_status_distribution": {
+      "certainty": 1,
+      "speculative": 26
+    },
+    "complete_point_count": 27,
+    "denominator_distribution": {
+      "1": 3,
+      "13": 2,
+      "17": 2,
+      "25": 2,
+      "29": 2,
+      "37": 2,
+      "41": 2,
+      "5": 2,
+      "53": 2,
+      "61": 2,
+      "65": 4,
+      "73": 2
+    },
+    "missing_x_count": 0,
+    "missing_y_count": 0,
+    "parameter_status_distribution": {
+      "certainty": 1,
+      "speculative": 26
+    },
+    "stage_distribution": {
+      "1": 2,
+      "13": 2,
+      "17": 2,
+      "2": 1,
+      "25": 2,
+      "29": 2,
+      "37": 2,
+      "41": 2,
+      "5": 2,
+      "53": 2,
+      "61": 2,
+      "65": 4,
+      "73": 2
+    }
+  },
+  "top_high_witness_complete_points": [
+    {
+      "complete_point": true,
+      "component_derivation_events": 402,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "*": 2,
+            "-": 238,
+            "/": 160
+          },
+          "incoming_derivation_events": 402
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": 0,
+        "max_first_stage": 1,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 402,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 1,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "t_node_status": "certainty",
+      "x": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 321,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "*": 1,
+            "-": 239,
+            "/": 80
+          },
+          "incoming_derivation_events": 321
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": 0,
+        "max_first_stage": 1,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 321,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 1,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 238,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "-": 238
+          },
+          "incoming_derivation_events": 238
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 2,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 238,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 2,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "-1",
+        "p": -1,
+        "q": 1,
+        "value_float": -1.0
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "-1",
+        "p": -1,
+        "q": 1,
+        "value_float": -1.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 72,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 72
+          },
+          "incoming_derivation_events": 72
+        },
+        "baseline_envelope": {
+          "max_component_height": 5,
+          "max_denominator_height": 5
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 5,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 72,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 5,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/2",
+        "p": 1,
+        "q": 2,
+        "value_float": 0.5
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "4/5",
+        "p": 4,
+        "q": 5,
+        "value_float": 0.8
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 58,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 58
+          },
+          "incoming_derivation_events": 58
+        },
+        "baseline_envelope": {
+          "max_component_height": 5,
+          "max_denominator_height": 5
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 5,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 58,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 5,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/3",
+        "p": 1,
+        "q": 3,
+        "value_float": 0.3333333333333333
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "4/5",
+        "p": 4,
+        "q": 5,
+        "value_float": 0.8
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 38,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 38
+          },
+          "incoming_derivation_events": 38
+        },
+        "baseline_envelope": {
+          "max_component_height": 13,
+          "max_denominator_height": 13
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 13,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 38,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 13,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "2/3",
+        "p": 2,
+        "q": 3,
+        "value_float": 0.6666666666666666
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "5/13",
+        "p": 5,
+        "q": 13,
+        "value_float": 0.38461538461538464
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "12/13",
+        "p": 12,
+        "q": 13,
+        "value_float": 0.9230769230769231
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 28,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 28
+          },
+          "incoming_derivation_events": 28
+        },
+        "baseline_envelope": {
+          "max_component_height": 13,
+          "max_denominator_height": 13
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 13,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 28,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 13,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/5",
+        "p": 1,
+        "q": 5,
+        "value_float": 0.2
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "12/13",
+        "p": 12,
+        "q": 13,
+        "value_float": 0.9230769230769231
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "5/13",
+        "p": 5,
+        "q": 13,
+        "value_float": 0.38461538461538464
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 28,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 28
+          },
+          "incoming_derivation_events": 28
+        },
+        "baseline_envelope": {
+          "max_component_height": 17,
+          "max_denominator_height": 17
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 17,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 28,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 17,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/4",
+        "p": 1,
+        "q": 4,
+        "value_float": 0.25
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "15/17",
+        "p": 15,
+        "q": 17,
+        "value_float": 0.8823529411764706
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "8/17",
+        "p": 8,
+        "q": 17,
+        "value_float": 0.47058823529411764
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 26,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 26
+          },
+          "incoming_derivation_events": 26
+        },
+        "baseline_envelope": {
+          "max_component_height": 25,
+          "max_denominator_height": 25
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 25,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 26,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 25,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "3/4",
+        "p": 3,
+        "q": 4,
+        "value_float": 0.75
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "7/25",
+        "p": 7,
+        "q": 25,
+        "value_float": 0.28
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "24/25",
+        "p": 24,
+        "q": 25,
+        "value_float": 0.96
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 24,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 24
+          },
+          "incoming_derivation_events": 24
+        },
+        "baseline_envelope": {
+          "max_component_height": 17,
+          "max_denominator_height": 17
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 17,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 24,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 17,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "8/17",
+        "p": 8,
+        "q": 17,
+        "value_float": 0.47058823529411764
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "15/17",
+        "p": 15,
+        "q": 17,
+        "value_float": 0.8823529411764706
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 20,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 20
+          },
+          "incoming_derivation_events": 20
+        },
+        "baseline_envelope": {
+          "max_component_height": 29,
+          "max_denominator_height": 29
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 29,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 20,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 29,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "2/5",
+        "p": 2,
+        "q": 5,
+        "value_float": 0.4
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "21/29",
+        "p": 21,
+        "q": 29,
+        "value_float": 0.7241379310344828
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "20/29",
+        "p": 20,
+        "q": 29,
+        "value_float": 0.6896551724137931
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 18,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 18
+          },
+          "incoming_derivation_events": 18
+        },
+        "baseline_envelope": {
+          "max_component_height": 41,
+          "max_denominator_height": 41
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 41,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 18,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 41,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "4/5",
+        "p": 4,
+        "q": 5,
+        "value_float": 0.8
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "9/41",
+        "p": 9,
+        "q": 41,
+        "value_float": 0.21951219512195122
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "40/41",
+        "p": 40,
+        "q": 41,
+        "value_float": 0.975609756097561
+      },
+      "y_node_present": true
+    }
+  ],
+  "top_low_stage_complete_points": [
+    {
+      "complete_point": true,
+      "component_derivation_events": 321,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "*": 1,
+            "-": 239,
+            "/": 80
+          },
+          "incoming_derivation_events": 321
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": 0,
+        "max_first_stage": 1,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 321,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 1,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 402,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "*": 2,
+            "-": 238,
+            "/": 160
+          },
+          "incoming_derivation_events": 402
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": 0,
+        "max_first_stage": 1,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 402,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 1,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "t_node_status": "certainty",
+      "x": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "1",
+        "p": 1,
+        "q": 1,
+        "value_float": 1.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 238,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "-": 238
+          },
+          "incoming_derivation_events": 238
+        },
+        "baseline_envelope": {
+          "max_component_height": 1,
+          "max_denominator_height": 1
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 2,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 238,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 2,
+      "symmetry_complete_variants": 2,
+      "symmetry_variant_count": 2,
+      "t": {
+        "frac": "-1",
+        "p": -1,
+        "q": 1,
+        "value_float": -1.0
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "0",
+        "p": 0,
+        "q": 1,
+        "value_float": 0.0
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "-1",
+        "p": -1,
+        "q": 1,
+        "value_float": -1.0
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 58,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 58
+          },
+          "incoming_derivation_events": 58
+        },
+        "baseline_envelope": {
+          "max_component_height": 5,
+          "max_denominator_height": 5
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 5,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 58,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 5,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/3",
+        "p": 1,
+        "q": 3,
+        "value_float": 0.3333333333333333
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "4/5",
+        "p": 4,
+        "q": 5,
+        "value_float": 0.8
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 72,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 72
+          },
+          "incoming_derivation_events": 72
+        },
+        "baseline_envelope": {
+          "max_component_height": 5,
+          "max_denominator_height": 5
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 5,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 72,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 5,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/2",
+        "p": 1,
+        "q": 2,
+        "value_float": 0.5
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "4/5",
+        "p": 4,
+        "q": 5,
+        "value_float": 0.8
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 28,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 28
+          },
+          "incoming_derivation_events": 28
+        },
+        "baseline_envelope": {
+          "max_component_height": 13,
+          "max_denominator_height": 13
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 13,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 28,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 13,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/5",
+        "p": 1,
+        "q": 5,
+        "value_float": 0.2
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "12/13",
+        "p": 12,
+        "q": 13,
+        "value_float": 0.9230769230769231
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "5/13",
+        "p": 5,
+        "q": 13,
+        "value_float": 0.38461538461538464
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 38,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 38
+          },
+          "incoming_derivation_events": 38
+        },
+        "baseline_envelope": {
+          "max_component_height": 13,
+          "max_denominator_height": 13
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 13,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 38,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 13,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "2/3",
+        "p": 2,
+        "q": 3,
+        "value_float": 0.6666666666666666
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "5/13",
+        "p": 5,
+        "q": 13,
+        "value_float": 0.38461538461538464
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "12/13",
+        "p": 12,
+        "q": 13,
+        "value_float": 0.9230769230769231
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 28,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 28
+          },
+          "incoming_derivation_events": 28
+        },
+        "baseline_envelope": {
+          "max_component_height": 17,
+          "max_denominator_height": 17
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 17,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 28,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 17,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/4",
+        "p": 1,
+        "q": 4,
+        "value_float": 0.25
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "15/17",
+        "p": 15,
+        "q": 17,
+        "value_float": 0.8823529411764706
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "8/17",
+        "p": 8,
+        "q": 17,
+        "value_float": 0.47058823529411764
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 24,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 24
+          },
+          "incoming_derivation_events": 24
+        },
+        "baseline_envelope": {
+          "max_component_height": 17,
+          "max_denominator_height": 17
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 17,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 24,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 17,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "3/5",
+        "p": 3,
+        "q": 5,
+        "value_float": 0.6
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "8/17",
+        "p": 8,
+        "q": 17,
+        "value_float": 0.47058823529411764
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "15/17",
+        "p": 15,
+        "q": 17,
+        "value_float": 0.8823529411764706
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 17,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 17
+          },
+          "incoming_derivation_events": 17
+        },
+        "baseline_envelope": {
+          "max_component_height": 25,
+          "max_denominator_height": 25
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 25,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 17,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 25,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "1/7",
+        "p": 1,
+        "q": 7,
+        "value_float": 0.14285714285714285
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "24/25",
+        "p": 24,
+        "q": 25,
+        "value_float": 0.96
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "7/25",
+        "p": 7,
+        "q": 25,
+        "value_float": 0.28
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 26,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 26
+          },
+          "incoming_derivation_events": 26
+        },
+        "baseline_envelope": {
+          "max_component_height": 25,
+          "max_denominator_height": 25
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 25,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 26,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 25,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "3/4",
+        "p": 3,
+        "q": 4,
+        "value_float": 0.75
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "7/25",
+        "p": 7,
+        "q": 25,
+        "value_float": 0.28
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "24/25",
+        "p": 24,
+        "q": 25,
+        "value_float": 0.96
+      },
+      "y_node_present": true
+    },
+    {
+      "complete_point": true,
+      "component_derivation_events": 20,
+      "graph_invariant_summary": {
+        "aggregate_operation_signature": {
+          "counts": {
+            "/": 20
+          },
+          "incoming_derivation_events": 20
+        },
+        "baseline_envelope": {
+          "max_component_height": 29,
+          "max_denominator_height": 29
+        },
+        "component_count": 3,
+        "max_confirmation_lag": null,
+        "max_first_stage": 29,
+        "missing_component_count": 0,
+        "present_component_count": 3,
+        "total_incoming_derivation_events": 20,
+        "vocabulary_version": "graph_invariants.v1"
+      },
+      "max_component_first_stage": 29,
+      "symmetry_complete_variants": 1,
+      "symmetry_variant_count": 4,
+      "t": {
+        "frac": "2/5",
+        "p": 2,
+        "q": 5,
+        "value_float": 0.4
+      },
+      "t_node_status": "speculative",
+      "x": {
+        "frac": "21/29",
+        "p": 21,
+        "q": 29,
+        "value_float": 0.7241379310344828
+      },
+      "x_node_present": true,
+      "y": {
+        "frac": "20/29",
+        "p": 20,
+        "q": 29,
+        "value_float": 0.6896551724137931
+      },
+      "y_node_present": true
+    }
+  ]
+}

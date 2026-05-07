@@ -49,6 +49,9 @@ tool.
 Order-4 projected-object proposals must also fill the certificate in
 `ORDER4_PROJECTION_PROTOCOL.md` before they gain credibility.
 
+Graph-native metric language should use `GRAPH_INVARIANTS_PROTOCOL.md` unless a
+probe explicitly defines a stricter metric.
+
 ## Active Strict Lenses
 
 ### Rational Baseline Lens

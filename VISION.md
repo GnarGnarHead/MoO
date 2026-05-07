@@ -30,6 +30,10 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `moo_graph_corpus.py`: graph-first SQLite schema/helpers for aligned strict-stage MoO nodes and edge occurrences.
 - `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
 - `moo_graph_query.py`: graph inspection CLI for strict-stage MoO SQLite corpora.
+- `moo_graph_invariants.py`: shared graph-invariant helper functions for node and family reports.
+- `moo_research_report.py`: read-only node dossiers and corpus-wide baseline rankings over strict graph corpora.
+- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over strict graph corpora.
+- `moo_circle_square_probe.py`: read-only circle-square branch alignment probe over strict graph corpora.
 - `moo_core_alignment_check.py`: small-run agreement check between the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors; base `1` remains the certainty anchor.
@@ -45,6 +49,8 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared protocol for probes, scouts, lenses, and speculative studies so external analysis returns to graph context.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for aligned MoO.
+- `GRAPH_INVARIANTS_PROTOCOL.md`: shared graph-native invariant vocabulary for
+  strict reports and projected-anchor probes.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical order framing: `1` as the only certainty, confirmed core-loop iterations as second order, and unconfirmed or relational constructions as third order.
 - `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory, and external-probe claims.
 - `research/`: active scrutiny lenses and strict-corpus research branches grouped by family.
