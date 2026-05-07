@@ -158,7 +158,7 @@ def analyze_stage_indexed_report(report: Dict[str, object]) -> Dict[str, object]
         "final_inspected_values": inspected_rows,
         "interpretation": {
             "core_compute_rule": (
-                "confirmed core-loop iterations are operands; speculative outputs "
+                "confirmed positive-spine iterations are operands; speculative outputs "
                 "are recorded as real nodes, inspected, and not operated on until promotion"
             ),
             "promotion_gap": "confirmed_stage - first_constructed_stage",

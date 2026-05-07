@@ -372,7 +372,10 @@ def corpus_summary(conn: sqlite3.Connection) -> Dict[str, object]:
         "node_kinds": {str(row["kind"]): int(row["n"]) for row in node_kinds},
         "edge_ops": {str(row["op"]): int(row["n"]) for row in edge_ops},
         "alignment": {
-            "operand_rule": "only confirmed positive core-loop iterations may be operands",
+            "operand_rule": (
+                "positive-spine strict corpus: only confirmed positive-spine "
+                "iterations may be operands"
+            ),
             "speculative_nodes_are_operands": False,
             "speculative_input_edges": int(speculative_input_edges["n"]),
             "non_core_operand_edges": int(operand_violations["n"]),
@@ -430,7 +433,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--confirmations",
         action="store_true",
-        help="List values seen speculatively before the core loop confirmed them.",
+        help="List values seen speculatively before the positive spine confirmed them.",
     )
     parser.add_argument("--top-derived", action="store_true")
     parser.add_argument("--summary", action="store_true")

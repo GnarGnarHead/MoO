@@ -203,7 +203,10 @@ def build_strict_stage_graph(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Build the canonical strict-stage graph-first MoO corpus."
+        description=(
+            "Build the graph-first positive-spine strict corpus. "
+            "This is not the full signed operator-fan MoO field."
+        )
     )
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--max-stage", type=int, default=100)
@@ -216,7 +219,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--drop-confirmed-edge-exemption",
         action="store_true",
-        help="Apply output bounds even to edges landing on currently confirmed positive integers.",
+        help=(
+            "Apply output bounds even to edges landing on currently confirmed "
+            "positive-spine integers."
+        ),
     )
     parser.add_argument("--summary", type=Path)
     parser.add_argument("--pretty", action="store_true")

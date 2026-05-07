@@ -802,7 +802,7 @@ def primitive_branch_sweep(
         },
         "provenance_definitions": {
             "self_product_edge": "The square node has a strict branch-local edge v * v -> v*v.",
-            "core_confirmation_only": "The square node appears at its core-loop confirmation stage without an earlier graph witness.",
+            "core_confirmation_only": "The square node appears at its positive-spine confirmation stage without an earlier graph witness.",
             "other_graph_witness": "The square node has graph provenance, but not from the branch-local self-product edge.",
             "absent": "The square node is absent from the corpus.",
         },

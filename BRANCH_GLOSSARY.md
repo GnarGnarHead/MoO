@@ -14,6 +14,22 @@ branch = same relation repeated along the unfolding of MoO
 A branch is a structural lineage. Its members may appear at different `U`
 stages, but they share a common relation-distance from certainty.
 
+## Operator Fan Before Branch Work
+
+MoO is not born as the positive counting spine. Its first structural event is:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This fan gives expansion, cancellation, and preserved identity. The current
+branch-lineage tooling mostly studies branches inside the positive-spine field,
+but that field is one expansion-side projection of MoO, not the whole MoO
+field.
+
 ## Witness
 
 The specific emergence event that places a value into a branch reading.

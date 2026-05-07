@@ -37,26 +37,26 @@ def classify_value(value: Fraction, *, stage: int) -> Dict[str, object]:
         if n <= stage:
             return {
                 "order": 2,
-                "status": "confirmed_core_iteration",
-                "reason": f"core loop has reached {n}",
+                "status": "confirmed_positive_spine_iteration",
+                "reason": f"positive spine has reached {n}",
             }
         return {
             "order": 3,
-            "status": "not_yet_core_iteration",
-            "reason": f"core loop has only reached {stage}",
+            "status": "not_yet_positive_spine_iteration",
+            "reason": f"positive spine has only reached {stage}",
         }
 
     if value.denominator == 1:
         return {
             "order": 3,
             "status": "relational_removal_integer",
-            "reason": "not reached by the forward core loop",
+            "reason": "not confirmed by the current positive-spine rule",
         }
 
     return {
         "order": 3,
         "status": "unconfirmed_rational_construction",
-        "reason": "fractions are constructions, not confirmed core-loop iterations",
+        "reason": "fractions are constructions, not confirmed positive-spine iterations",
     }
 
 
@@ -192,10 +192,10 @@ def stage_indexed_report(
     return {
         "framing": {
             "certainty": "1",
-            "stage_rule": "U_n confirms core-loop iterations 1..n",
+            "stage_rule": "U_n confirms positive-spine iterations 1..n",
             "construction_rule": (
                 "operations over confirmed stage values may produce speculative "
-                "results before the core loop confirms them; those speculative "
+                "results before the positive spine confirms them; those speculative "
                 "results are inspected, not operated on"
             ),
         },

@@ -46,22 +46,48 @@ that attempt fails as certainty: `2` already requires a previous instance of
 the immediate certainty. In this framing, `2` is not a second certainty. It is
 infinite distance from `1`.
 
+MoO is not born as positive counting. It is born as the fundamental operator
+fan of `1` against itself:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This is the first asymmetry:
+
+```text
++ expands
+- cancels
+* preserves
+/ preserves
+```
+
+The positive counting spine is one branch/projection of this
+operator-generated field. Zero and negative values are not optional artifacts;
+they are native to cancellation, removal, opposition, and crossing. See
+`FUNDAMENTAL_OPERATOR_FAN_NOTE.md`.
+
 The implementation therefore keeps `Ref(1)` as the only primitive. Everything
 else is generated from iterations and relations of `1`. Point, line, triangle,
 square, and circle language in these notes is analysis-layer framing over that
 construction, not built-in geometry.
 
-MoO is stage-indexed: before the core `1` loop has iterated twice, there is no
-confirmed `2` in the MoO universe. Once `2` and `3` exist, a construction such
-as `2 * 3` may produce `6`, but `6` remains speculative until the core loop
+The current saved strict corpora are stage-indexed along the positive spine:
+before that selected field rule has iterated twice, there is no confirmed `2`
+in the positive-spine corpus. Once `2` and `3` exist, a construction such as
+`2 * 3` may produce `6`, but `6` remains speculative until the positive spine
 reaches `6`.
 
 Speculative nodes are still MoO nodes. They are not false, discarded, or outside
 the project; they have a weaker epistemic status than `1` or a confirmed
-core-loop iteration. They are inspected and speculated on, not operated on.
-Only confirmed core-loop iterations act as operands; a speculative node becomes
-available for operation only if the core loop later promotes it by confirmation.
-MoO speculates from promoted certainty; it does not speculate on speculations.
+selected field iteration. They are inspected and speculated on, not operated
+on. In the current positive-spine corpus, only confirmed positive-spine
+iterations act as operands; a speculative node becomes available for operation
+only if the selected confirmation rule later promotes it. MoO speculates from
+promoted certainty; it does not speculate on speculations.
 
 Current epistemic order:
 
@@ -89,9 +115,10 @@ targets in the current branch-lineage tooling.
 MoO results must be read by layer:
 
 ```text
-strict-stage MoO:
-  confirmed core-loop iterations are operands; speculative nodes are recorded
-  as real nodes, but not operated on unless later confirmed
+positive-spine strict corpus:
+  confirmed positive-spine iterations are operands; speculative nodes are
+  recorded as real nodes, but not operated on unless later confirmed by the
+  selected field rule
 
 exploratory closure:
   older bounded scans that reused speculative nodes as operands; historical
@@ -138,6 +165,9 @@ iteration of `1`.
   even branch, square branch, product-branch landing, prime branch,
   shell-relation branch, interaction branch, witness, field of observation,
   and projected form.
+- `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`: canonical correction that MoO begins with
+  the four-operator fan of `1` against itself; the positive spine is a branch,
+  not the whole strict field.
 - `SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md`: active conceptual note for the early
   ladder from certainty to successor span, additive triad closure, and first
   nontrivial square emergence.
@@ -146,11 +176,12 @@ iteration of `1`.
 - `CORE_CLAIMS.md`: current claim boundary: what MoO can claim now, what is
   corpus-conditioned, what is candidate-only, and what is not yet earned.
 - `VISION.md`: implementation-aligned specification and roadmap.
-- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO,
-  exploratory closure, discarded miscommunication artifacts, and external
-  probes.
-- `EPISTEMIC_ORDER_NOTE.md`: canonical framing for certainty, core-loop
-  confirmation, unconfirmed constructions, and promotion by `n`.
+- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating the
+  positive-spine strict corpus, exploratory closure, discarded
+  miscommunication artifacts, and external probes.
+- `EPISTEMIC_ORDER_NOTE.md`: canonical framing for certainty,
+  operator-fan asymmetry, positive-spine confirmation, unconfirmed
+  constructions, and promotion by `n`.
 - `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for projected forms:
   non-rational constants, shape-like shadows, asymptotic anchors, and
   predictive organization tests.
@@ -159,8 +190,8 @@ iteration of `1`.
   overlap, and baseline-adjusted rank.
 - `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory,
   and external-probe claims.
-- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for strict-stage
-  MoO, including SQLite schema and smoke-run results.
+- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for the current
+  positive-spine strict corpus, including SQLite schema and smoke-run results.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared rulebook for probes, scouts, lenses, and
   speculative studies; analysis tools must return to graph context.
 - `research/`: active scrutiny lenses and strict-corpus research branches,
@@ -168,7 +199,7 @@ iteration of `1`.
   `spectral`, and `strict_stage`).
 - `archive/`: historical exploratory closure notes, transitional ledgers,
   working logs, and misalignment audits. These preserve leads without letting
-  them read as current strict-stage claims.
+  them read as current positive-spine strict corpus claims.
 - `out/experiments/dynamics/`: narrowly tracked saved reports,
   preregistration notes, and paired interpretation notes for stage-dynamics and
   Order-4 protocol experiments.
@@ -178,11 +209,12 @@ iteration of `1`.
   alignment, shell/prime-branch interaction, and primitive Euclid branch-sweep
   probes.
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
-- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
-- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO
-  nodes and edge occurrences.
+- `strict_stage_moo.py`: positive-spine graph-first strict corpus runner;
+  useful but not the full signed operator-fan MoO field.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for positive-spine
+  strict corpus nodes and edge occurrences.
 - `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes
-  in a strict-stage MoO SQLite corpus.
+  in a positive-spine strict SQLite corpus.
 - `moo_research_report.py`, `moo_circle_probe.py`,
   `moo_circle_square_probe.py`, `primitive_euclid_branch_sweep.py`,
   `branch_lineage.py`, `prime_shell_features.py`, and
@@ -195,30 +227,30 @@ iteration of `1`.
   so probes describe graph evidence with the same vocabulary.
 - `moo_observatory.py`: historical exploratory closure-round corpus runner.
 - `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by the historical observatory runner.
-- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO nodes and edge occurrences.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for positive-spine strict corpus nodes and edge occurrences.
 - `moo_set_closure.py`: historical set-closure round-stepper that operates on generated speculative values; not aligned MoO computation.
 - `moo_targets.py`: shared target definitions + parser used by probe scripts.
 - `rational_baselines.py`: stdlib rational-baseline helpers for continued fractions, Farey neighbors, and Stern-Brocot paths.
-- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
-- `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes in a strict-stage MoO SQLite corpus.
-- `moo_research_report.py`: read-only research-layer node dossiers and corpus-wide baseline rankings over strict graph corpora.
-- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over strict graph corpora.
+- `strict_stage_moo.py`: positive-spine graph-first strict corpus runner.
+- `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes in a positive-spine strict SQLite corpus.
+- `moo_research_report.py`: read-only research-layer node dossiers and corpus-wide baseline rankings over positive-spine strict graph corpora.
+- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over positive-spine strict graph corpora.
 - `moo_circle_square_probe.py`: read-only rational shell / square-component
   alignment probe with primitive-triple and Euclid-parameter scrutiny fields.
 - `primitive_euclid_branch_sweep.py`: read-only primitive Euclid branch sweep
   that records complete, partial, and absent generator/shell/square branch
-  visibility over strict graph corpora.
+  visibility over positive-spine strict graph corpora.
 - `prime_shell_features.py`: stdlib helpers for rational shell integerization,
   primitive triples, prime factor features, and Euclid parameter recovery.
 - `out/experiments/dynamics/`: narrowly tracked saved reports, preregistration notes, and paired interpretation notes for stage-dynamics experiments.
-- `moo_core_alignment_check.py`: compares a small strict-stage run through the in-memory graph runtime and SQLite corpus path.
+- `moo_core_alignment_check.py`: compares a small positive-spine strict run through the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors through the certainty anchor.
 - `constant_probe.py`: historical stateless closure probe (JSON report; useful only as a comparison artifact).
 - `native_emergence_scan.py`: historical exploratory-closure scan for first-seen order, construction records, derivation events, operation signatures, and local density.
-- `order_transition_study.py`: stage-indexed inspection of core-loop confirmation, speculative whole-number constructions, and promotion by the core loop.
+- `order_transition_study.py`: stage-indexed inspection of positive-spine confirmation, speculative whole-number constructions, and promotion by the positive-spine rule.
 - `stage_indexed_analysis.py`: compact summary pass over saved stage-indexed reports.
-- `stage_indexed_moo_ledger.py`: transitional node-summary strict-stage ledger generator; graph-first work should use `strict_stage_moo.py`.
+- `stage_indexed_moo_ledger.py`: transitional node-summary positive-spine ledger generator; graph-first work should use `strict_stage_moo.py`.
 - `residual_emergence_study.py`: historical saved-ledger reranker for exploratory closure.
 - `motif_graph_study.py`: historical exploratory-closure first-witness motif study.
 - `motif_persistence_study.py`: historical round-prefix motif persistence study.
@@ -230,7 +262,7 @@ iteration of `1`.
 - `binding_structure_study.py`: historical binding-profile merger over exploratory ledgers.
 - `motif_mass_study.py`: historical motif-mass view over saved exploratory reports.
 - `corridor_atlas_study.py`: historical exploratory-closure corridor atlas.
-- `stage_indexed_convergence_study.py`: extracts record-improving convergence chains from a saved strict-stage MoO ledger and tests determinant/recurrence structure.
+- `stage_indexed_convergence_study.py`: extracts record-improving convergence chains from a saved positive-spine ledger and tests determinant/recurrence structure.
 - `emergence_baselines.py`: historical external-probe baseline over exploratory closure values.
 - `waterfall_view.py` / `attractor_view.py`: historical analysis/visualization scripts over demo-generated graphs; the attractor name is visualization terminology, not a current dynamics claim.
 
@@ -240,8 +272,13 @@ iteration of `1`.
 - Identity model: one node per reduced rational value (`p/q`); derivation identity is preserved as edge/occurrence identity.
 - Grounded layer: unique grounded `Ref(N)` nodes for runtime integer anchors.
 - Speculative layer: rationals and integer-valued points that are not yet grounded.
-- Operation rule: only promoted/grounded core-loop iterations are operands in aligned mode. Speculative nodes are recorded and inspected, not operated on.
-- Grounding behavior: a whole-number value becomes Order 2 when the core loop reaches it; arithmetic construction alone does not promote it. Zero and negative values are relational/removal constructions, not core-loop confirmations.
+- Operation rule in the current positive-spine corpus: only promoted/grounded
+  positive-spine iterations are operands. Speculative nodes are recorded and
+  inspected, not operated on.
+- Grounding behavior in the current positive-spine corpus: a positive-spine
+  whole-number value becomes Order 2 when the positive spine reaches it;
+  arithmetic construction alone does not promote it. This corpus does not yet
+  implement the full signed operator-fan field.
 - Epistemic annotations: every node/report includes `epistemic_order` (`1|2|3`) and `constructible_from_one`; see `EPISTEMIC_ORDER_NOTE.md` for the intended reading.
 - Prototype injection: `speculate_ref()` can inject speculative integer claims for demo/testing flows, but those claims are not operands until promoted.
 
@@ -264,12 +301,12 @@ iteration of `1`.
 - `python3 -m py_compile *.py` — basic syntax/type-hint sanity across scripts.
 - `python3 constructionist_math.py --limit 10 --stats` — in-memory graph demo build + stats.
 - `python3 order_transition_study.py --max-stage 6 --pretty` — stage-indexed check of confirmed iterations versus speculative constructions.
-- `python3 moo_core_alignment_check.py --max-stage 6 --pretty` — compare small strict-stage output between the in-memory graph and SQLite corpus paths.
+- `python3 moo_core_alignment_check.py --max-stage 6 --pretty` — compare small positive-spine strict output between the in-memory graph and SQLite corpus paths.
 - `python3 stage_indexed_analysis.py --report out/experiments/stage_indexed_core_r100.json --pretty` — summarize a saved stage-indexed core run.
-- `python3 strict_stage_moo.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-stage 80 --max-abs-p 200 --max-abs-q 200 --max-abs-value 4 --quiet --pretty` — graph-first strict-stage MoO corpus.
+- `python3 strict_stage_moo.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-stage 80 --max-abs-p 200 --max-abs-q 200 --max-abs-value 4 --quiet --pretty` — graph-first positive-spine strict corpus.
 - `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --summary --pretty` — summarize a saved graph corpus.
 - `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --neighborhood --pretty` — inspect a speculative node, its inputs, and nearby graph structure.
-- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --confirmations --pretty` — list values first seen speculatively and later confirmed by the core loop.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --confirmations --pretty` — list values first seen speculatively and later confirmed by the positive spine.
 - `python3 moo_research_report.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --pretty` — build a strict graph node dossier beside classical rational baselines.
 - `python3 moo_research_report.py --db out/experiments/strict_stage_graph_smoke.sqlite --corpus-baselines --rank-by derivation_events --control denominator --pretty` — rank rational nodes within denominator peer groups without claiming single-node unusualness.
 - `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --node 3/4 --pretty` — inspect an exact unit quadratic-shell candidate from a rational parameter.
@@ -280,7 +317,7 @@ iteration of `1`.
 - `python3 branch_lineage.py --db out/experiments/strict_stage_graph_smoke.sqlite --branch square --limit 20 --pretty` — audit a repeated MoO branch relation such as `n -> n*n`, separating branch participation from retained edge rows.
 - `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat odd-prime non-collapse against a graph corpus.
 - `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.
-- `python3 stage_indexed_moo_ledger.py --max-stage 1000 --max-abs-p 1000 --max-abs-q 1000 --max-abs-value 4 --pretty` — bounded strict-stage MoO ledger with speculative rational nodes.
+- `python3 stage_indexed_moo_ledger.py --max-stage 1000 --max-abs-p 1000 --max-abs-q 1000 --max-abs-value 4 --pretty` — bounded positive-spine ledger with speculative rational nodes.
 
 ## Command Examples
 
@@ -299,7 +336,11 @@ See [VISION.md](VISION.md) for the implementation-aligned specification and road
 
 ## Compute Modes
 
-- **Strict-stage MoO**: compute only with confirmed core-loop iterations as operands. Speculative results are recorded as graph nodes and edge occurrences, but they are inspected rather than operated on until the core loop confirms them. The canonical storage is the graph-first SQLite corpus.
+- **Positive-spine strict corpus**: compute only with confirmed positive-spine
+  iterations as operands. Speculative results are recorded as graph nodes and
+  edge occurrences, but they are inspected rather than operated on until the
+  selected confirmation rule confirms them. This is useful graph-first storage,
+  but it is not the full signed operator-fan MoO field.
 - **Exploratory closure**: older bounded scans reused all retained generated values as operands, including speculative nodes. These runs are historical hypothesis artifacts; they are not aligned MoO computation.
 - **External probes**: constants, geometry labels, and baselines used to inspect already-generated structure. Probe-selected points matter only through shared structure, not approximation alone.
 

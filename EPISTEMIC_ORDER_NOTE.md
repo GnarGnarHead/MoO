@@ -11,23 +11,48 @@
 1 is the only certainty.
 ```
 
-Everything else is constructed from iterations of `1`.
+Everything else emerges through the operator fan, recurrence, memory, relation,
+and later projection from `1`.
 
 MoO does not chase values. A value appearing is not enough. The same value can
 appear by different witnesses, and the witness matters.
+
+MoO is not born as positive counting. Its first structural event is the
+operator fan of `1` against itself:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This produces the first asymmetry:
+
+```text
++ expands
+- cancels
+* preserves
+/ preserves
+```
+
+The positive counting spine is one branch/projection of this field, not the
+whole MoO core.
 
 MoO began as an attempt to prove `2` from `1`. That attempt failed as certainty:
 to get `2`, a previous instance of `1` has to be preserved and used again. That
 previous instance is already once removed from the immediate certainty.
 
-So `2` is not a second certainty. It is infinite distance from `1`.
+So `2` is not a second certainty. It is infinite distance from `1`, and it is
+the expansion output of the first operator fan.
 
-## Stage-Indexed Universe
+## Positive-Spine Stage Corpus
 
-MoO should be read as a stage-indexed universe. Before the core `1` loop has
-iterated twice, there is no confirmed `2` in the MoO universe.
+The current graph-first strict corpus is positive-spine stage-indexed. Before
+the positive-spine rule has iterated twice, there is no confirmed `2` in that
+corpus.
 
-The positive whole-number stages are:
+The positive-spine stages are:
 
 ```text
 U1: 1
@@ -37,9 +62,8 @@ U3: 1, 2, 3
 Un: 1, 2, 3, ..., n
 ```
 
-At stage `n`, the confirmed positive whole-number iterations are exactly
-`1..n`. The system can still form speculative constructions from values that
-already exist.
+At stage `n`, the confirmed positive-spine iterations are exactly `1..n`. The
+system can still form speculative constructions from values that already exist.
 
 Example:
 
@@ -49,24 +73,29 @@ So 2 * 3 can exist as a construction.
 But 6 remains unconfirmed until U6.
 ```
 
-This is the central rule:
+This is the positive-spine corpus rule:
 
 ```text
-construction can precede confirmation;
-confirmation comes from the core 1 loop reaching the value.
+construction can precede positive-spine confirmation;
+confirmation comes from the positive-spine rule reaching the value.
 ```
 
 Speculative constructions are still nodes. Their uncertainty is epistemic, not
 ontological: they are part of the MoO graph once constructed, but they are not
-as certain as `1` or as confirmed core-loop iterations.
+as certain as `1` or as confirmed iterations under the selected field rule.
 
 They are also not operands. A speculative node can be inspected, interpreted,
-or selected by a probe, but MoO does not operate on it unless the core loop
-later confirms it.
+or selected by a probe, but MoO does not operate on it unless the selected
+field rule later confirms it.
 
-Once the core loop promotes a speculative node to a higher epistemological
-certainty, MoO can speculate further from that promoted node. It does not
-speculate on speculations.
+Once the selected confirmation rule promotes a speculative node to a higher
+epistemological status, MoO can speculate further from that promoted node. It
+does not speculate on speculations.
+
+This note no longer treats the positive spine as the whole strict field. Zero
+appears in the first fan through cancellation, and negative values are native to
+continued removal/opposition. The exact signed-field confirmation rule remains
+to be implemented, but the conceptual alignment is fixed.
 
 ## Orders
 
@@ -77,7 +106,8 @@ Order 1:
   the immediate certainty, 1
 
 Order 2:
-  recurrence of 1 through memory and iteration
+  recurrence of 1 through memory and iteration; in the current positive-spine
+  corpus, confirmed positive-spine iterations
 
 Order 3:
   relational emergence from confirmed recurrence
@@ -97,13 +127,16 @@ Order 2 has two projections:
 ```
 
 Previous instances of `1` are once removed from certainty. Confirmed
-counting-spine iterations are second order. Fractions, relational removals such
-as `0` or negative values, and unconfirmed positive whole-number constructions
-are third order unless a later analysis lens explicitly says otherwise.
+counting-spine iterations are second order inside the positive-spine corpus.
+Fractions and unconfirmed positive-spine whole-number constructions remain
+third order under that corpus rule. Zero and negative values are relational
+cancellation/removal nodes; they are not optional artifacts, and the
+positive-spine corpus does not yet express their full signed-field status.
 
 ## Confirmation By n
 
-Order can change when the core iteration `n` confirms a positive whole number.
+Order can change when the positive-spine iteration `n` confirms a positive
+whole number.
 
 Example:
 
@@ -111,15 +144,16 @@ Example:
 3 * 2 produces 6
 ```
 
-Once `2` and `3` exist, this construction can exist. If the current core
-iteration is still less than `6`, then `6` is an unconfirmed construction:
+Once `2` and `3` exist, this construction can exist. If the current
+positive-spine stage is still less than `6`, then `6` is an unconfirmed
+construction:
 
 ```text
 6 = third order
 ```
 
-Once `n` reaches and confirms `6` as a whole-number iteration of `1`, `6`
-becomes:
+Once the positive spine reaches and confirms `6` as a whole-number iteration of
+`1`, `6` becomes:
 
 ```text
 6 = second order
@@ -128,8 +162,8 @@ becomes:
 This is the important status transition:
 
 ```text
-unconfirmed positive whole-number construction
--> confirmed positive whole-number iteration of 1
+unconfirmed positive-spine whole-number construction
+-> confirmed positive-spine iteration of 1
 ```
 
 ## Fractions
@@ -140,15 +174,16 @@ Fractions such as:
 3/2
 ```
 
-are third order. They are constructions from iterations of `1`, but they are not
-confirmed positive whole-number iterations of `1`.
+are third order in the current positive-spine corpus. They are constructions
+from iterations of `1`, but they are not confirmed positive-spine iterations of
+`1`.
 
 This does not make them invalid. It means they have a different epistemic
 status.
 
-Likewise, an unconfirmed positive whole-number construction is not discarded or
-treated as non-MoO. It remains a speculative node until the core loop confirms
-it.
+Likewise, an unconfirmed positive-spine whole-number construction is not
+discarded or treated as non-MoO. It remains a speculative node until the
+positive-spine rule confirms it.
 
 ## No Independent Operands
 
@@ -191,8 +226,9 @@ The closest reading is:
 
 ```text
 grounded Ref(1)        -> Order 1 certainty
-grounded Ref(N > 1)    -> Order 2 confirmed positive whole-number iteration
-other values           -> Order 3 unconfirmed or relational construction
+grounded Ref(N > 1)    -> Order 2 confirmed positive-spine iteration
+other values           -> Order 3 unconfirmed or relational construction under
+                           the current positive-spine corpus
 ```
 
 The code can keep these field names for stability, but interpretation should
@@ -245,7 +281,8 @@ not more certain than Order 3
 ```
 
 Order 4 is more abstract than Order 3, not more certain. It can guide
-inspection, but it cannot participate in strict-stage computation.
+inspection, but it cannot participate in positive-spine strict corpus
+computation.
 
 Use:
 
@@ -269,12 +306,13 @@ testing rules.
 
 ## Stage Versus Closure Round
 
-The core iteration stage `n` is not the same as a closure round in the analysis
-scripts.
+The positive-spine stage `U_n` is not the same as a closure round in the
+analysis scripts.
 
-The stage says which positive whole-number iterations are confirmed by the core
-`1` loop. A closure round says how many passes of arithmetic construction have
-been applied inside a chosen stage or saved corpus.
+The stage says which positive-spine whole-number iterations are confirmed by
+the current selected field rule. A closure round says how many passes of
+arithmetic construction have been applied inside a chosen stage or saved
+corpus.
 
 This prevents a construction like `2 * 3 = 6` from being mistaken for immediate
 confirmation of `6`.

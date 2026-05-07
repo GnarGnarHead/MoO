@@ -334,9 +334,9 @@ def run_ledger(
     elapsed = time.perf_counter() - started
     return {
         "framing": {
-            "run_type": "bounded strict stage-indexed MoO ledger",
+            "run_type": "bounded positive-spine stage-indexed MoO ledger",
             "core_rule": (
-                "confirmed core-loop iterations are operands; speculative outputs "
+                "confirmed positive-spine iterations are operands; speculative outputs "
                 "are real nodes inspected after construction, not operands"
             ),
             "full_field_note": "This is full only inside the explicit stage and value bounds.",

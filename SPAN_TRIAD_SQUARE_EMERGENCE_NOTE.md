@@ -33,6 +33,34 @@ branch
 projected shadow
 ```
 
+## Precondition: The Operator Fan
+
+Span, triad, and square language is downstream of the first MoO asymmetry. The
+system is not born as the positive spine:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+MoO reading:
+
+```text
+2:
+  expansion / successor span
+
+0:
+  cancellation / first crossing
+
+1:
+  preserved identity through multiplication and division
+```
+
+The span/triad/square ladder studies the expansion side and its later
+self-relation structure. It must not erase the cancellation side.
+
 ## Emergence Ladder
 
 Current clean ladder:
@@ -41,8 +69,11 @@ Current clean ladder:
 1:
   immediate certainty
 
+operator fan:
+  expansion, cancellation, and preserved identity
+
 1 -> 2:
-  first successor span
+  first successor span on the expansion side
 
 1,2,3:
   first additive triad closure
@@ -242,4 +273,3 @@ additive triad closure
 nontrivial self-relation
 square branch
 ```
-

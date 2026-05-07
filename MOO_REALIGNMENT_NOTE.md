@@ -20,9 +20,29 @@ recurrence, memory, witness, relation, branch interaction, and projected form.
 
 ## Core Problem
 
-MoO begins with the failed attempt to prove `2` from `1`.
+MoO begins with `1`, but it is not born as positive counting. It is born as the
+fundamental operator fan of `1` against itself.
 
-In ordinary arithmetic:
+First event:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This creates the first asymmetry:
+
+```text
++ expands
+- cancels
+* preserves
+/ preserves
+```
+
+The failed attempt to prove `2` from `1` remains central, but it is not the
+whole ignition event. In ordinary arithmetic:
 
 ```text
 1 + 1 = 2
@@ -36,7 +56,17 @@ What licenses the second 1?
 
 The first `1` is immediate certainty. The second `1` depends on memory,
 recurrence, preservation, and identification. Therefore `2` is not a second
-certainty. It is the first structure beyond certainty.
+certainty. It is the expansion output of the first operator fan.
+
+The fan also gives:
+
+```text
+0:
+  cancellation / absence / crossing
+
+1:
+  preserved identity under * and /
+```
 
 That is the heart of MoO.
 
@@ -69,8 +99,13 @@ Order 2 has two important projections:
   counted recurrence / counting spine
 ```
 
-`U_n` is not merely a compute knob. It is a slice of the second-order recurrence
-field: the counting-spine projection confirmed through `n`.
+`U_n` is not merely a compute knob. In the current positive-spine corpus, it is
+a slice of the second-order recurrence field: the counting-spine projection
+confirmed through `n`.
+
+The counting spine is not the whole strict MoO field. It is one branch of the
+operator-generated field. Zero and negative values are native to the fan's
+cancellation/removal side, not optional artifacts.
 
 Order 4 is not a new certainty tier. It is projected form: the shadow cast by a
 stable subset or repeated structure of MoO. It cannot become a runtime operand,
@@ -126,6 +161,16 @@ Fibonacci/two-memory recurrence, doubling recurrence, and triangular
 accumulation are ways recurrence itself may unfold. They are parked as future
 study in `RECURRENCE_FRAMES_NOTE.md` so branch work does not flatten every
 recurrence system into the branch category.
+
+The positive spine must also stay scoped:
+
+```text
+positive spine:
+  expansion branch / counted recurrence projection
+
+operator fan:
+  first asymmetry that also produces cancellation and preserved identity
+```
 
 ## Witness Before Value
 

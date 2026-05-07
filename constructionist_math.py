@@ -51,9 +51,11 @@ class Graph:
     Grounded nodes (status G) represent integers Ref(N).
     Speculative nodes (status S) represent non-grounded rationals and special
     undefined nodes (like division-by-zero).
-    In aligned mode, only confirmed core-loop iterations are operands.
+    In the current positive-spine aligned mode, only confirmed positive-spine
+    iterations are operands.
     Speculative nodes are real graph nodes for inspection, but they are not
-    operated on until promotion by the core loop.
+    operated on until promotion by the selected field rule. In this runtime,
+    that selected rule is the positive-spine confirmation path.
 
     Identity is value-centric:
     - Each reduced rational value p/q corresponds to exactly one node.
@@ -250,7 +252,8 @@ class Graph:
         """
         Epistemic hierarchy:
         - Order 1: Ref(1), the only certainty.
-        - Order 2: confirmed positive whole-number iterations of 1.
+        - Order 2: confirmed positive-spine iterations of 1 in the current
+          corpus/runtime.
         - Order 3: unconfirmed or relational constructions from iterations of 1.
         """
         if node.status == "G" and node.id == 1:
@@ -608,15 +611,19 @@ class Graph:
 
     def promote_core_iteration(self, n: int) -> Node:
         """
-        Promote a positive whole-number iteration reached by the core loop.
+        Promote a positive-spine whole-number iteration reached by the positive-spine
+        runtime.
 
-        This is the aligned path from speculative construction to a stronger
-        epistemic status. Ordinary arithmetic may construct an integer-valued
-        speculative node, but arithmetic alone does not confirm it.
+        This is the current positive-spine path from speculative construction
+        to a stronger epistemic status. Ordinary arithmetic may construct an
+        integer-valued speculative node, but arithmetic alone does not confirm
+        it.
         """
         n = int(n)
         if n < 1:
-            raise ValueError("core-loop promotion is only defined for positive integers")
+            raise ValueError(
+                "positive-spine promotion is only defined for positive integers"
+            )
         return self._get_or_create_grounded_ref(n)
 
     def get_or_create_ref(self, n: int) -> Node:
@@ -624,10 +631,11 @@ class Graph:
         Public helper for referring to Ref(N).
 
         - Ref(1) is the only first-class primitive and may be created directly.
-        - Positive integers greater than 1 become second order only when the
-          core iteration/grounding path reaches them.
-        - Zero and negative integers are runtime removal anchors when grounded,
-          not positive whole-number iterations.
+        - Positive integers greater than 1 become second order in this runtime
+          only when the positive-spine grounding path reaches them.
+        - Zero and negative integers are runtime removal anchors when grounded.
+          They are native to the operator fan concept, but this runtime does
+          not yet implement a full signed-field confirmation rule.
         - If Ref(N) is not yet grounded, this returns a speculative
           integer-claim node instead.
         """
@@ -648,7 +656,7 @@ class Graph:
 
     def advance_frontier_max_to(self, n: int) -> None:
         """
-        Extend the positive core-loop frontier by iterating +1 from the current
+        Extend the positive-spine frontier by iterating +1 from the current
         maximum, then explicitly promoting the newly reached iteration.
         """
         target = int(n)
@@ -663,14 +671,14 @@ class Graph:
 
     def advance_frontier_min_to(self, n: int) -> None:
         """
-        Historical helper placeholder.
+        Historical helper placeholder for the current positive-spine runtime.
 
-        Negative and zero values are relational/removal constructions in the
-        aligned MoO framing, not core-loop confirmations. They should be
-        inspected as speculative outputs from confirmed operands rather than
-        promoted as a negative frontier.
+        Zero and negative values are native to MoO's operator fan through
+        cancellation/removal, but this runtime has not implemented the signed
+        field confirmation rule. Do not read this placeholder as a claim that
+        aligned MoO has no negative side.
         """
-        raise ValueError("aligned MoO has no negative core-loop frontier")
+        raise ValueError("signed operator-fan frontier is not implemented here")
 
     def speculate_ref(self, n: int, *, reason: Optional[str] = None) -> Node:
         """
@@ -1691,13 +1699,13 @@ def demo(
     """
     Build a small universe from the only primitive certainty: Ref(1).
 
-    `limit` controls how far we iterate outward in the positive integer
+    `limit` controls how far we iterate outward in the positive-spine demo
     backbone.
 
     This demo deliberately:
-    - treats positive integers as second-order confirmations,
+    - treats positive integers as positive-spine second-order confirmations,
     - treats multiplication/division outputs as speculative claims until the
-      core loop later promotes them,
+      positive-spine runtime later promotes them,
     - includes a small shadow-ref example that is recorded and then promoted,
       without operating on the speculative shadow.
     """

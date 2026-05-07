@@ -8,22 +8,25 @@ The aligned MoO framing is:
 
 ```text
 1 is the only certainty
-positive whole numbers enter by the core iteration of 1
+MoO begins with the fundamental operator fan of 1 against itself
+the positive spine is one expansion branch, not the whole strict field
+zero and negatives are native cancellation/removal structure
 speculative constructions are real MoO nodes
 speculative constructions carry weaker epistemic status until confirmed
 speculative nodes are inspected and speculated on, not operated on
-only confirmed core-loop iterations are operands
-promotion by the core loop is what permits further speculation
+only confirmed iterations under the selected strict field rule are operands
+promotion by that field rule is what permits further speculation
 MoO does not speculate on speculations
-projected objects are analysis anchors, not certainties or operands
+projected forms are shadows, not certainties or operands
 ```
 
 This is both an ontology/status rule and a compute rule. A speculative node
 exists once it is constructed and recorded; it is just not as epistemologically
 sound as `1` or a confirmed iteration of `1`. Because it is speculative, it is
 not used as an operand. It can be inspected, compared, labeled, or selected by a
-probe, but it is not operated on unless the core loop later confirms it.
-Once promoted to that higher epistemological certainty, it can participate in
+probe, but it is not operated on unless the selected field rule later confirms
+it.
+Once promoted to that higher epistemological status, it can participate in
 further speculation.
 Any result that operates on speculative nodes may still be useful as historical
 context, but it is not aligned MoO computation.
@@ -54,18 +57,20 @@ branch = same relation repeated along the unfolding of MoO
 Formula-family and retained-edge reports are machinery. They do not define the
 branch by themselves. See `BRANCH_GLOSSARY.md`.
 
-Order-4 projected objects may be proposed from stable graph families, but they
-remain analysis-layer anchors. They are not runtime nodes, operands, confirmed
-facts, theorems, or completed objects inside strict MoO.
+Order-4 projected forms may be proposed from stable graph families, but they
+remain analysis-layer shadows. They are not runtime nodes, operands, confirmed
+facts, theorems, or completed objects inside the strict corpus.
 
-## Layer 1: Strict-Stage MoO
+## Layer 1: Positive-Spine Strict Corpus
 
-This is the aligned core compute layer.
+This is the current graph-first strict corpus layer. It is useful and aligned
+with the no-speculation-on-speculation rule, but it is not the full signed
+operator-fan MoO field.
 
 Rule:
 
 ```text
-operands = confirmed core-loop iterations only
+operands = confirmed positive-spine iterations only
 outputs = recorded speculative nodes, which are real graph nodes
 speculative outputs are inspected, not operated on
 promoted outputs may later act as operands
@@ -109,6 +114,7 @@ This layer can say:
 34/21 exists as an Order 3 rational at U34
 87/32 exists as an Order 3 rational at U87
 convergence probes must be studied as chains, not isolated points
+these claims are relative to the positive-spine corpus rule
 ```
 
 This layer cannot say:
@@ -118,6 +124,16 @@ This layer cannot say:
 ```
 
 because speculative nodes are not operated on in aligned MoO.
+
+This layer also cannot say:
+
+```text
+MoO is positive-only
+zero and negatives are secondary artifacts
+the positive spine is the whole strict field
+```
+
+The operator-fan correction lives in `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`.
 
 ## Layer 2: Exploratory Closure
 
@@ -273,24 +289,24 @@ Use these terms consistently:
 
 ```text
 U_n:
-  the strict-stage universe after the core loop has confirmed 1..n
+  the positive-spine strict corpus after the positive spine has confirmed 1..n
 
 closure round n:
   a historical exploratory set-closure iteration that operated on speculative nodes
 
 speculative node:
-  any retained construction not confirmed as a positive whole-number iteration
+  any retained construction not confirmed by the active field rule
 
 probe-selected node:
   a speculative node selected after the fact by an external target or concept
 
-Order-4 projected object:
-  a non-operational analysis-layer anchor inferred from exact graph evidence by
+Order-4 projected form:
+  a non-operational analysis-layer shadow inferred from exact graph evidence by
   an explicit projection rule
 
 center / hinge:
-  allowed for exploratory closure results, but not automatically a strict-stage
-  property
+  allowed for exploratory closure results, but not automatically a
+  positive-spine strict-corpus property
 ```
 
 ## Current Alignment Rule
@@ -298,7 +314,9 @@ center / hinge:
 When documenting or discussing a result, state its layer first:
 
 ```text
-strict-stage MoO
+operator-fan concept
+positive-spine strict corpus
+future signed operator-fan field
 exploratory closure
 external probe / concept analysis
 ```

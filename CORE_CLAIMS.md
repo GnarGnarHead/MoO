@@ -67,8 +67,45 @@ The implementation claim is narrower and operational:
 
 ```text
 Ref(1) is the only primitive runtime anchor.
-Everything else is generated from iterations and relations of 1.
+Everything else is generated from operator applications, recurrence, and
+relations of 1.
 ```
+
+### Fundamental Operator Fan
+
+MoO is not born as positive counting. Its first structural event is the
+operator fan of `1` against itself:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This creates the first asymmetry:
+
+```text
++ expands to 2
+- cancels to 0
+* preserves 1
+/ preserves 1
+```
+
+Therefore:
+
+```text
+positive counting spine:
+  one expansion branch / projection
+
+zero:
+  first cancellation point
+
+negative values:
+  native removal/opposition structure once subtraction continues
+```
+
+The positive spine must not be described as the whole strict MoO field.
 
 ### Failed Proof Of 2
 
@@ -80,22 +117,22 @@ Therefore:
 
 ```text
 2 is not a second certainty.
-2 is the first confirmed move beyond immediate certainty.
+2 is the expansion output of the first operator fan.
 ```
 
 The phrase "infinite distance from 1" is a philosophical reading of that
 certainty gap, not a metric implemented by the runtime.
 
-### Stage-Indexed Universe
+### Positive-Spine Stage Corpus
 
-MoO is stage-indexed. At strict stage `U_n`, the confirmed positive
-whole-number iterations are:
+The current graph-first strict corpus is a positive-spine stage corpus. At
+stage `U_n`, the confirmed positive-spine iterations are:
 
 ```text
 1..n
 ```
 
-A construction can produce a future positive integer before the core loop
+A construction can produce a future positive integer before the positive spine
 confirms it. Example:
 
 ```text
@@ -107,9 +144,11 @@ At U3, 2 and 3 are confirmed.
 This is the central stage rule:
 
 ```text
-construction can precede confirmation;
-confirmation comes from the core 1 loop reaching the value.
+construction can precede positive-spine confirmation;
+confirmation comes from the selected positive-spine rule reaching the value.
 ```
+
+This corpus remains useful, but it is not the full signed operator-fan field.
 
 ### Epistemic Orders
 
@@ -120,14 +159,18 @@ Order 1:
   1, the only immediate certainty
 
 Order 2:
-  confirmed positive whole-number iterations of 1
+  recurrence of 1 through memory and iteration; in the current positive-spine
+  corpus, confirmed positive-spine iterations of 1
 
 Order 3:
   unconfirmed or relational constructions from iterations of 1
 ```
 
-Fractions, zero, negative values, and unconfirmed future whole numbers are real
-MoO nodes once constructed, but they are not Order 1 or Order 2.
+Fractions and unconfirmed future whole numbers are real MoO nodes once
+constructed, but they are not Order 1 or confirmed positive-spine Order 2.
+Zero and negative values are real relational nodes from cancellation/removal;
+the current positive-spine corpus does not yet implement their full signed-field
+confirmation rule.
 
 ### Order-4 Projected Objects
 
@@ -174,23 +217,27 @@ organization.
 
 See `ORDER4_PROJECTION_PROTOCOL.md` before making Order-4 claims.
 
-### Strict Operand Rule
+### Current Positive-Spine Operand Rule
 
-Strict-stage MoO operates only on confirmed core-loop positive integers:
+The current graph-first strict corpus operates only on confirmed positive-spine
+integers:
 
 ```text
-operands = confirmed core-loop iterations only
+operands = confirmed positive-spine iterations only
 outputs = recorded graph nodes
 speculative outputs = inspected, not operated on
-promotion = later core-loop confirmation
+promotion = later positive-spine confirmation
 ```
 
-Short form:
+The implementation rule remains useful:
 
 ```text
 MoO speculates from promoted certainty.
 MoO does not speculate on speculations.
 ```
+
+But this positive-spine operand rule is not the final statement of the full
+signed operator-fan field.
 
 ### Graph-First Identity
 
@@ -268,13 +315,14 @@ MoO can currently claim:
 ```text
 MoO is a graph-first construction framework from the primitive certainty 1.
 
-Strict-stage MoO records rational and integer-valued constructions without
-letting speculative nodes become operands.
+The current positive-spine strict corpus records rational and integer-valued
+constructions without letting speculative nodes become operands.
 
 Speculative nodes are real MoO nodes with weaker epistemic status, not errors
 or discarded values.
 
-Positive whole-number confirmation is stage-indexed by the core loop.
+Positive whole-number confirmation is stage-indexed by the positive spine in
+the current corpus; it is not the whole signed MoO field.
 
 Graph provenance, witness multiplicity, neighborhoods, and confirmation status
 are primary evidence.
@@ -339,7 +387,7 @@ non-rational projected constants:
   anchors; all remain projected forms rather than completed runtime objects
 
 operation-word recurrence:
-  repeated symbolic edge patterns under strict-stage construction
+  repeated symbolic edge patterns under a named strict corpus rule
 
 neighborhood divergence:
   differences between numerical closeness and construction-neighborhood
@@ -361,25 +409,29 @@ MoO has attractors, bifurcations, Lyapunov exponents, or strange attractors.
 MoO proves new number theory.
 MoO replaces standard foundations.
 MoO invalidates ordinary arithmetic.
+MoO is positive-only.
+Zero and negative values are merely artifacts.
 ```
 
 These phrases may appear in older or speculative notes as research language.
-They are not current strict-stage claims unless a newer note explicitly
+They are not current strict-corpus claims unless a newer note explicitly
 promotes them through the claim discipline above.
 
 ## Layer Boundaries
 
-### Strict-Stage MoO
+### Positive-Spine Strict Corpus
 
-Aligned computation:
+Current graph-first strict corpus:
 
 ```text
-confirmed operands only
+confirmed positive-spine operands only
 speculative outputs recorded
 graph-first SQLite corpus preferred
 ```
 
-This is the layer used for current core evidence.
+This is the layer used for current saved graph evidence. It preserves strict
+no-speculation-on-speculation behavior, but it does not yet implement the full
+signed operator-fan field described in `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`.
 
 ### Exploratory Closure
 
@@ -390,7 +442,7 @@ generated speculative values could be reused as operands
 ```
 
 These notes are preserved because they contain leads, motifs, and intuition.
-They are not strict-stage MoO computation.
+They are not positive-spine strict corpus computation.
 
 ### External Probes
 
@@ -415,7 +467,7 @@ Analysis-layer projection:
 exact graph family -> explicit projection rule -> inferred shadow/form
 ```
 
-Projected forms may guide further inspection. They do not become strict-stage
+Projected forms may guide further inspection. They do not become strict-corpus
 operands, certainties, or theorems.
 
 ## Verification Trail

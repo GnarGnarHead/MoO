@@ -5,7 +5,7 @@
 > This index is the navigation layer after the quarantine restructure. Root
 > files define the current MoO spine. `research/` holds active scrutiny lenses
 > and strict-corpus branches. `archive/` preserves older leads without letting
-> them read as current strict-stage evidence.
+> them read as current positive-spine strict corpus evidence.
 
 ## How To Read The Repo
 
@@ -15,15 +15,16 @@ Use this order for a first pass:
 1. README.md
 2. MOO_REALIGNMENT_NOTE.md
 3. BRANCH_GLOSSARY.md
-4. SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
-5. CORE_CLAIMS.md
-6. PROJECT_ALIGNMENT_NOTE.md
-7. EPISTEMIC_ORDER_NOTE.md
-8. GRAPH_CORPUS_NOTE.md
-9. GRAPH_INVARIANTS_PROTOCOL.md
-10. ORDER4_PROJECTION_PROTOCOL.md
-11. RESEARCH_LENSES.md
-12. ANALYSIS_TOOL_PROTOCOL.md
+4. FUNDAMENTAL_OPERATOR_FAN_NOTE.md
+5. SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
+6. CORE_CLAIMS.md
+7. PROJECT_ALIGNMENT_NOTE.md
+8. EPISTEMIC_ORDER_NOTE.md
+9. GRAPH_CORPUS_NOTE.md
+10. GRAPH_INVARIANTS_PROTOCOL.md
+11. ORDER4_PROJECTION_PROTOCOL.md
+12. RESEARCH_LENSES.md
+13. ANALYSIS_TOOL_PROTOCOL.md
 ```
 
 Then branch:
@@ -33,6 +34,7 @@ run code / inspect corpus       -> README.md, GRAPH_CORPUS_NOTE.md
 understand the theory           -> CORE_CLAIMS.md, VISION.md
 align report language           -> MOO_REALIGNMENT_NOTE.md
 define branch vocabulary        -> BRANCH_GLOSSARY.md
+restore the operator-fan seed   -> FUNDAMENTAL_OPERATOR_FAN_NOTE.md
 place early shape-adjacent terms -> SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
 park recurrence-frame questions -> RECURRENCE_FRAMES_NOTE.md
 interpret old reports           -> PROJECT_ALIGNMENT_NOTE.md, archive/
@@ -61,7 +63,7 @@ speculative lens:
 
 historical exploratory archive:
   older closure-mode result or report that may contain leads but is not
-  aligned strict-stage computation
+  aligned positive-spine strict corpus computation
 
 working log:
   pause point, next steps, or operational note
@@ -73,6 +75,7 @@ When documents conflict, prefer:
 CORE_CLAIMS.md
 MOO_REALIGNMENT_NOTE.md
 BRANCH_GLOSSARY.md
+FUNDAMENTAL_OPERATOR_FAN_NOTE.md
 SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
 PROJECT_ALIGNMENT_NOTE.md
 EPISTEMIC_ORDER_NOTE.md
@@ -91,6 +94,9 @@ RESEARCH_LENSES.md
 - `BRANCH_GLOSSARY.md`: canonical vocabulary for recurrence, counting-spine,
   even, square, product-branch landing, prime branch, shell-relation, and
   interaction branch language.
+- `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`: canonical correction that MoO begins from
+  the operator fan `1+1`, `1-1`, `1*1`, and `1/1`; the positive spine is one
+  branch, not the whole strict field.
 - `SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md`: active note for early MoO-native
   structures: successor span, additive triad closure, degenerate
   self-relation, first nontrivial square emergence, and their later
@@ -100,14 +106,14 @@ RESEARCH_LENSES.md
 - `CORE_CLAIMS.md`: consolidated claim boundary; what MoO can and cannot
   currently say.
 - `VISION.md`: implementation-aligned design note and roadmap.
-- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO,
-  exploratory closure, discarded miscommunication artifacts, and external
-  probes.
-- `EPISTEMIC_ORDER_NOTE.md`: canonical certainty/order framing: `1`, confirmed
-  core-loop iterations, speculative constructions, Order-4 projected forms,
-  and promotion by `n`.
-- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage direction for aligned
-  strict-stage MoO corpora.
+- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating the
+  positive-spine strict corpus, exploratory closure, discarded
+  miscommunication artifacts, and external probes.
+- `EPISTEMIC_ORDER_NOTE.md`: canonical certainty/order framing: `1`, the
+  operator fan, positive-spine confirmation, speculative constructions,
+  Order-4 projected forms, and promotion by `n`.
+- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage direction for the
+  current positive-spine strict corpus.
 - `GRAPH_INVARIANTS_PROTOCOL.md`: shared graph-native invariant vocabulary for
   arrival, witnesses, operation signatures, neighborhood overlap, and
   baseline-adjusted rank.
@@ -183,11 +189,11 @@ runtime semantics unless a future core document explicitly promotes a rule.
   spectral scouts, edge flows, Hodge-style analysis, null-like paths, and
   graph/TDA methods.
 - `research/strict_stage/STAGE_INDEXED_UNIVERSE_NOTE.md`: stage-indexed
-  universe rule for when positive whole numbers become confirmed.
+  positive-spine rule for when positive-spine whole numbers become confirmed.
 - `research/strict_stage/STAGE_INDEXED_R100_NOTE.md`: first compact study of
-  the strict stage-indexed core run through `n=100`.
+  the positive-spine stage-indexed run through `n=100`.
 - `research/strict_stage/CONVERGENCE_STRUCTURE_NOTE.md`: structure-first
-  convergence-chain study over a bounded strict-stage ledger; approximating
+  convergence-chain study over a bounded positive-spine ledger; approximating
   points are secondary to shared structure.
 - `research/strict_stage/WITNESS_THRESHOLD_NOTE.md`: completed audit of witness
   availability under value-aperture changes.
@@ -199,11 +205,12 @@ runtime semantics unless a future core document explicitly promotes a rule.
 
 The archive preserves exploratory closure, transitional ledgers, and working
 logs. These files may contain useful leads, but they are not current
-strict-stage MoO evidence unless reproduced through a strict graph query.
+strict-corpus MoO evidence unless reproduced through a strict graph query.
 
 - `archive/README.md`: archive map and interpretation rules.
 - `archive/exploratory_closure/EXPLORATORY_LEADS.md`: quarantine ledger
-  preserving speculative leads without promoting them to strict-stage claims.
+  preserving speculative leads without promoting them to positive-spine strict
+  corpus claims.
 - `archive/exploratory_closure/RESEARCH_TOOLS_NOTE.md`: historical research-tool
   workflow for closure studies.
 - `archive/exploratory_closure/RESIDUAL_EMERGENCE_NOTE.md`: residual study
@@ -231,7 +238,7 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
   external-constant probe note. Read current "attractor" language through
   `CORE_CLAIMS.md`.
 - `archive/transitional_strict_ledgers/STAGE_INDEXED_MOO_LEDGER_NOTE.md`:
-  transitional strict-stage node-summary ledger. Useful evidence, but
+  transitional positive-spine node-summary ledger. Useful evidence, but
   graph-first SQLite storage is now preferred.
 - `archive/misalignment/PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note
   explaining how older repo language drifted and how to read around it.
@@ -242,11 +249,11 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
 
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export
   surface.
-- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
-- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO
-  nodes and edge occurrences.
+- `strict_stage_moo.py`: positive-spine graph-first strict corpus runner.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for positive-spine
+  strict corpus nodes and edge occurrences.
 - `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes
-  in a strict-stage MoO SQLite corpus.
+  in a positive-spine strict SQLite corpus.
 - `moo_research_report.py`: read-only research-layer node dossiers and
   corpus-wide baseline rankings over strict graph corpora.
 - `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over
@@ -268,8 +275,8 @@ strict-stage MoO evidence unless reproduced through a strict graph query.
   and family reports.
 - `rational_baselines.py`: stdlib rational-baseline helpers for continued
   fractions, Farey neighbors, and Stern-Brocot paths.
-- `moo_core_alignment_check.py`: compares a small strict-stage run through the
-  in-memory graph runtime and SQLite corpus path.
+- `moo_core_alignment_check.py`: compares a small positive-spine strict run
+  through the in-memory graph runtime and SQLite corpus path.
 - `moo_observatory.py` and `moo_corpus.py`: historical exploratory closure-round
   corpus runner and SQLite helpers.
 - `moo_set_closure.py`: historical set-closure round-stepper that operates on
@@ -310,6 +317,7 @@ add it to this index
 ## Current Claim Boundary In One Sentence
 
 MoO is a graph-first construction framework from the primitive certainty `1`;
-strict-stage claims are about recorded construction edges, witnesses,
-neighborhoods, stages, and confirmation status, while exploratory and external
-probe language remains useful only when it returns to graph context.
+current strict-corpus claims are positive-spine scoped and are about recorded
+construction edges, witnesses, neighborhoods, stages, and confirmation status,
+while exploratory and external probe language remains useful only when it
+returns to graph context.

@@ -366,7 +366,10 @@ class GraphCorpus:
             "node_kinds": {str(row["kind"]): int(row["n"]) for row in kind_rows},
             "edge_ops": {str(row["op"]): int(row["n"]) for row in op_rows},
             "alignment": {
-                "operand_rule": "only confirmed positive core-loop iterations may be operands",
+                "operand_rule": (
+                    "positive-spine strict corpus: only confirmed positive-spine "
+                    "iterations may be operands"
+                ),
                 "speculative_nodes_are_operands": False,
                 "speculative_input_edges": speculative_input_edges,
                 "non_core_operand_edges": non_core_operand_edges,

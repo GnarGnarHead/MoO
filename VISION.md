@@ -11,7 +11,7 @@ This document defines the current MoO implementation layers, separates them from
 philosophical intent, and states a conservative roadmap. `constructionist_math.py`
 is the in-memory MoO graph runtime and demo/export surface. `strict_stage_moo.py`
 and `moo_graph_corpus.py` provide the graph-first SQLite corpus path for larger
-strict-stage runs.
+positive-spine strict runs.
 
 The graph is the primary method of inspection. A rational value, constant probe,
 or concept label is only meaningful after its construction edges and graph
@@ -27,14 +27,14 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `constant_probe.py`: historical stateless exploratory set-closure probe (JSON report for external constant matches).
 - `moo_corpus.py`: stdlib `sqlite3` schema/helpers for historical exploratory set-closure corpora.
 - `moo_observatory.py`: historical incremental set-closure runner that appends to a corpus and logs probe outcomes.
-- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for aligned strict-stage MoO nodes and edge occurrences.
-- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
-- `moo_graph_query.py`: graph inspection CLI for strict-stage MoO SQLite corpora.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for positive-spine strict corpus nodes and edge occurrences.
+- `strict_stage_moo.py`: positive-spine graph-first strict corpus runner.
+- `moo_graph_query.py`: graph inspection CLI for positive-spine strict SQLite corpora.
 - `moo_graph_invariants.py`: shared graph-invariant helper functions for node and family reports.
-- `moo_research_report.py`: read-only node dossiers and corpus-wide baseline rankings over strict graph corpora.
-- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over strict graph corpora.
+- `moo_research_report.py`: read-only node dossiers and corpus-wide baseline rankings over positive-spine strict graph corpora.
+- `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over positive-spine strict graph corpora.
 - `moo_circle_square_probe.py`: read-only circle-square branch alignment probe
-  over strict graph corpora, with primitive-triple and Euclid-parameter
+  over positive-spine strict graph corpora, with primitive-triple and Euclid-parameter
   scrutiny fields.
 - `primitive_euclid_branch_sweep.py`: read-only sweep of target primitive
   Euclid branches, preserving complete, partial, and absent branch visibility.
@@ -47,10 +47,10 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `moo_core_alignment_check.py`: small-run agreement check between the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors; base `1` remains the certainty anchor.
-- `order_transition_study.py`: stage-indexed inspection of core-loop confirmation versus speculative constructions.
+- `order_transition_study.py`: stage-indexed inspection of positive-spine confirmation versus speculative constructions.
 - `stage_indexed_analysis.py`: compact summary pass over saved stage-indexed reports.
-- `stage_indexed_moo_ledger.py`: bounded strict-stage MoO ledger generator preserving speculative rational outputs and first construction records.
-- `stage_indexed_convergence_study.py`: structure-first convergence-chain study over a saved strict-stage MoO ledger.
+- `stage_indexed_moo_ledger.py`: bounded positive-spine ledger generator preserving speculative rational outputs and first construction records.
+- `stage_indexed_convergence_study.py`: structure-first convergence-chain study over a saved positive-spine ledger.
 - `waterfall_view.py` / `attractor_view.py`: visualization scripts over `constructionist_math.demo(...)` graphs.
 - `README.md`: project overview + command map.
 - `DOCS_INDEX.md`: consolidated reading map for the current core, active research, and quarantined archive.
@@ -65,12 +65,12 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
   lineage work.
 - `CORE_CLAIMS.md`: current claim boundary for what MoO can say, cannot say, and must keep corpus-conditioned.
 - `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected forms inferred from stable graph families.
-- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.
+- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating positive-spine strict corpus work, exploratory closure, purged miscommunication artifacts, and external probes.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared protocol for probes, scouts, lenses, and speculative studies so external analysis returns to graph context.
-- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for aligned MoO.
+- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for the current positive-spine strict corpus.
 - `GRAPH_INVARIANTS_PROTOCOL.md`: shared graph-native invariant vocabulary for
   strict reports and projected-form probes.
-- `EPISTEMIC_ORDER_NOTE.md`: canonical order framing: `1` as the only certainty, confirmed core-loop iterations as second order, and unconfirmed or relational constructions as third order.
+- `EPISTEMIC_ORDER_NOTE.md`: canonical order framing: `1` as the only certainty, the operator fan as ignition, positive-spine confirmation, and unconfirmed or relational constructions.
 - `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory, and external-probe claims.
 - `research/`: active scrutiny lenses and strict-corpus research branches grouped by family.
 - `archive/`: historical exploratory closure notes, transitional ledgers, working logs, and misalignment audits.
@@ -109,10 +109,29 @@ The seed is:
 I think, therefore 1.
 ```
 
-`1` is the only immediate certainty. To reach `2`, the system must preserve a
-previous instance of `1` and use it again. That previous instance is once
-removed from the immediate certainty. A Cartesian-demon doubt can attack that
-memory, so certainty ends at `1`.
+`1` is the only immediate certainty. MoO is not born by counting upward from
+there. Its first structural event is the fundamental operator fan of `1`
+against itself:
+
+```text
+1 + 1 -> 2
+1 - 1 -> 0
+1 * 1 -> 1
+1 / 1 -> 1
+```
+
+This is the first asymmetry:
+
+```text
++ expands
+- cancels
+* preserves
+/ preserves
+```
+
+To reach `2`, the system must preserve a previous instance of `1` and use it
+again. That previous instance is once removed from the immediate certainty. A
+Cartesian-demon doubt can attack that memory, so certainty ends at `1`.
 
 In this philosophical reading, `2` is infinite distance from `1`: not because
 the runtime cannot construct the value `2`, but because the certainty of `1`
@@ -121,25 +140,34 @@ does not transfer across iteration.
 The runtime claim is narrower: `Ref(1)` is the only primitive, and every other
 value is generated from operations over already-generated expressions of `1`.
 Later shape language should be read as analysis-layer interpretation over the
-constructed arithmetic field:
+operator-generated arithmetic field:
 
 ```text
-1        -> point / certainty / center
-2        -> first failed proof attempt / line-like relation / infinite distance
-3        -> triangle / threefold constraint
-4        -> square / fourfold constraint
-infinity -> unbounded extension / rotation-limit reading
+1             -> certainty / preserved identity
+1 + 1 -> 2    -> expansion / first successor span
+1 - 1 -> 0    -> cancellation / first crossing
+1 * 1 -> 1    -> degenerate self-relation
+1 / 1 -> 1    -> degenerate ratio
+1,2,3         -> additive triad closure inside the positive spine
+2*2 -> 4      -> first nontrivial square emergence
+infinity      -> unbounded extension / rotation-limit reading
 ```
 
 The "infinity as 2" idea should be treated as philosophical, not runtime
 identity: `2` is the first move beyond immediate certainty, and that move is
 already infinitely distant from `1`.
 
-MoO is also stage-indexed. At core-loop stage `n`, the confirmed core-loop
-iterations are `1..n`. A construction can produce a future whole
-number before it is confirmed. For example, once `2` and `3` exist, `2 * 3` can
-produce `6` as a speculative construction; `6` becomes Order 2 only when the
-core loop reaches `6`.
+The current saved graph corpus is stage-indexed along the positive spine. At
+positive-spine stage `U_n`, the confirmed positive-spine iterations are `1..n`.
+A construction can produce a future whole number before it is confirmed by that
+selected field rule. For example, once `2` and `3` exist, `2 * 3` can produce
+`6` as a speculative construction; `6` becomes Order 2 in the positive-spine
+corpus only when the positive spine reaches `6`.
+
+This is a useful corpus rule, not the whole signed MoO field. Zero appears in
+the first fan through cancellation, and negative values are native to continued
+removal/opposition. The full signed operator-fan generator remains future
+implementation work.
 
 ---
 
@@ -244,12 +272,18 @@ MoO uses a few overlapping tags; this block is the intended alignment in the cur
   - `S`: speculative derivation/claim node.
 - `metadata["tier"]` (conceptual tier label):
   - `1`: the primitive `Ref(1)` anchor.
-  - `2`: grounded positive integer anchors `Ref(N)` for `N > 1`.
-  - `3`: speculative/analysis-layer nodes, relational/removal integer anchors such as `0` and negatives, rationals, integer-valued points not yet grounded, and undefined nodes like division-by-zero.
+  - `2`: grounded positive-spine integer anchors `Ref(N)` for `N > 1`
+    under the current corpus/runtime rule.
+  - `3`: speculative/analysis-layer nodes, relational/removal values such as
+    `0` and negatives in the current runtime, rationals, integer-valued points
+    not yet grounded, and undefined nodes like division-by-zero.
 - `epistemic_order` (reported, derived):
   - `1`: `Ref(1)` (primitive certainty event).
-  - `2`: grounded positive `Ref(N)` for `N > 1` (confirmed core-loop iteration; not immediate certainty).
-  - `3`: speculative nodes and relational/removal values, including `0` and negative runtime refs.
+  - `2`: grounded positive-spine `Ref(N)` for `N > 1` under the current
+    corpus/runtime rule (confirmed counted recurrence; not immediate
+    certainty).
+  - `3`: speculative nodes and relational/removal values in the current
+    runtime, including `0` and negative refs.
 - `constructible_from_one` (reported, evidence tag):
   - `True` for grounded anchors.
   - `True` for speculative nodes that have at least one witnessed derivation edge whose inputs are all constructible.
@@ -287,11 +321,16 @@ not a bare value.
 
 ### 5.2 Grounding rule
 
-Positive integers greater than `1` become grounded only when the core loop
-explicitly promotes that iteration of `1`. Arithmetic construction can produce
-an integer-valued node first, but that node remains speculative until the core
-loop reaches it. Zero and negative values are relational/removal constructions,
-not core-loop confirmations.
+In the current positive-spine runtime, positive integers greater than `1`
+become grounded only when the positive-spine confirmation rule explicitly
+promotes that iteration of `1`. Arithmetic construction can produce an
+integer-valued node first, but that node remains speculative until the selected
+field rule reaches it.
+
+Zero and negative values are native to the MoO operator fan through
+cancellation/removal. The current positive-spine runtime records them as
+relational values but does not yet implement a full signed-field confirmation
+rule for them.
 
 ### 5.3 Speculative injection path (`speculate_ref`)
 
@@ -305,20 +344,23 @@ Therefore, the current implementation is not a fully pure derivational model str
 
 ### 6.1 Addition and subtraction
 
-- Default aligned mode permits only confirmed core-loop operands.
+- Default aligned mode permits only confirmed positive-spine operands.
 - Exact integer output is recorded as the canonical value node.
-- If that whole number has already been promoted by the core loop, the output is grounded.
-- Otherwise the output remains speculative until later core-loop promotion.
+- If that whole number has already been promoted by the positive-spine rule,
+  the output is grounded.
+- Otherwise the output remains speculative until later positive-spine
+  promotion.
 
 ### 6.2 Multiplication
 
-- Default aligned mode permits only confirmed core-loop operands.
+- Default aligned mode permits only confirmed positive-spine operands.
 - Exact output is recorded as a canonical value node.
-- Integer outputs become grounded only if the corresponding core-loop `Ref(N)` already exists; otherwise they remain speculative integer claims.
+- Integer outputs become grounded only if the corresponding positive-spine
+  `Ref(N)` already exists; otherwise they remain speculative integer claims.
 
 ### 6.3 Division
 
-- Default aligned mode permits only confirmed core-loop operands.
+- Default aligned mode permits only confirmed positive-spine operands.
 - Division by zero returns a reusable dedicated speculative node.
 - Non-integer outcomes are represented as speculative rational nodes with reduced `p/q` value metadata.
 - Integer outcomes follow the same grounded-if-existing, otherwise speculative-claim rule.
@@ -353,27 +395,32 @@ Primary inspection interfaces (stable in spirit, preserve signatures/shape):
 - node/report epistemic annotations: `epistemic_order` and `constructible_from_one`,
 - `stats()` / field-map helpers for aggregate diagnostics.
 
-For strict-stage corpus work, `moo_graph_query.py` is the primary inspection
+For positive-spine strict corpus work, `moo_graph_query.py` is the primary inspection
 tool because it reads nodes together with construction edges and neighborhoods.
 
 `epistemic_order` is intended as a ranked stance on certainty:
 
 - Order 1: `1`, the only certainty.
-- Order 2: core-loop iterations confirmed from `1`.
-- Order 3: unconfirmed or relational constructions from iterations of `1`, including fractions, zero/negative removals, and positive whole-number constructions not yet confirmed by `n`.
+- Order 2: recurrence of `1` through memory and iteration; in the current
+  corpus, positive-spine iterations confirmed from `1`.
+- Order 3: unconfirmed or relational constructions from iterations of `1`,
+  including fractions, zero/negative cancellation/removal values in the current
+  runtime, and positive-spine whole-number constructions not yet confirmed by
+  `U_n`.
 
 Order 3 nodes are still MoO nodes. Their speculative status is about certainty
 and confirmation, not about whether they belong to the graph. They are
-speculated on and inspected, but not operated on unless the core loop later
-confirms them. Once promoted by confirmation, they may participate in further
-speculation. MoO does not speculate on speculations.
+speculated on and inspected, but not operated on unless the selected field rule
+later confirms them. Once promoted by confirmation, they may participate in
+further speculation. MoO does not speculate on speculations.
 
 Example:
 
 ```text
 3 * 2 produces 6.
 If n < 6, 6 is an unconfirmed construction: Order 3.
-Once n confirms 6 as a whole-number iteration of 1, 6 becomes Order 2.
+Once the positive-spine rule confirms 6 as a whole-number iteration of 1, 6
+becomes Order 2 in the current corpus.
 ```
 
 See `EPISTEMIC_ORDER_NOTE.md` for the canonical framing.

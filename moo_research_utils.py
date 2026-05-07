@@ -59,7 +59,10 @@ def strict_alignment_payload(conn: sqlite3.Connection) -> Dict[str, object]:
     )
     status = "pass" if speculative_input_edges == 0 and non_core_operand_edges == 0 else "fail"
     return {
-        "operand_rule": "only confirmed positive core-loop iterations may be operands",
+        "operand_rule": (
+            "positive-spine strict corpus: only confirmed positive-spine "
+            "iterations may be operands"
+        ),
         "speculative_nodes_are_operands": False,
         "speculative_input_edges": speculative_input_edges,
         "non_core_operand_edges": non_core_operand_edges,
