@@ -30,19 +30,19 @@ Why this matters:
 
 - These trees give canonical baseline orderings of rationals.
 - They give depth/rank notions independent of MoO's operation closure.
-- MoO can ask whether target approximants appear early in MoO closure compared
-  with Stern-Brocot, Calkin-Wilf, and Farey orderings.
+- MoO can ask whether externally probe-selected speculative nodes appear early
+  in MoO closure compared with Stern-Brocot, Calkin-Wilf, and Farey orderings.
 
 Immediate test:
 
-- For each best-so-far MoO approximant `p/q`, compute:
+- For each best-so-far external-probe match `p/q`, compute:
   - MoO first-seen round,
   - Stern-Brocot depth,
   - Calkin-Wilf breadth-first rank/depth,
   - denominator height `q`,
   - Farey order.
 
-If MoO consistently finds important approximants at unusually low operation
+If MoO consistently produces external-probe matches at unusually low operation
 depth, that is a stronger claim than ordinary rational density.
 
 ## 2. Continued Fractions, Best Approximation, and Ford Circles
@@ -73,7 +73,7 @@ Why this matters:
 
 Immediate test:
 
-- Classify each MoO best-so-far approximant as:
+- Classify each MoO best-so-far external-probe match as:
   - continued-fraction convergent,
   - semiconvergent/intermediate fraction,
   - non-CF near miss.
@@ -126,7 +126,7 @@ This would turn "emergence" into a measurable construction-cost theory.
 
 ## 4. Experimental Mathematics and Constant Recognition
 
-MoO's closure-attractor work belongs partly to experimental mathematics: compute,
+MoO's external-probe work belongs partly to experimental mathematics: compute,
 notice structure, then harden the observation with controls.
 
 Relevant works/tools:
@@ -192,7 +192,8 @@ Why this matters:
 
 Immediate test:
 
-- For each target, collect first-seen best approximants over rounds.
+- For each external target, collect first-seen best external-probe matches over
+  rounds.
 - Attempt to infer:
   - recurrence relations,
   - continued-fraction relation,
@@ -217,16 +218,17 @@ Relevant works:
 Why this matters:
 
 - It gives disciplined language for avoiding overclaiming.
-- It separates "there exists a good rational approximant" from "this process
-  constructs that approximant at this stage with this witness."
+- It separates "there exists a good rational approximation" from "this process
+  constructs this speculative node at this stage with this witness."
 
 Immediate test:
 
 - Phrase MoO claims constructively:
 
 ```text
-At closure round r, under bounds B and operation policy P, target t has witnessed
-approximant p/q with error epsilon and witness w.
+At closure round r, under bounds B and operation policy P, MoO constructs
+speculative node p/q with witness w; an external target t later assigns error
+epsilon.
 ```
 
 This is much stronger and cleaner than "the rationals are dense."
@@ -262,21 +264,89 @@ Immediate test:
 
 - Rank motif families by downstream child count, diversity, and persistence
   across changed bounds.
-- Ask whether attractor approximants concentrate inside the strongest motif
+- Ask whether probe-selected speculative nodes concentrate inside the strongest motif
   families more often than seeded random targets do.
 - Track whether the same rational hinges survive from round to round, or
   whether they are round-5 artifacts.
+
+## 8. Lower-Iteration Measure Leads
+
+The second research pass points toward a hardware-light direction: treat MoO as
+an induced measure over rational construction structure, not as a final
+distribution of rationals.
+
+Relevant works and threads:
+
+- Canakci and Schiffler, "Cluster algebras and continued fractions",
+  Compositio Mathematica, 2018.
+  - Cambridge Core:
+    <https://www.cambridge.org/core/journals/compositio-mathematica/article/cluster-algebras-and-continued-fractions/7C3C12E450B8C6110735A0E338396FDD>
+- Canakci and Schiffler, "Snake graphs and continued fractions", European
+  Journal of Combinatorics, 2020.
+  - ScienceDirect:
+    <https://www.sciencedirect.com/science/article/pii/S0195669820300020>
+- "Minkowski's question mark measure", Journal of Approximation Theory, 2017.
+  - ScienceDirect:
+    <https://www.sciencedirect.com/science/article/pii/S0021904517300746>
+- Kesseboehmer and Stratmann, "Fractal analysis for sets of
+  non-differentiability of Minkowski's question mark function", Journal of
+  Number Theory, 2008.
+  - DOI: <https://doi.org/10.1016/j.jnt.2007.12.010>
+- Dutta, Jindal, Pandey, and Sinhababu, "Arithmetic Circuit Complexity of
+  Division and Truncation", CCC 2021.
+  - Dagstuhl:
+    <https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.CCC.2021.25>
+- Allender, Balaji, Datta, and Pratap, "On the complexity of algebraic numbers,
+  and the bit-complexity of straight-line programs", Computability, 2023.
+  - DOI: <https://doi.org/10.3233/COM-220407>
+- Garoufalidis and Zagier, "Asymptotics of Nahm sums at roots of unity", The
+  Ramanujan Journal, 2021.
+  - Springer:
+    <https://link.springer.com/article/10.1007/s11139-020-00266-x>
+
+Why this matters:
+
+- Snake graphs show that finite combinatorial structures can encode continued
+  fractions and rational approximants.
+- Minkowski/Farey/Stern-Brocot work warns that rational construction order can
+  carry singular, nonuniform measure-like structure.
+- Integer-complexity and straight-line-program work gives MoO a better outside
+  language for "from one" construction cost.
+- Arithmetic-circuit division work is relevant because MoO admits `/` as a
+  native constructor, and the `n=6` motif-mass result is strongly division-heavy.
+- Nahm sums at roots of unity are only a speculative tangent, but they keep the
+  "rational boundary site as asymptotic address" idea alive.
+
+Immediate test:
+
+- Compute a motif-mass ledger from saved reports only:
+
+```text
+value -> derivation_events
+value -> first-witness operation motif
+value -> motif child count
+value -> direct parent hub mass
+value -> aperture / escape-return status
+```
+
+- Compare binding probes, geometric probe cohorts, concept families, and
+  matched controls without recomputing closure.
 
 ## Most Useful Next Reading Order
 
 1. Calkin-Wilf, "Recounting the Rationals".
 2. Stern-Brocot/Ford circles/continued fractions via Khinchin and Short.
-3. Hardy-Littlewood/Ramanujan circle-method background as an analogy for motif
+3. Snake graphs / cluster algebras as a finite graph model for continued
+   fractions.
+4. Minkowski question-mark and Stern-Brocot measures as rational-measure
+   comparators.
+5. Hardy-Littlewood/Ramanujan circle-method background as an analogy for motif
    arcs.
-4. Integer complexity and addition chains.
-5. Bailey/Borwein experimental mathematics and PSLQ.
-6. Apéry/BBP-style constant sequence discovery.
-7. Bishop/Bridges constructive analysis for philosophical discipline.
+6. Integer complexity, addition chains, straight-line programs, and arithmetic
+   circuits with division.
+7. Bailey/Borwein experimental mathematics and PSLQ.
+8. Apéry/BBP-style constant sequence discovery.
+9. Bishop/Bridges constructive analysis for philosophical discipline.
 
 ## Research Questions To Carry Forward
 
@@ -288,9 +358,11 @@ Immediate test:
 4. Do derivation multiplicity and approximation quality correlate?
 5. Are `pi`, `e`, `ln2`, `sqrt2`, and `phi` distinguishable from seeded random
    real targets under MoO emergence scores?
-6. Does changing operation ordering or bounds preserve the same attractor chains?
+6. Does changing operation ordering or bounds preserve the same external-probe chains?
 7. Can best-so-far chains be recognized as known OEIS sequences or recurrences?
 8. Do high-output motif hinges behave like persistent rational influence
    neighborhoods across rounds and bounds?
 9. Can MoO define a finite major/minor motif decomposition that predicts where
-   attractor approximants will appear?
+   probe-selected speculative nodes will appear?
+10. Can MoO define a motif-mass measure that remains stable under lower-cost
+    bounded replay before pushing to larger `n`?

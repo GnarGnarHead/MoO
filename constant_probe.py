@@ -145,6 +145,14 @@ def closure_probe(config: ProbeConfig) -> Dict[str, object]:
 
     return {
         "schema_version": 1,
+        "framing": {
+            "status": "historical_exploratory_closure",
+            "alignment": (
+                "This probe reuses generated values as operands. It is not "
+                "aligned MoO computation; use it only as a historical "
+                "hypothesis artifact or external comparison."
+            ),
+        },
         "config": {
             "rounds": config.rounds,
             "max_abs_p": config.max_abs_p,
@@ -165,7 +173,9 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
     parser = argparse.ArgumentParser(
-        description="Probe MoO-style closure sets for rational patterns approaching constants."
+        description=(
+            "Historical exploratory closure probe for rational patterns approaching constants."
+        )
     )
     parser.add_argument("--rounds", type=int, default=5, help="Number of closure rounds.")
     parser.add_argument(

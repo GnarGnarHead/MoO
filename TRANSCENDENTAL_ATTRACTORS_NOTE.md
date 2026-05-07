@@ -1,4 +1,4 @@
-# Transcendental Attractors in MoO Closure
+# External Constant Probes in MoO Closure
 
 > Status: research note.
 >
@@ -6,25 +6,24 @@
 > set-closure probes. It is not yet a theorem and is not runtime semantics for
 > `constructionist_math.py`.
 
-## Core Insight
+## External-Probe Framing
 
-MoO does not need to construct transcendental constants as primitive objects for
-them to become visible.
+MoO does not construct transcendental constants as primitive objects, and the
+runtime should not treat a rational as "about" a named constant.
 
 Starting only from `1`, the bounded closure process under `+`, `-`, `*`, and `/`
-generates finite rational fields. Within those fields, familiar constants appear
-as attractors: the best available rational shadows of a target constant improve
-as closure depth increases.
+generates finite rational fields. External constant probes can then test whether
+some speculative nodes happen to be close to named constants.
 
-The novelty is not that the rational numbers approximate real constants. That is
-classical. The MoO-specific claim is that approximation can be studied as an
-emergence order:
+The novelty is not that rational numbers approximate real constants. That is
+classical. The MoO-native object is the speculative node and its construction
+history. Approximation is an external test layered on afterward:
 
 - when a rational first appears,
 - how complex its construction path is,
 - how many derivations flow into its value class,
 - whether it is grounded or speculative in the graph model,
-- and whether named constants become visible unusually early under those rules.
+- and whether an external probe selects it for further comparison.
 
 In this reading, arithmetic is not only a set of values with operations. It is a
 stratified construction process in which value, construction history, derivation
@@ -44,14 +43,15 @@ with the default bounds:
 - `max_abs_q = 100`
 - `max_abs_value = 4.0`
 
-the round-5 closure set has `4439` retained rational values and surfaces these
-best-so-far approximants:
+the round-5 closure set has `4439` retained rational values. As an external
+constant-probe result, the following speculative nodes are the best matches in
+that bounded window:
 
 | target | round-5 best | absolute error | note |
 | --- | ---: | ---: | --- |
 | `pi` | `22/7` | `0.0012644892673496777` | classical convergent |
-| `e` | `87/32` | `0.0004681715409549092` | strong bounded-window approximant |
-| `ln2` | `52/75` | `0.0001861527733880708` | strong bounded-window approximant |
+| `e` | `87/32` | `0.0004681715409549092` | strong bounded-window external match |
+| `ln2` | `52/75` | `0.0001861527733880708` | strong bounded-window external match |
 | `sqrt2` | `99/70` | `0.00007215191261922271` | algebraic control |
 | `phi` | `34/21` | `0.0010136302977241662` | Fibonacci-ratio control |
 
@@ -63,15 +63,15 @@ specifically transcendental story.
 
 The current evidence supports a cautious hypothesis:
 
-> Finite MoO closure produces rational neighborhoods in which classical
-> constants become visible as attractor targets, even though those constants are
-> never inserted into the construction.
+> Finite MoO closure produces speculative nodes whose construction histories can
+> be studied natively, and external constant probes can select some of those
+> nodes for comparison.
 
 This is stronger than saying "rationals are dense." Density is an existence
 statement over a completed set. MoO asks a different question:
 
-> Which rational approximants appear early under a specific constructive
-> arithmetic process from `1`?
+> Which speculative nodes appear early under a specific constructive arithmetic
+> process from `1`, before any external target interpretation is applied?
 
 That turns convergence into an observable structural phenomenon.
 
@@ -81,7 +81,7 @@ This note does not claim:
 
 - that MoO has proven new values for `pi`, `e`, or any transcendental;
 - that the runtime graph directly contains transcendental numbers;
-- that early approximants are meaningful without a null model;
+- that a node close to an external constant is meaningful without a null model;
 - that the current bounded search is unbiased;
 - that this is already a new foundation for analysis.
 
@@ -89,7 +89,8 @@ The current result is a research signal, not a theorem.
 
 ## Research Program
 
-The next step is to turn "these constants appear" into measurable claims.
+The next step is to turn "external probes selected these speculative nodes" into
+measurable claims.
 
 Keep two layers separate:
 
@@ -124,8 +125,8 @@ More serious scores should include derivation multiplicity and witness length.
 
 ### 2. Compare Against Null Models
 
-The critical question is whether MoO closure finds good approximants earlier
-than a baseline would expect.
+The critical question is whether external probes select MoO nodes earlier than a
+baseline would expect.
 
 Useful baselines:
 
@@ -135,9 +136,9 @@ Useful baselines:
 - Stern-Brocot / Calkin-Wilf enumeration depth,
 - expression-tree enumeration by operator count.
 
-### 3. Track Attractor Persistence
+### 3. Track External-Probe Persistence
 
-A target has stronger evidence if its best approximants:
+An external probe has stronger evidence if its selected nodes:
 
 - keep improving across rounds,
 - remain near known continued-fraction convergents,
@@ -154,8 +155,9 @@ Use target groups:
 - rational controls: values like `3/2`, `7/5`, `22/7`;
 - decoys: random real numbers generated from a fixed seed.
 
-If all targets behave the same, the phenomenon is mostly rational-density plus
-bounded enumeration. If named constants behave differently, that is the signal.
+If all external targets behave the same, the phenomenon is mostly
+rational-density plus bounded enumeration. If named constants behave
+differently, that is the signal.
 
 ### 5. Promote From Probe to Corpus
 
@@ -174,5 +176,6 @@ observatory path is the right place for longer research.
 MoO may be exposing a constructive topology on arithmetic: not a topology of
 preexisting real numbers, but a topology of rational visibility from `1`.
 
-Under that topology, transcendentals are not constructed as objects. They are
-recognized as stable directions in the expanding rational closure.
+Under that topology, transcendentals are not constructed as objects. They remain
+external probes that may reveal stable directions in the expanding rational
+closure.

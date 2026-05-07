@@ -61,8 +61,9 @@ The proposed translation is:
 | singular contribution | concentrated derivation flow |
 | Farey denominator order | first-seen / denominator / witness-order structure |
 
-Under this analogy, `-4/3` is not an attractor itself. It is closer to a finite
-constructive major arc: a rational site where many construction paths organize.
+Under this analogy, `-4/3` is not itself an externally selected constant match.
+It is closer to a finite constructive major arc: a rational site where many
+construction paths organize.
 
 ## Rademacher, Ford Circles, and Farey Geometry
 
@@ -88,7 +89,7 @@ rational value -> constructive neighborhood
 The motif graph is beginning to measure those constructive neighborhoods:
 
 ```text
-parent hinge -> children -> downstream inspected approximants
+parent hinge -> children -> downstream inspected speculative nodes
 ```
 
 This suggests a future "MoO Ford radius" or "constructive arc width":
@@ -110,7 +111,7 @@ Relevant works:
 
 Littlewood's conjecture concerns simultaneous approximation behavior. That is
 useful because MoO's motif graph is already suggesting that one hinge can feed
-more than one attractor shadow:
+more than one probe-selected speculative node:
 
 ```text
 -4/3 -> 34/21
@@ -120,12 +121,11 @@ more than one attractor shadow:
 The MoO question is not exactly Littlewood's question. A local version might be:
 
 ```text
-Can one motif family exert approximation pressure toward multiple constants or
-multiple recognizable chains at once?
+Can one motif family feed multiple externally recognizable chains at once?
 ```
 
 That is a better question than asking whether one fraction is close to one
-target.
+external target.
 
 ## Minkowski Question-Mark Function and Farey Dynamics
 
@@ -153,8 +153,8 @@ A long-term MoO question:
 Does bounded closure induce a singular measure on rational neighborhoods?
 ```
 
-If yes, attractor shadows may be visible as features of that measure, not just
-as one-off approximants.
+If yes, externally probe-selected nodes may be visible as features of that
+measure, not just as one-off approximations.
 
 ## Ramanujan Continued Fractions and Modular Equations
 
@@ -170,7 +170,7 @@ Relevant works:
 Ramanujan's continued fractions are a reminder that continued fractions can be
 modular objects, not only approximation procedures.
 
-MoO should therefore avoid reducing the attractor story to:
+MoO should therefore avoid reducing the external-probe story to:
 
 ```text
 good rational approximation found
@@ -216,21 +216,21 @@ The project should test this by treating motifs as first-class objects:
 
 1. Rank motifs by downstream child count and diversity.
 2. Separate "major motifs" from "minor motifs".
-3. Ask whether attractor approximants concentrate inside major motifs.
+3. Ask whether probe-selected speculative nodes concentrate inside major motifs.
 4. Track whether the same motifs persist under changed bounds.
 5. Study whether motif families generate coherent chains over rounds.
 
 The first round-prefix persistence pass is recorded in
 `MOTIF_PERSISTENCE_NOTE.md`. Its result is deliberately cautious: inspected
-approximants all land in final major operation motifs, and the `-4/3` hinge
-survives the `3 x 3` bounded replay grid. At `n=6`, `-4/3` remains active, but
-new hubs such as `-9/5` and `-11/5` overtake it in child count. The major-arc
-analogy remains useful, but it should be tested through witness-threshold
-audits and additional bounded grids rather than by reading too much into a
-single final-round bloom.
+speculative nodes all land in final major operation motifs, and the `-4/3`
+hinge survives the `3 x 3` bounded replay grid. At `n=6`, `-4/3` remains
+active, but new hubs such as `-9/5` and `-11/5` overtake it in child count. The
+major-arc analogy remains useful, but it should be tested through
+witness-threshold audits and additional bounded grids rather than by reading too
+much into a single final-round bloom.
 
 `SATURATION_LAYER_NOTE.md` sharpens this further: under the default bounds,
-`n=6` saturates the value universe, and the inspected approximants all first
+`n=6` saturates the value universe, and the inspected speculative nodes all first
 appear in the `n=5` mid-q emergence layer rather than in the high-q saturation
 layer. That makes first appearance and motif context more important than final
 presence.
@@ -238,8 +238,9 @@ presence.
 `CONSTRUCTION_CENTERS_NOTE.md` names the observed phenomenon more directly:
 MoO appears to produce rational construction centers and motif centers. The
 center language is still exploratory, but it is more accurate than treating the
-inspected constants as centers themselves; they are better viewed as attractor
-shadows downstream of internally generated centers.
+external constants as centers themselves; the MoO-native objects are better
+viewed as probe-selected speculative nodes downstream of internally generated
+centers.
 
 ## Speculative Reading
 
@@ -253,11 +254,12 @@ In that reading:
 derivation multiplicity is local mass
 parent hubs are finite cusps
 motif families are constructive arcs
-attractor approximants are shadows cast by those arcs
+probe-selected speculative nodes are shadows cast by those arcs
 ```
 
 The constants are not sitting inside the graph as completed real objects. They
-appear as directions of coherence in the rational construction field.
+remain external probes that may reveal directions of coherence in the rational
+construction field.
 
 A possible slogan:
 

@@ -1,18 +1,26 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Core code lives in `constructionist_math.py` at the repo root; it contains the `Graph`, `Node`, and operation helpers plus a small `demo`.
+- `constructionist_math.py` is the in-memory MoO graph runtime with demo/export helpers.
+- `strict_stage_moo.py` and `moo_graph_corpus.py` are the graph-first SQLite corpus path for strict-stage runs that preserve nodes and edge occurrences.
+- The graph is the primary method of inspection. Values, target probes, and node summaries are secondary unless read through construction edges, graph neighborhoods, and confirmation status.
 - No test directory yet; ad-hoc checks run via the demo. Keep new modules flat in root unless a package layout becomes necessary.
 - Exports: `to_json` and `to_dot` are the primary inspection interfaces; preserve their signatures and JSON shape when extending.
 - Docs live in root (`VISION.md`, plus any speculative notes like `PRIME_HARMONICS_NOTE.md`).
 
 ## Build, Test, and Development Commands
-- `python3 constructionist_math.py` — runs the demo to build a small graph and prints JSON and DOT outputs. Use this as a quick regression check.
+- `python3 strict_stage_moo.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-stage 80 --max-abs-p 200 --max-abs-q 200 --max-abs-value 4 --quiet --pretty` — builds a graph-first strict-stage MoO SQLite corpus.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --pretty` — inspects incoming/outgoing construction edges for a node.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --node 34/21 --neighborhood --pretty` — inspects a node plus nearby results sharing its input nodes.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke.sqlite --confirmations --pretty` — lists values first seen speculatively and later confirmed by the core loop.
+- `python3 moo_core_alignment_check.py --max-stage 6 --pretty` — compares small strict-stage output between the in-memory graph runtime and SQLite corpus path.
+- `python3 constructionist_math.py` — runs the in-memory graph demo to build a small graph and prints JSON and DOT outputs.
 - `python3 constructionist_math.py --limit 10` — runs a larger demo universe.
 - `python3 constructionist_math.py '1/(1+1)'` — evaluates a minimal “MoO language” expression (only literal `1`, operators `+ - * /`, and parentheses).
 - `python3 constructionist_math.py --stats ...` — prints `Graph.stats()` and `Graph.resolve_events()` before JSON/DOT.
 - `python3 constructionist_math.py --maps ...` — convenience flag for `--stats --resolve-dot --field --field-ascii`.
 - `python3 constructionist_math.py --write-maps out/demo --limit 6` — writes `out/demo.*` map files (DOT + resolve-DOT + field CSV/JSON/ASCII + stats).
+- `python3 constructionist_math.py --allow-speculative-operands ...` — historical exploratory mode only. Aligned MoO records speculative nodes but does not operate on them until promotion.
 - If Graphviz is available, render maps with: `dot -Tsvg out/demo.resolve.dot -o out/demo.resolve.svg`.
 - For interactive work, import `Graph` from `constructionist_math` in a REPL or notebook.
 
@@ -21,6 +29,7 @@
 - Indentation: 4 spaces; keep lines ASCII unless data demands otherwise.
 - Function and variable names are snake_case; classes are CapWords.
 - Avoid silent mutation of shared structures; prefer helper methods (e.g., `_record_edge`, `_resolve_speculative_to_ref`, `_maybe_resolve_new_spec_to_existing_ref`) to keep graph integrity rules centralized.
+- Do not add code paths that operate on speculative nodes by default. Speculative nodes are real graph nodes, but they are inspected rather than used as operands until core-loop promotion.
 
 ## Testing Guidelines
 - There is no formal test suite yet; rely on the demo run for quick validation.

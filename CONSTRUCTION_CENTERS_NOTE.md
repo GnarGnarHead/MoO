@@ -4,7 +4,7 @@
 >
 > This note names an observed MoO phenomenon: bounded construction appears to
 > produce internal rational centers and motif centers. These are not imported
-> from the target constants; they emerge from MoO's own construction flow.
+> from external constant probes; they emerge from MoO's own construction flow.
 
 ## Basic Idea
 
@@ -23,11 +23,11 @@ A center can be:
 - a motif family, such as `/ : mid_q / mid_q`;
 - a layer-level structure, such as the `n=5` mid-q emergence layer.
 
-The constants themselves are not centers in the current evidence. They are
-better described as attractor shadows:
+External probe labels are not centers in the current evidence. The MoO-native
+objects are speculative nodes:
 
 ```text
-recognizable approximants appearing downstream of internally generated centers
+probe-selected speculative nodes appearing downstream of internally generated centers
 ```
 
 ## Empirical Centers So Far
@@ -42,9 +42,9 @@ child_count = 404
 inspected children = 34/21, 87/32
 ```
 
-It is not itself one of the target approximants. Its importance is structural:
-it organizes many downstream constructions and directly feeds two inspected
-approximants.
+It is not itself one of the probe-selected speculative nodes. Its importance is
+structural: it organizes many downstream constructions and directly feeds two
+inspected nodes.
 
 ### Saturation Centers at `n=6`
 
@@ -69,8 +69,8 @@ appears above it.
 
 ## Motif Centers
 
-The strongest motif centers are operation-pattern families. At `n=5`, inspected
-approximants appear inside:
+The strongest motif centers are operation-pattern families. At `n=5`,
+probe-selected speculative nodes appear inside:
 
 ```text
 - : mid_q_rational - low_q_rational, both previous round
@@ -96,14 +96,15 @@ n=6: high-q division saturation layer
 
 ## Why This Is Interesting
 
-If MoO only produced good rational approximants, the result would be weak.
-Classical rationals approximate every real number.
+If MoO only produced rational values that an external probe can compare to
+constants, the result would be weak. Classical rationals approximate every real
+number.
 
 The more interesting signal is internal:
 
 ```text
 MoO produces centers before target interpretation.
-Recognizable approximants appear downstream of those centers.
+Probe-selected speculative nodes appear downstream of those centers.
 ```
 
 That means the observed structure is not simply fitted to `pi`, `e`, `ln(2)`,
@@ -149,15 +150,15 @@ n=6 q median = 66
 
 ### Continued Fractions and Diophantine Approximation
 
-The inspected values include familiar approximants:
+External probes mark the inspected values as familiar approximants:
 
 ```text
 22/7, 87/32, 99/70, 34/21
 ```
 
-The MoO claim is not that these are good approximants. The claim is that they
-appear early relative to saturation, through a small set of construction
-motifs.
+The MoO-native claim is not that these are good approximants. The claim is that
+these speculative nodes appear early relative to saturation, through a small set
+of construction motifs.
 
 ### Rational Construction Complexity
 
@@ -188,7 +189,7 @@ In that ecology:
 rational centers behave like finite cusps
 motif centers behave like constructive arcs
 layers behave like successive fields of admissible influence
-attractor approximants are shadows seen before saturation
+probe-selected speculative nodes are shadows seen before saturation
 ```
 
 This is the phrase worth preserving:
@@ -205,7 +206,7 @@ constructibility, witness flow, and repeated operation motifs.
 This note does not claim:
 
 - that MoO proves transcendental convergence;
-- that the inspected constants are generated as completed real objects;
+- that external probe constants are generated as completed real objects;
 - that `-4/3`, `-9/5`, or `-11/5` are classical mathematical cusps;
 - that child count alone is a final measure of importance.
 
@@ -213,7 +214,7 @@ The more defensible claim is:
 
 ```text
 Bounded MoO closure produces internally generated centers and motif layers.
-The inspected attractor approximants appear before saturation inside those
+The probe-selected speculative nodes appear before saturation inside those
 layers, so first appearance and witness context are stronger signals than final
 presence.
 ```
@@ -234,7 +235,7 @@ derivation-event residual after saturation
 
 Useful questions:
 
-1. Are inspected approximants unusually close to high-output centers compared
+1. Are inspected speculative nodes unusually close to high-output centers compared
    with all `10655` saturated values?
 2. Do centers persist when bounds increase?
 3. Do new center layers follow predictable denominator or motif transitions?

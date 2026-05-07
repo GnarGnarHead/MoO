@@ -184,7 +184,9 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
     parser = argparse.ArgumentParser(
-        description="Incrementally extend a persistent MoO set-closure corpus and run probes."
+        description=(
+            "Historical exploratory set-closure corpus runner; not aligned MoO computation."
+        )
     )
     parser.add_argument("--db", type=str, required=True, help="SQLite corpus path.")
     parser.add_argument(

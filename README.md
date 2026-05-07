@@ -1,6 +1,83 @@
 # Modulus of One (MoO)
 
-MoO is a constructionist arithmetic prototype that starts from one primitive grounded node, `Ref(1)`, and builds a relational arithmetic graph using `+`, `-`, `*`, and `/`.
+MoO is an experimental arithmetic project that asks what structure appears when
+number is built outward from a single certainty: `1`.
+
+It does not replace ordinary mathematics. It records how rational values become
+constructible through `+`, `-`, `*`, and `/`, preserving the paths, motifs, and
+speculative nodes that appear along the way.
+
+The aim is to study arithmetic as a construction process, then use external
+probes only after the native structure has been recorded.
+
+Primary inspection rule:
+
+```text
+MoO is inspected as a graph.
+Values are not meaningful by themselves.
+The object of study is the node plus its construction edges, repeated paths,
+input neighborhoods, confirmation status, and relation to other nodes.
+```
+
+Any report that lists values without graph context is only a summary or scouting
+artifact. It is not the primary MoO evidence.
+
+Philosophically, MoO begins from:
+
+```text
+I think, therefore 1.
+```
+
+`1` is the only certainty. MoO began as an attempt to prove `2` from `1`, and
+that attempt fails as certainty: `2` already requires a previous instance of
+`1` to be preserved and used again. That previous instance is once removed from
+the immediate certainty. In this framing, `2` is not a second certainty. It is
+infinite distance from `1`.
+
+The implementation therefore keeps `Ref(1)` as the only primitive. Everything
+else is generated from iterations and relations of `1`. Point, line, triangle,
+square, and circle language in these notes is analysis-layer framing over that
+construction, not built-in geometry.
+
+MoO is stage-indexed: before the core `1` loop has iterated twice, there is no
+confirmed `2` in the MoO universe. Once `2` and `3` exist, a construction such
+as `2 * 3` may produce `6`, but `6` remains speculative until the core loop
+reaches `6`.
+
+Speculative nodes are still MoO nodes. They are not false, discarded, or outside
+the project; they have a weaker epistemic status than `1` or a confirmed
+core-loop iteration. They are inspected and speculated on, not operated on.
+Only confirmed core-loop iterations act as operands; a speculative node becomes
+available for operation only if the core loop later promotes it by confirmation.
+MoO speculates from promoted certainty; it does not speculate on speculations.
+
+Current epistemic order:
+
+```text
+Order 1: 1, the only certainty
+Order 2: core-loop iterations confirmed from 1
+Order 3: unconfirmed or relational constructions from iterations of 1
+```
+
+## Alignment Layers
+
+MoO results must be read by layer:
+
+```text
+strict-stage MoO:
+  confirmed core-loop iterations are operands; speculative nodes are recorded
+  as real nodes, but not operated on unless later confirmed
+
+exploratory closure:
+  older bounded scans that reused speculative nodes as operands; historical
+  hypothesis artifacts, not aligned MoO computation
+
+external probes:
+  constants, geometry labels, and baselines used only after native structure
+  is recorded
+```
+
+See `PROJECT_ALIGNMENT_NOTE.md` before interpreting old reports.
 
 ## Conceptual Framing
 
@@ -10,50 +87,99 @@ MoO treats “what counts as the same object?” as a first-class choice. The sa
 - **Value lens**: deduplicate to unique `(src_value, dst_value, op)` links, i.e. a quotient of the full edge-occurrence graph.
 - **Grounding lens**: integer points can be “grounded” as `Ref(N)` anchors; integer-valued points produced by `*`/`/` may remain speculative until explicitly grounded via the `+`/`-` backbone.
 
+The structure lens is primary. Value lists, decimal approximations, target probes,
+and concept labels are secondary readings over the graph.
+
 MoO is also deliberately “potential-infinity flavored”: every run builds a finite graph, but the integer backbone is extendable by continued iteration from `Ref(1)` (e.g. `--limit N`).
 
 Irrationals are not constructed directly; they appear (if at all) only as limit behavior of rational contexts (e.g. Fibonacci ratio nodes).
 
 Regularization-style readings of divergent objects (e.g. analytic continuation / Ramanujan summation, like the `-1/12` association) are not implemented as runtime semantics; they would be additional analysis lenses, not replacements for the ordinary meanings.
 
+Terminology note: the code and some reports use ordinary graph words such as
+`parent`, `child`, and `hub`. These are mechanical report terms for generated
+ledger relations: an earlier construction, a resulting construction, or a place
+where many recorded events meet. They are not independent objects outside the
+iteration of `1`.
+
 ## Doc Map
 
-- `constructionist_math.py`: core runtime (`Graph`, `Node`), demo, exports (JSON/DOT/stats).
+- `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
 - `NEXT_STEPS.md`: obvious pause-point note with current state, saved artifacts, and recommended next experiments.
 - `VISION.md`: implementation-aligned specification + roadmap (what exists vs what’s aspirational).
-- `TRANSCENDENTAL_ATTRACTORS_NOTE.md`: research note on rational closure, attractor behavior, and convergence toward constants.
+- `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, discarded miscommunication artifacts, and external probes.
+- `PROJECT_MISALIGNMENT_AUDIT.md`: diagnostic note explaining how and why the repo still drifts away from the resolved MoO framing.
+- `ANALYSIS_TOOL_PROTOCOL.md`: shared rulebook for probes, scouts, lenses, and speculative studies; analysis tools must return to graph context.
+- `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for strict-stage MoO, including SQLite schema and smoke-run results.
+- `EPISTEMIC_ORDER_NOTE.md`: canonical framing for certainty, core-loop confirmation, unconfirmed constructions, and promotion by `n`.
+- `STAGE_INDEXED_UNIVERSE_NOTE.md`: core-loop rule for when positive whole numbers enter the MoO universe and when speculative constructions remain unconfirmed.
+- `STAGE_INDEXED_R100_NOTE.md`: first compact study of the strict `n=100` stage-indexed core run.
+- `STAGE_INDEXED_MOO_LEDGER_NOTE.md`: transitional node-summary strict-stage ledger; useful evidence, but superseded by graph-first storage for core MoO work.
+- `TRANSCENDENTAL_ATTRACTORS_NOTE.md`: historical exploratory-closure research note separating rational structure from external constant probes.
 - `RELATED_WORKS_NOTE.md`: exploratory literature map for rational trees, continued fractions, integer complexity, and experimental-math baselines.
-- `RESEARCH_TOOLS_NOTE.md`: separates MoO-native observables from external confirmation tools.
-- `RESIDUAL_EMERGENCE_NOTE.md`: first target-blind residual study after filtering the arithmetic skeleton.
-- `MOTIF_GRAPH_NOTE.md`: first parent-motif study over the target-blind ledger.
-- `MOTIF_PERSISTENCE_NOTE.md`: round-prefix persistence study for parent hubs, parent pairs, operation motifs, and inspected-vs-control concentration.
-- `SATURATION_LAYER_NOTE.md`: compares the `n=5` emergence layer with the saturated `n=6` bounded universe.
-- `CONSTRUCTION_CENTERS_NOTE.md`: names the emergent rational/motif centers and separates evidence from speculation.
+- `RESEARCH_TOOLS_NOTE.md`: historical research-tools note; current aligned work starts from strict graph corpora.
+- `RESIDUAL_EMERGENCE_NOTE.md`: historical exploratory-closure residual study after filtering the arithmetic skeleton.
+- `MOTIF_GRAPH_NOTE.md`: historical exploratory-closure motif study over the target-blind ledger (older fields may say parent or hub).
+- `MOTIF_PERSISTENCE_NOTE.md`: historical exploratory-closure round-prefix persistence study for report-level hubs, generated pairs, operation motifs, and inspected-vs-control concentration.
+- `SATURATION_LAYER_NOTE.md`: historical exploratory-closure comparison of the `n=5` emergence layer with the saturated `n=6` bounded universe.
+- `CONSTRUCTION_CENTERS_NOTE.md`: historical exploratory-closure note naming rational/motif centers and separating evidence from speculation.
 - `CAMBRIDGE_ARC_MOTIFS_NOTE.md`: exploratory bridge from Hardy-Littlewood/Ramanujan-style rational arc methods to MoO motif hinges, with a clearly speculative reading.
+- `WITNESS_THRESHOLD_NOTE.md`: audit of why inspected round-5 speculative nodes mostly need `|v| <= 4` rather than `|v| <= 3`.
+- `CONSTRUCTION_APERTURE_NOTE.md`: corpus-wide first-witness aperture metric for construction paths that leave and return to a value region.
+- `CONCEPT_BRANCHES_NOTE.md`: concept-family study, separating shape anchors from measured square and triangle families.
+- `BINDING_STRUCTURE_NOTE.md`: historical exploratory-closure binding-profile study for external probe-selected speculative nodes.
+- `MOTIF_MASS_NOTE.md`: historical exploratory-closure measure pass over saved `n=6` ledgers, comparing derivation mass, motif mass, report-level hubs, aperture, binding probes, and concept families.
+- `CORRIDOR_ATLAS_NOTE.md`: historical exploratory-closure atlas of native operation corridors, report-level hubs, generated-pair channels, and high-corridor values.
+- `CONVERGENCE_STRUCTURE_NOTE.md`: structure-first convergence-chain study over the bounded strict-stage MoO ledger; approximating points are not treated as meaningful alone.
 - `PRIME_HARMONICS_NOTE.md`: speculative research note (analysis-layer, not runtime semantics).
-- `moo_observatory.py`: persistent “observatory” runner (incremental closure-round corpus + probe logs).
-- `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by `moo_observatory.py`.
-- `moo_set_closure.py`: shared set-closure round-stepper used by `constant_probe.py` and `moo_observatory.py`.
+- `PRIME_FACTOR_AND_CONJECTURE_PROBES_NOTE.md`: speculative research note connecting prime factors, Sophie Germain primes, twin-prime corridors, Goldbach partitions, Euler products, and Godel-style coding to graph-first MoO probes.
+- `FERMAT_PRIME_PROBE_NOTE.md`: speculative Fermat-prime non-collapse probe over graph branch structure.
+- `FERMAT_LITTLE_PROBE_NOTE.md`: speculative Fermat Little return-corridor probe; keeps base `1` as the certainty anchor.
+- `GEOMETRIC_PROBES_NOTE.md`: speculative note treating circle/square/area probes as analysis-layer subsets of emergent construction patterns, not runtime geometry.
+- `FOURIER_ANALYSIS_LENS_NOTE.md`: speculative research note treating Fourier's body of work as an analysis-layer discipline for projections over MoO edge structure.
+- `SPECTRAL_SCOUT_NOTE.md`: speculative analysis-tool concept for using edge-derived spectral signatures to find graph neighborhoods worth inspecting.
+- `NULL_GEODESIC_LENS_NOTE.md`: speculative analysis-lens note for real construction paths that collapse under a chosen projection.
+- `SPECTRAL_NULL_RELATED_WORKS_NOTE.md`: research pass connecting spectral scouting and null-like paths to graph signal processing, Hodge edge flows, causal structure, Ramanujan-Fourier methods, Ihara zeta, and TDA.
+- `moo_observatory.py`: historical exploratory closure-round corpus runner.
+- `moo_corpus.py`: stdlib `sqlite3` corpus schema + helpers used by the historical observatory runner.
+- `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO nodes and edge occurrences.
+- `moo_set_closure.py`: historical set-closure round-stepper that operates on generated speculative values; not aligned MoO computation.
 - `moo_targets.py`: shared target definitions + parser used by probe scripts.
-- `constant_probe.py`: stateless closure probe (JSON report; useful for quick ad-hoc checks).
-- `native_emergence_scan.py`: target-blind MoO-native scan for first-seen order, witnesses, derivation events, operation signatures, and local density.
-- `residual_emergence_study.py`: reranks a saved native ledger after filtering skeleton hubs and normalizing by round/denominator bucket.
-- `motif_graph_study.py`: studies first-witness parent hubs, parent-pair motifs, operation motifs, and inspected approximant ancestry.
-- `motif_persistence_study.py`: slices a saved first-witness ledger by round prefix to test motif persistence without recomputing closure.
-- `motif_grid_summary.py`: summarizes the saved bounded replay grid for motif robustness and path sensitivity.
-- `saturation_layer_study.py`: compares the penultimate emergence layer with the final saturated layer in a saved ledger.
-- `emergence_baselines.py`: lightweight local report comparing closure approximants to continued-fraction, rational-tree, Farey, and integer-complexity baselines.
+- `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
+- `moo_graph_query.py`: inspect graph neighborhoods and high-derivation nodes in a strict-stage MoO SQLite corpus.
+- `moo_core_alignment_check.py`: compares a small strict-stage run through the in-memory graph runtime and SQLite corpus path.
+- `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
+- `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors through the certainty anchor.
+- `constant_probe.py`: historical stateless closure probe (JSON report; useful only as a comparison artifact).
+- `native_emergence_scan.py`: historical exploratory-closure scan for first-seen order, construction records, derivation events, operation signatures, and local density.
+- `order_transition_study.py`: stage-indexed inspection of core-loop confirmation, speculative whole-number constructions, and promotion by the core loop.
+- `stage_indexed_analysis.py`: compact summary pass over saved stage-indexed reports.
+- `stage_indexed_moo_ledger.py`: transitional node-summary strict-stage ledger generator; graph-first work should use `strict_stage_moo.py`.
+- `residual_emergence_study.py`: historical saved-ledger reranker for exploratory closure.
+- `motif_graph_study.py`: historical exploratory-closure first-witness motif study.
+- `motif_persistence_study.py`: historical round-prefix motif persistence study.
+- `motif_grid_summary.py`: historical bounded replay grid summary.
+- `saturation_layer_study.py`: historical saturation-layer comparison over exploratory closure.
+- `witness_threshold_study.py`: historical saved-ledger aperture comparison.
+- `construction_aperture_study.py`: historical first-witness construction aperture study.
+- `concept_branch_study.py`: historical square/triangle cohort probe over saved exploratory ledgers.
+- `binding_structure_study.py`: historical binding-profile merger over exploratory ledgers.
+- `motif_mass_study.py`: historical motif-mass view over saved exploratory reports.
+- `corridor_atlas_study.py`: historical exploratory-closure corridor atlas.
+- `stage_indexed_convergence_study.py`: extracts record-improving convergence chains from a saved strict-stage MoO ledger and tests determinant/recurrence structure.
+- `emergence_baselines.py`: historical external-probe baseline over exploratory closure values.
 - `waterfall_view.py` / `attractor_view.py`: analysis/visualization scripts over demo-generated graphs.
 
 ## Current Implementation
 
 - Runtime object: structure-preserving arithmetic term-DAG/graph (shared nodes, edge history).
 - Identity model: one node per reduced rational value (`p/q`); derivation identity is preserved as edge/occurrence identity.
-- Grounded layer: unique grounded `Ref(N)` nodes for grounded integers.
+- Grounded layer: unique grounded `Ref(N)` nodes for runtime integer anchors.
 - Speculative layer: rationals and integer-valued points that are not yet grounded.
-- Grounding behavior: a point can be promoted to a grounded `Ref(N)` anchor when the integer backbone explicitly constructs it.
-- Epistemic annotations: every node/report includes `epistemic_order` (`1|2|3`) and `constructible_from_one`.
-- Prototype injection: `speculate_ref()` can inject speculative integer claims for demo/testing flows.
+- Operation rule: only promoted/grounded core-loop iterations are operands in aligned mode. Speculative nodes are recorded and inspected, not operated on.
+- Grounding behavior: a whole-number value becomes Order 2 when the core loop reaches it; arithmetic construction alone does not promote it. Zero and negative values are relational/removal constructions, not core-loop confirmations.
+- Epistemic annotations: every node/report includes `epistemic_order` (`1|2|3`) and `constructible_from_one`; see `EPISTEMIC_ORDER_NOTE.md` for the intended reading.
+- Prototype injection: `speculate_ref()` can inject speculative integer claims for demo/testing flows, but those claims are not operands until promoted.
 
 ## What It Is Not
 
@@ -64,31 +190,33 @@ Regularization-style readings of divergent objects (e.g. analytic continuation /
 ## Project Focus
 
 - Preserve operational provenance while computing value-equivalence classes.
+- Inspect graph structure before interpreting values.
 - Observe grounded vs speculative dynamics.
 - Instrument grounding and construction behavior through JSON/DOT/stats outputs.
-- Study when constants become visible as rational attractors under finite closure from `1`.
+- Study external constant probes only after MoO-native construction structure has been recorded.
 
 ## Smoke Checks
 
 - `python3 -m py_compile *.py` — basic syntax/type-hint sanity across scripts.
-- `python3 constructionist_math.py --limit 10 --stats` — demo build + stats + acceptance checks.
-- `python3 constant_probe.py --rounds 3 --targets pi,e,sqrt2 --top-k 1 --pretty` — quick closure probe (stateless).
-- `python3 native_emergence_scan.py --rounds 5 --top-k 8 --pretty` — target-blind local emergence scan.
-- `python3 residual_emergence_study.py --report out/experiments/native_r5_full.json --top-k 12 --pretty` — residual study over a saved native ledger.
-- `python3 motif_graph_study.py --report out/experiments/native_r5_full.json --top-k 12 --pretty` — parent-motif study over a saved native ledger.
-- `python3 motif_persistence_study.py --report out/experiments/native_r5_full.json --top-k 12 --pretty` — round-prefix motif persistence study over a saved native ledger.
-- `python3 motif_grid_summary.py --pretty` — summarize the saved `3 x 3` bounded replay grid.
-- `python3 saturation_layer_study.py --report out/experiments/native_r6_full.json --top-k 12 --pretty` — compare the `n=5` emergence layer against the saturated `n=6` layer.
-- `python3 emergence_baselines.py --rounds 5 --targets pi,e,sqrt2,phi,ln2 --compact --pretty` — local baseline report for best approximants.
-- `python3 moo_observatory.py --db out/moo_smoke.sqlite --to-round 3 --targets all` — persistent corpus extension + probes.
+- `python3 constructionist_math.py --limit 10 --stats` — in-memory graph demo build + stats.
+- `python3 order_transition_study.py --max-stage 6 --pretty` — stage-indexed check of confirmed iterations versus speculative constructions.
+- `python3 moo_core_alignment_check.py --max-stage 6 --pretty` — compare small strict-stage output between the in-memory graph and SQLite corpus paths.
+- `python3 stage_indexed_analysis.py --report out/experiments/stage_indexed_core_r100.json --pretty` — summarize a saved stage-indexed core run.
+- `python3 strict_stage_moo.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-stage 80 --max-abs-p 200 --max-abs-q 200 --max-abs-value 4 --quiet --pretty` — graph-first strict-stage MoO corpus.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --summary --pretty` — summarize a saved graph corpus.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --node 34/21 --neighborhood --pretty` — inspect a speculative node, its inputs, and nearby graph structure.
+- `python3 moo_graph_query.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --confirmations --pretty` — list values first seen speculatively and later confirmed by the core loop.
+- `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat-prime branch non-collapse against a graph corpus.
+- `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke_20260430_v2.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.
+- `python3 stage_indexed_moo_ledger.py --max-stage 1000 --max-abs-p 1000 --max-abs-q 1000 --max-abs-value 4 --pretty` — bounded strict-stage MoO ledger with speculative rational nodes.
 
 ## Command Examples
 
 - `python3 constructionist_math.py` — runs the default demo and prints JSON and DOT outputs.
 - `python3 constructionist_math.py '1/(1+1)'` — evaluates a minimal “MoO language” expression.
-- `python3 constructionist_math.py --fibonacci 8 --maps` — builds a Fibonacci-focused graph with recurrence terms, ratio nodes, subtraction back-links, and Cassini identities.
+- `python3 constructionist_math.py --fibonacci 8 --maps` — builds an aligned Fibonacci-focused graph with recurrence terms, ratio nodes, and subtraction back-links. Cassini-style second-step identities require `--allow-speculative-operands` and are historical exploratory behavior.
 - `python3 constructionist_math.py --write-maps out/fib --fibonacci 8 --view value` — writes the standard map artifacts plus a `*.fibonacci.json` report.
-- `python3 moo_observatory.py --db out/moo_corpus.sqlite --to-round 8 --targets all` — incrementally extends a persistent closure-round corpus and logs probe results.
+- `python3 moo_observatory.py --db out/moo_corpus.sqlite --to-round 8 --targets all` — historical exploratory closure runner; useful only as a comparison artifact.
 
 ## Analysis Views
 
@@ -96,3 +224,12 @@ Regularization-style readings of divergent objects (e.g. analytic continuation /
 - `python3 attractor_view.py --n-min 1 --n-max 20` — attractor heatmap over `N x v` for `inflow_resolve`, `mass`, `pull_ratio`, and `rank_inflow`.
 
 See [VISION.md](VISION.md) for the implementation-aligned specification and roadmap split.
+
+## Compute Modes
+
+- **Strict-stage MoO**: compute only with confirmed core-loop iterations as operands. Speculative results are recorded as graph nodes and edge occurrences, but they are inspected rather than operated on until the core loop confirms them. The canonical storage is the graph-first SQLite corpus.
+- **Exploratory closure**: older bounded scans reused all retained generated values as operands, including speculative nodes. These runs are historical hypothesis artifacts; they are not aligned MoO computation.
+- **External probes**: constants, geometry labels, and baselines used to inspect already-generated structure. Probe-selected points matter only through shared structure, not approximation alone.
+
+Across all modes, the primary method of inspection is graph inspection: nodes,
+construction edges, repeated paths, neighborhoods, and confirmation transitions.

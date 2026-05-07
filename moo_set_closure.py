@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+"""
+Historical exploratory closure helper.
+
+This module operates on every retained generated value, including speculative
+values. That behavior is useful as a hypothesis artifact, but it is not aligned
+MoO computation. Aligned corpus work should use strict_stage_moo.py and inspect
+the resulting graph with moo_graph_query.py.
+"""
+
 from fractions import Fraction
 from typing import Callable, Dict, Optional, Set, Tuple
 
@@ -46,7 +55,10 @@ def closure_round_delta(
     allow: Callable[[Fraction], bool],
 ) -> Tuple[Set[Fraction], Dict[Fraction, Witness]]:
     """
-    One incremental closure round from {1} under + - * /.
+    One historical exploratory closure round from {1} under + - * /.
+
+    This combines generated values as operands, including speculative values.
+    It is intentionally not the aligned MoO core rule.
 
     This computes the next-round delta by combining only the previous round's
     delta with the previous round's set:
@@ -87,4 +99,3 @@ def closure_round_delta(
                 witness.setdefault(out, (op, a, b))
 
     return new_delta, witness
-

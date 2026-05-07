@@ -296,6 +296,13 @@ def baseline_report(config: BaselineConfig) -> Dict[str, object]:
 
     return {
         "schema_version": 1,
+        "framing": {
+            "status": "historical_exploratory_closure_baseline",
+            "alignment": (
+                "This report is an external baseline over exploratory closure "
+                "values. It is not aligned MoO computation."
+            ),
+        },
         "config": {
             "rounds": int(config.rounds),
             "max_abs_p": int(config.max_abs_p),
@@ -320,7 +327,9 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
     parser = argparse.ArgumentParser(
-        description="Compare MoO closure approximants against lightweight rational baselines."
+        description=(
+            "Compare historical exploratory closure approximants against rational baselines."
+        )
     )
     parser.add_argument("--rounds", type=int, default=5, help="Closure rounds; 5 is the local default.")
     parser.add_argument("--max-abs-p", type=int, default=100, help="Max absolute numerator.")

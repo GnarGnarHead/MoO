@@ -7,12 +7,12 @@
 
 ## Purpose
 
-The residual study showed that isolated derivation count and attractor
-approximation are different phenomena. This study asks a structural question:
+The residual study showed that isolated derivation count and external-probe
+selection are different phenomena. This study asks a structural question:
 
 ```text
-Are notable approximants isolated lucky outputs, or do they sit downstream of
-reusable construction motifs?
+Are probe-selected speculative nodes isolated outputs, or do they sit
+downstream of reusable construction motifs?
 ```
 
 The script used for this is `motif_graph_study.py`.
@@ -38,7 +38,7 @@ parent a, parent b --op--> child
 ```
 
 It tracks parent hubs, parent-pair motifs, operation motifs, and shared ancestry
-for inspected approximants.
+for inspected speculative nodes.
 
 ## Round-5 Motif Graph Size
 
@@ -68,11 +68,12 @@ Its operation profile is broad:
 | `/` | `178` |
 
 This is a stronger structural signal than the residual ranking alone. `-4/3`
-is not just an approximant; it behaves like a construction hinge.
+is not just a value selected by an external probe; it behaves like a
+construction hinge.
 
-## Inspected Approximants and Shared Motifs
+## Inspected Speculative Nodes and Shared Motifs
 
-The inspected attractor approximants are:
+The inspected speculative nodes are:
 
 ```text
 22/7, 87/32, 52/75, 99/70, 34/21
@@ -86,7 +87,7 @@ Their first-witness motifs cluster into a few operation forms:
 | `/ : mid_q_rational / low_q_rational, both previous round` | `674` | `87/32` |
 | `- : mid_q_rational - low_q_rational, both previous round` | `245` | `22/7`, `34/21`, `99/70` |
 
-This suggests that the approximants are not all produced by one single motif,
+This suggests that the inspected nodes are not all produced by one single motif,
 but they are not arbitrary either. They sit in a small family of round-5
 operations using round-4 rational parents.
 
@@ -102,25 +103,25 @@ The direct parent-pair view is also informative:
 | `99/70` | `3/14`, `-6/5` | subtraction |
 | `34/21` | `2/7`, `-4/3` | subtraction |
 
-Two inspected approximants directly use `-4/3`:
+Two inspected nodes directly use `-4/3`:
 
 ```text
 34/21 = 2/7 - (-4/3)
 87/32 = (-29/8) / (-4/3)
 ```
 
-The shared parent is not itself the target; it is a hinge that helps produce
-different attractor shadows.
+The shared parent is not itself an external target. It is a hinge that helps
+produce different probe-selected speculative nodes.
 
 ## Shared Ancestry
 
-At ancestry depth `3`, the inspected approximants share some obvious integer
+At ancestry depth `3`, the inspected nodes share some obvious integer
 infrastructure, but one non-integer ancestor stands out:
 
 | ancestor | inspected descendants | child count |
 | ---: | --- | ---: |
-| `-3` | all five inspected approximants | `54` |
-| `4` | all five inspected approximants | `22` |
+| `-3` | all five inspected nodes | `54` |
+| `4` | all five inspected nodes | `22` |
 | `3` | `22/7`, `99/70`, `52/75` | `21` |
 | `-4/3` | `34/21`, `87/32` | `404` |
 
@@ -135,11 +136,11 @@ picture is:
 1. **Skeleton**: unavoidable arithmetic infrastructure.
 2. **Hinges**: high-output nontrivial parents such as `-4/3`.
 3. **Motif families**: operation patterns over round-4 rational parents.
-4. **Attractor shadows**: sparse notable approximants downstream of those
+4. **Probe-selected nodes**: sparse inspected speculative nodes downstream of those
    hinges and motifs.
 
-The attractor approximants are not necessarily hubs. Instead, they may be
-selected outputs of a larger construction ecology.
+The inspected nodes are not necessarily hubs. Instead, they may be selected
+outputs of a larger construction ecology.
 
 This is the empirical base for `CAMBRIDGE_ARC_MOTIFS_NOTE.md`, which treats
 high-output rational hinges as possible finite analogues of major arcs or
@@ -159,6 +160,6 @@ That would connect this motif graph study back to convergence instead of only
 one-step parent structure.
 
 The first pass at this is `MOTIF_PERSISTENCE_NOTE.md`. It finds that the
-strongest final motifs catch all inspected approximants, but that several of
-those motifs are final-round blooms rather than established multi-round
+strongest final motifs catch all inspected speculative nodes, but that several
+of those motifs are final-round blooms rather than established multi-round
 structures in the saved round-5 corpus.

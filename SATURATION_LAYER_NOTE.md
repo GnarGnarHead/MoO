@@ -139,7 +139,7 @@ Top `n=6` motifs:
 | `/ : low_q / mid_q, both previous round` | `469` | |
 | `/ : mid_q / low_q, both previous round` | `397` | |
 
-The `n=6` saturation layer is not dominated by the inspected approximants. It
+The `n=6` saturation layer is not dominated by the inspected speculative nodes. It
 is dominated by high-denominator division motifs that fill the remaining
 bounded field.
 
@@ -178,11 +178,11 @@ n=5: mid-q emergence layer
 n=6: high-q saturation layer
 ```
 
-## Inspected Approximants
+## Inspected Speculative Nodes
 
-All inspected approximants first appear in the `n=5` emergence layer:
+All inspected speculative nodes first appear in the `n=5` emergence layer:
 
-| fraction | target reading | first witness motif |
+| fraction | external probe reading | first witness motif |
 | ---: | --- | --- |
 | `22/7` | near `pi` | `- : mid_q - low_q, both previous round` |
 | `87/32` | near `e` | `/ : mid_q / low_q, both previous round` |
@@ -193,7 +193,7 @@ All inspected approximants first appear in the `n=5` emergence layer:
 That is the strongest current framing:
 
 ```text
-The inspected attractor shadows appear before saturation, in the mid-q emergence
+The inspected speculative nodes appear before saturation, in the mid-q emergence
 layer, not as arbitrary late fillers in the saturated high-q layer.
 ```
 
@@ -204,15 +204,15 @@ This makes `n = 6` valuable even though it saturated the bounded universe.
 The result is not:
 
 ```text
-All rationals appear, therefore the approximants are uninteresting.
+All rationals appear, therefore the probe-selected nodes are uninteresting.
 ```
 
 The result is:
 
 ```text
 All bounded rationals appear by n=6, so first appearance becomes the signal.
-The inspected approximants appear at n=5, before the high-q saturation layer,
-and they appear through a small set of major motifs.
+The inspected speculative nodes appear at n=5, before the high-q saturation
+layer, and they appear through a small set of major motifs.
 ```
 
 This is the cleaner MoO claim to pursue.
@@ -229,5 +229,5 @@ construction aperture
 derivation-event prominence after saturation
 ```
 
-Then compare inspected approximants against the full `10655`-value population,
+Then compare inspected speculative nodes against the full `10655`-value population,
 not just a small matched-control set.

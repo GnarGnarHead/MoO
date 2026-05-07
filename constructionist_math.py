@@ -16,6 +16,10 @@ ValueKey = Tuple[int, int]
 InternPolicy = Literal["none", "by_provenance"]
 
 
+class SpeculativeOperandError(ValueError):
+    pass
+
+
 @dataclass
 class Node:
     id: NodeId
@@ -47,6 +51,9 @@ class Graph:
     Grounded nodes (status G) represent integers Ref(N).
     Speculative nodes (status S) represent non-grounded rationals and special
     undefined nodes (like division-by-zero).
+    In aligned mode, only confirmed core-loop iterations are operands.
+    Speculative nodes are real graph nodes for inspection, but they are not
+    operated on until promotion by the core loop.
 
     Identity is value-centric:
     - Each reduced rational value p/q corresponds to exactly one node.
@@ -62,6 +69,7 @@ class Graph:
         max_depth: Optional[int] = None,
         operation_budget: Optional[int] = None,
         dedupe_by_provenance: bool = False,
+        allow_speculative_operands: bool = False,
     ) -> None:
         resolved_intern_policy: InternPolicy
         if intern_policy is None:
@@ -85,6 +93,7 @@ class Graph:
         self.max_nodes = max_nodes
         self.max_depth = max_depth
         self.operation_budget = operation_budget
+        self.allow_speculative_operands = bool(allow_speculative_operands)
 
         self.nodes_by_int: Dict[int, Node] = {}
         self.nodes_by_value: Dict[ValueKey, Node] = {}
@@ -195,6 +204,13 @@ class Graph:
         # Ref(1)=1, Ref(2)=2, ..., Ref(0)=2, Ref(-1)=3, ...
         return int(n) if n >= 1 else 2 - int(n)
 
+    def _integer_tier(self, n: int) -> int:
+        if int(n) == 1:
+            return 1
+        if int(n) > 1:
+            return 2
+        return 3
+
     def _node_level(self, node: Node, *, memo: Optional[Dict[NodeUid, int]] = None) -> int:
         """
         MoO semantic level anchored at Ref(1)=1.
@@ -233,14 +249,17 @@ class Graph:
     def _epistemic_order(self, node: Node) -> int:
         """
         Epistemic hierarchy:
-        - Order 1: Ref(1) primitive certainty
-        - Order 2: grounded integer refs (memory-dependent constructed certainty)
-        - Order 3: speculative nodes
+        - Order 1: Ref(1), the only certainty.
+        - Order 2: confirmed positive whole-number iterations of 1.
+        - Order 3: unconfirmed or relational constructions from iterations of 1.
         """
         if node.status == "G" and node.id == 1:
             return 1
-        if node.status == "G":
-            return 2
+        if node.status == "G" and node.value is not None:
+            p, q = node.value
+            if int(q) == 1 and int(p) > 1:
+                return 2
+            return 3
         return 3
 
     def _constructible_from_one(
@@ -346,6 +365,18 @@ class Graph:
         if self._operation_count >= self.operation_budget:
             raise RuntimeError("operation_budget exceeded")
         self._operation_count += 1
+
+    def _ensure_operands_allowed(self, op: str, inputs: List[Node]) -> None:
+        if self.allow_speculative_operands:
+            return
+        speculative = [node for node in inputs if node.status == "S"]
+        if not speculative:
+            return
+        labels = ", ".join(node.label() for node in speculative)
+        raise SpeculativeOperandError(
+            f"Cannot apply {op} to speculative operand(s): {labels}. "
+            "MoO records speculative nodes but does not operate on them until promotion."
+        )
 
     def _make_provenance(self, *, op: str, inputs: List[Node], depth: int) -> Dict[str, object]:
         return {
@@ -543,7 +574,7 @@ class Graph:
         key: ValueKey = (n, 1)
         node = self.nodes_by_value.get(key)
         if node is None:
-            metadata: Dict[str, object] = {"tier": 1 if n == 1 else 2}
+            metadata: Dict[str, object] = {"tier": self._integer_tier(n)}
             if n == 1:
                 metadata["primitive"] = True
             metadata["value"] = {"p": n, "q": 1}
@@ -566,7 +597,7 @@ class Graph:
         else:
             # Promote the canonical value-node to a grounded Ref(N) anchor.
             node.status = "G"
-            node.metadata["tier"] = 1 if n == 1 else 2
+            node.metadata["tier"] = self._integer_tier(n)
             node.metadata.setdefault("value", {"p": n, "q": 1})
             node.metadata.setdefault("potential_val", n)
             if n == 1:
@@ -575,14 +606,30 @@ class Graph:
         self.nodes_by_int[n] = node
         return node
 
+    def promote_core_iteration(self, n: int) -> Node:
+        """
+        Promote a positive whole-number iteration reached by the core loop.
+
+        This is the aligned path from speculative construction to a stronger
+        epistemic status. Ordinary arithmetic may construct an integer-valued
+        speculative node, but arithmetic alone does not confirm it.
+        """
+        n = int(n)
+        if n < 1:
+            raise ValueError("core-loop promotion is only defined for positive integers")
+        return self._get_or_create_grounded_ref(n)
+
     def get_or_create_ref(self, n: int) -> Node:
         """
         Public helper for referring to Ref(N).
 
         - Ref(1) is the only first-class primitive and may be created directly.
-        - Other integers are second-class: they must be explicitly constructed.
-          If Ref(N) is not yet grounded, this returns a speculative integer-claim
-          node instead.
+        - Positive integers greater than 1 become second order only when the
+          core iteration/grounding path reaches them.
+        - Zero and negative integers are runtime removal anchors when grounded,
+          not positive whole-number iterations.
+        - If Ref(N) is not yet grounded, this returns a speculative
+          integer-claim node instead.
         """
         n = int(n)
         grounded = self.nodes_by_int.get(n)
@@ -601,7 +648,8 @@ class Graph:
 
     def advance_frontier_max_to(self, n: int) -> None:
         """
-        Extend the positive frontier by iterating +1 from the current maximum.
+        Extend the positive core-loop frontier by iterating +1 from the current
+        maximum, then explicitly promoting the newly reached iteration.
         """
         target = int(n)
         one = self.get_or_create_ref(1)
@@ -609,21 +657,20 @@ class Graph:
             current_max = int(self.frontier()["max"])
             if current_max >= target:
                 return
-            current = self.get_or_create_ref(current_max)
+            current = self.promote_core_iteration(current_max)
             self.add(current, one)
+            self.promote_core_iteration(current_max + 1)
 
     def advance_frontier_min_to(self, n: int) -> None:
         """
-        Extend the negative frontier by iterating -1 from the current minimum.
+        Historical helper placeholder.
+
+        Negative and zero values are relational/removal constructions in the
+        aligned MoO framing, not core-loop confirmations. They should be
+        inspected as speculative outputs from confirmed operands rather than
+        promoted as a negative frontier.
         """
-        target = int(n)
-        one = self.get_or_create_ref(1)
-        while True:
-            current_min = int(self.frontier()["min"])
-            if current_min <= target:
-                return
-            current = self.get_or_create_ref(current_min)
-            self.sub(current, one)
+        raise ValueError("aligned MoO has no negative core-loop frontier")
 
     def speculate_ref(self, n: int, *, reason: Optional[str] = None) -> Node:
         """
@@ -701,8 +748,34 @@ class Graph:
             incoming_signatures.setdefault(edge.output.node_uid, set()).add(sig)
         nodes_with_multiple_derivations = sum(1 for sigs in incoming_signatures.values() if len(sigs) >= 2)
         checks["multiple_derivations_preserved"] = {
-            "status": "pass" if nodes_with_multiple_derivations > 0 else "fail",
+            "status": "pass" if nodes_with_multiple_derivations > 0 else "na",
             "details": {"nodes_with_multiple_derivations": nodes_with_multiple_derivations},
+        }
+
+        speculative_operand_edges: List[Dict[str, object]] = []
+        for edge in self.edges:
+            speculative_inputs = [inp for inp in edge.inputs if inp.status == "S"]
+            if not speculative_inputs:
+                continue
+            speculative_operand_edges.append(
+                {
+                    "edge_uid": int(edge.edge_uid),
+                    "op": edge.op,
+                    "inputs": [inp.label() for inp in edge.inputs],
+                    "output": edge.output.label(),
+                }
+            )
+        if self.allow_speculative_operands:
+            spec_operand_status = "na"
+        else:
+            spec_operand_status = "pass" if not speculative_operand_edges else "fail"
+        checks["no_speculative_operands"] = {
+            "status": spec_operand_status,
+            "details": {
+                "issue_count": len(speculative_operand_edges),
+                "issues": speculative_operand_edges[:10],
+                "allow_speculative_operands": bool(self.allow_speculative_operands),
+            },
         }
 
         # 4) Grounding consistency for integer anchors.
@@ -1159,10 +1232,10 @@ class Graph:
     # --- operations ---
     def add(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
+        self._ensure_operands_allowed("+", [a, b])
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("+", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            self._get_or_create_grounded_ref(val)
             value = Fraction(val, 1)
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
@@ -1172,8 +1245,6 @@ class Graph:
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
             value = left_val + right_val
-            if value.denominator == 1:
-                self._get_or_create_grounded_ref(int(value.numerator))
             out = self._intern_value(value, seed_op="+", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("+", [a, b], out, edge_meta)
@@ -1188,10 +1259,10 @@ class Graph:
 
     def sub(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
+        self._ensure_operands_allowed("-", [a, b])
         if a.status == "G" and b.status == "G":
             kind, val = self._normalize("-", int(a.id), int(b.id))
             assert kind == "int" and val is not None
-            self._get_or_create_grounded_ref(val)
             value = Fraction(val, 1)
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
@@ -1201,8 +1272,6 @@ class Graph:
         right_val = self._node_value(b)
         if left_val is not None and right_val is not None:
             value = left_val - right_val
-            if value.denominator == 1:
-                self._get_or_create_grounded_ref(int(value.numerator))
             out = self._intern_value(value, seed_op="-", seed_inputs=[a, b])
             edge_meta = self._edge_meta_for_value(value=value, out=out)
             self._record_edge("-", [a, b], out, edge_meta)
@@ -1217,6 +1286,7 @@ class Graph:
 
     def mul(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
+        self._ensure_operands_allowed("*", [a, b])
         left_val = self._node_value(a)
         right_val = self._node_value(b)
         if (left_val == 0 and right_val is None) or (right_val == 0 and left_val is None):
@@ -1249,6 +1319,7 @@ class Graph:
 
     def div(self, a: Node, b: Node) -> Node:
         self._consume_operation_budget()
+        self._ensure_operands_allowed("/", [a, b])
         if b.status == "G" and b.id == 0:
             node = self._div_by_zero()
             self._record_edge("/", [a, b], node, {"result": "div_by_zero"})
@@ -1528,6 +1599,7 @@ def eval_moo(
     max_depth: Optional[int] = None,
     operation_budget: Optional[int] = None,
     dedupe_by_provenance: bool = False,
+    allow_speculative_operands: bool = False,
 ) -> Tuple[Graph, Node]:
     """
     Evaluate a Modulus-of-One expression using only the literal `1` and the
@@ -1541,6 +1613,7 @@ def eval_moo(
         max_depth=max_depth,
         operation_budget=operation_budget,
         dedupe_by_provenance=dedupe_by_provenance,
+        allow_speculative_operands=allow_speculative_operands,
     )
     one = g.get_or_create_ref(1)
     zero: Optional[Node] = None
@@ -1565,23 +1638,37 @@ def eval_moo(
             if isinstance(node.op, ast.UAdd):
                 return eval_node(node.operand)
             if isinstance(node.op, ast.USub):
-                return g.sub(get_zero(), eval_node(node.operand))
+                try:
+                    return g.sub(get_zero(), eval_node(node.operand))
+                except SpeculativeOperandError as exc:
+                    raise MooExpressionError(
+                        "Unary negation would operate on the speculative 0 node in aligned mode."
+                    ) from exc
             raise MooExpressionError(f"Unsupported unary operator: {node.op.__class__.__name__}")
 
         if isinstance(node, ast.BinOp):
             left = eval_node(node.left)
             right = eval_node(node.right)
             if isinstance(node.op, ast.Add):
-                return g.add(left, right)
+                return promote_expression_integer(g.add(left, right))
             if isinstance(node.op, ast.Sub):
-                return g.sub(left, right)
+                return promote_expression_integer(g.sub(left, right))
             if isinstance(node.op, ast.Mult):
-                return g.mul(left, right)
+                return promote_expression_integer(g.mul(left, right))
             if isinstance(node.op, ast.Div):
-                return g.div(left, right)
+                return promote_expression_integer(g.div(left, right))
             raise MooExpressionError(f"Unsupported binary operator: {node.op.__class__.__name__}")
 
         raise MooExpressionError(f"Unsupported syntax: {node.__class__.__name__}")
+
+    def promote_expression_integer(node: Node) -> Node:
+        value = g.numeric_value(node)
+        if value is None:
+            return node
+        p, q = value
+        if int(q) == 1 and int(p) >= 1:
+            return g.promote_core_iteration(int(p))
+        return node
 
     try:
         parsed = ast.parse(expr, mode="eval")
@@ -1599,18 +1686,20 @@ def demo(
     max_depth: Optional[int] = None,
     operation_budget: Optional[int] = None,
     dedupe_by_provenance: bool = False,
+    allow_speculative_operands: bool = False,
 ) -> Graph:
     """
     Build a small universe from the only primitive certainty: Ref(1).
 
-    `limit` controls how far we iterate outward in the integer backbone
-    (approximately grounding integers in [-limit, limit]).
+    `limit` controls how far we iterate outward in the positive integer
+    backbone.
 
     This demo deliberately:
-    - treats integers as second-class (they must be explicitly constructed),
-    - treats multiplication/division outputs as third-class claims until they align
-      to an explicitly grounded integer,
-    - includes a small "shadow ref" example (speculative integer point later grounded).
+    - treats positive integers as second-order confirmations,
+    - treats multiplication/division outputs as speculative claims until the
+      core loop later promotes them,
+    - includes a small shadow-ref example that is recorded and then promoted,
+      without operating on the speculative shadow.
     """
     g = Graph(
         intern_policy=intern_policy,
@@ -1618,24 +1707,20 @@ def demo(
         max_depth=max_depth,
         operation_budget=operation_budget,
         dedupe_by_provenance=dedupe_by_provenance,
+        allow_speculative_operands=allow_speculative_operands,
     )
     one = g.get_or_create_ref(1)
-    zero = g.sub(one, one)
+    g.sub(one, one)
 
     # Create speculative "shadow refs" that will later be grounded by the integer backbone.
-    shadow_two = g.speculate_ref(2, reason="demo_shadow_ref")
-    # Exercises speculative integer points participating in grounded constructions.
-    g.add(shadow_two, one)
+    g.speculate_ref(2, reason="demo_shadow_ref")
 
     limit = max(0, int(limit))
 
     positives = {1: one}
     for n in range(2, limit + 1):
-        positives[n] = g.add(positives[n - 1], one)
-
-    current = zero
-    for _ in range(1, limit + 1):
-        current = g.sub(current, one)
+        g.add(positives[n - 1], one)
+        positives[n] = g.promote_core_iteration(n)
 
     # Apply a bounded set of multiplication/division steps on the grounded integer
     # backbone so the demo exercises all operators without blowing up.
@@ -1653,14 +1738,11 @@ def demo(
                 if abs(quotient) <= limit:
                     g.div(a, b)
 
-    # A couple of speculative fractions (third-class) + zero annihilation.
-    half: Optional[Node] = None
+    # A speculative fraction. It is recorded but not used as an operand.
     if limit >= 2:
-        half = g.div(one, positives[2])
-        g.mul(half, zero)  # triggers zero annihilation from speculative input
-    if limit >= 3 and half is not None:
-        third = g.div(one, positives[3])
-        g.add(half, third)
+        g.div(one, positives[2])
+    if limit >= 3:
+        g.div(one, positives[3])
 
     return g
 
@@ -1673,18 +1755,19 @@ def fibonacci_demo(
     max_depth: Optional[int] = None,
     operation_budget: Optional[int] = None,
     dedupe_by_provenance: bool = False,
+    allow_speculative_operands: bool = False,
 ) -> Tuple[Graph, Dict[str, object], Optional[Node]]:
     """
     Build a Fibonacci-focused graph from Ref(1).
 
-    The construction deliberately layers:
+    The aligned construction deliberately layers:
     - recurrence terms F(n) = F(n-1) + F(n-2),
     - exact rational ratios F(n+1)/F(n),
-    - subtraction back-links F(n) - F(n-1) = F(n-2),
-    - Cassini identities F(n+1)F(n-1) - F(n)^2 = (-1)^n.
+    - subtraction back-links F(n) - F(n-1) = F(n-2).
 
-    The resulting graph makes value-class multiplicity and speculative-to-grounded
-    resolution easy to inspect through stats, resolve telemetry, and DOT exports.
+    Cassini-style second-step identities are omitted by default because they
+    operate on speculative product nodes. Pass allow_speculative_operands=True
+    only for historical exploratory behavior.
     """
     terms = max(2, int(terms))
     g = Graph(
@@ -1693,12 +1776,22 @@ def fibonacci_demo(
         max_depth=max_depth,
         operation_budget=operation_budget,
         dedupe_by_provenance=dedupe_by_provenance,
+        allow_speculative_operands=allow_speculative_operands,
     )
     one = g.get_or_create_ref(1)
 
-    fib_nodes: List[Node] = [one, one]
+    fib_values = [1, 1]
     for _ in range(2, terms):
-        fib_nodes.append(g.add(fib_nodes[-1], fib_nodes[-2]))
+        fib_values.append(fib_values[-1] + fib_values[-2])
+
+    backbone: Dict[int, Node] = {1: one}
+    for n in range(2, max(fib_values) + 1):
+        g.add(backbone[n - 1], one)
+        backbone[n] = g.promote_core_iteration(n)
+
+    fib_nodes: List[Node] = [backbone[value] for value in fib_values]
+    for idx in range(2, len(fib_nodes)):
+        g.add(fib_nodes[idx - 1], fib_nodes[idx - 2])
 
     ratio_nodes: List[Node] = []
     for idx in range(1, len(fib_nodes)):
@@ -1712,11 +1805,12 @@ def fibonacci_demo(
         focus_node = back_link
 
     cassini_rows: List[Tuple[int, Node, Node, Node]] = []
-    for idx in range(1, len(fib_nodes) - 1):
-        left = g.mul(fib_nodes[idx + 1], fib_nodes[idx - 1])
-        right = g.mul(fib_nodes[idx], fib_nodes[idx])
-        identity = g.sub(left, right)
-        cassini_rows.append((idx + 1, left, right, identity))
+    if allow_speculative_operands:
+        for idx in range(1, len(fib_nodes) - 1):
+            left = g.mul(fib_nodes[idx + 1], fib_nodes[idx - 1])
+            right = g.mul(fib_nodes[idx], fib_nodes[idx])
+            identity = g.sub(left, right)
+            cassini_rows.append((idx + 1, left, right, identity))
 
     report = fibonacci_report(
         g,
@@ -1828,6 +1922,7 @@ if __name__ == "__main__":
             "max_depth": None,
             "operation_budget": None,
             "dedupe_by_provenance": False,
+            "allow_speculative_operands": False,
         }
         limit = 3
         fibonacci_terms: Optional[int] = None
@@ -1843,12 +1938,14 @@ if __name__ == "__main__":
                     "  python3 constructionist_math.py [--view structure|value] [--limit N]\n"
                     "      [--fibonacci N]\n"
                     "      [--intern-policy none|by_provenance] [--max-nodes N] [--max-depth N]\n"
-                    "      [--op-budget N] [--dedupe-by-provenance] [--maps] [--stats] [--resolve-dot]\n"
+                    "      [--op-budget N] [--dedupe-by-provenance] [--allow-speculative-operands]\n"
+                    "      [--maps] [--stats] [--resolve-dot]\n"
                     "      [--field] [--field-csv] [--field-ascii] [--write-maps PREFIX] [<expr>]\n\n"
                     "Views:\n"
                     "  structure: canonical value nodes with all edge occurrences (construction lens)\n"
                     "  value:     deduped value-link projection (unique src/dst/op edges)\n\n"
                     "Expr syntax: only the literal `1`, operators `+ - * /`, and parentheses.\n"
+                    "Aligned mode records speculative outputs but does not operate on them.\n"
                 )
                 raise SystemExit(0)
 
@@ -1967,6 +2064,11 @@ if __name__ == "__main__":
                 idx += 1
                 continue
 
+            if arg == "--allow-speculative-operands":
+                graph_config["allow_speculative_operands"] = True
+                idx += 1
+                continue
+
             if arg.startswith("--"):
                 raise SystemExit(f"Unknown option: {arg}")
 
@@ -1985,6 +2087,7 @@ if __name__ == "__main__":
         "max_depth": graph_config["max_depth"],
         "operation_budget": graph_config["operation_budget"],
         "dedupe_by_provenance": graph_config["dedupe_by_provenance"],
+        "allow_speculative_operands": graph_config["allow_speculative_operands"],
     }
     view = str(graph_config["view"])
     result: Optional[Node] = None

@@ -36,7 +36,7 @@ The study slices the saved first-witness graph by `first_seen_round`. It tracks:
 - cumulative and per-round child production,
 - active rounds for parent hubs, parent pairs, and operation motifs,
 - final major parent hubs and operation motifs,
-- whether inspected attractor approximants land in those major structures,
+- whether inspected speculative nodes land in those major structures,
 - a deterministic matched-control set selected from comparable nontrivial
   ledger values.
 
@@ -91,7 +91,7 @@ either round 6 or a second bounded corpus where comparable hinges reappear.
 
 ## Operation Motifs
 
-All inspected attractor approximants land inside final major operation motifs:
+All inspected speculative nodes land inside final major operation motifs:
 
 | motif | child count | active rounds | inspected children |
 | --- | ---: | --- | --- |
@@ -110,7 +110,7 @@ This suggests a cascade:
 ```text
 low-q rational motifs persist first;
 mid-q major motifs bloom later;
-attractor approximants appear inside the mid-q bloom.
+probe-selected speculative nodes appear inside the mid-q bloom.
 ```
 
 That is compatible with the "constructive arcs" reading, but it is not yet a
@@ -118,7 +118,7 @@ proof of it.
 
 ## Inspected vs Matched Controls
 
-The study compared the five inspected approximants:
+The study compared the five inspected speculative nodes:
 
 ```text
 22/7, 87/32, 52/75, 99/70, 34/21
@@ -134,11 +134,11 @@ denominator scale, and absolute value distance.
 
 This is a positive result, but a modest one:
 
-- The inspected approximants are more concentrated in major structures than
+- The inspected speculative nodes are more concentrated in major structures than
   the controls.
 - The gap is not decisive because the major operation motifs are broad.
 - Parent-hub concentration is more selective than motif concentration, but only
-  two inspected approximants directly hit final major parents.
+  two inspected speculative nodes directly hit final major parents.
 
 ## Bounded Replay Robustness
 
@@ -207,14 +207,14 @@ python3 motif_grid_summary.py --pretty \
 The grid result is stronger than the first replay:
 
 - `-4/3` is the top final parent hub in all nine cells.
-- All six cells with `|v| >= 4` preserve all five inspected approximants.
+- All six cells with `|v| >= 4` preserve all five inspected speculative nodes.
 - Those same six cells preserve the baseline first-witness motif membership for
-  all five inspected approximants.
+  all five inspected speculative nodes.
 - All three cells with `|v| = 3` preserve only `34/21`; `22/7`, `87/32`,
   `52/75`, and `99/70` disappear.
 
 The denominator replay is the cleanest robustness check. Lowering the
-denominator cap from `100` to `80` preserves all inspected approximants, keeps
+denominator cap from `100` to `80` preserves all inspected speculative nodes, keeps
 `-4/3` as the top final parent hub, and preserves the same three inspected
 operation motifs:
 
@@ -225,12 +225,12 @@ operation motifs:
 ```
 
 The wider value replay also preserves the main structure. The motif order shifts
-slightly, but the inspected approximants keep the same first-witness motif
+slightly, but the inspected speculative nodes keep the same first-witness motif
 families, and `-4/3` remains the top final parent hub.
 
 The tighter value row is different. It is not a clean refutation; it removes
 many necessary intermediate parents. Only `34/21` remains among the inspected
-fractions for every denominator cap tested. This shows that the construction
+speculative nodes for every denominator cap tested. This shows that the construction
 path is sensitive to the admissible intermediate field, especially because some
 witnesses pass through values whose absolute value exceeds `3`.
 
@@ -239,12 +239,12 @@ witnesses pass through values whose absolute value exceeds `3`.
 The bounded grid improves the case for real structure:
 
 1. `-4/3` remains the leading final parent hub throughout the grid.
-2. The inspected approximants keep the same motif memberships across every
+2. The inspected speculative nodes keep the same motif memberships across every
    tested cell with `|v| >= 4`.
 3. The major motifs remain broad, so concentration is still not decisive by
    itself.
-4. The `|v| = 3` row shows that MoO convergence is path-sensitive: excluding
-   intermediate witnesses can erase approximants even when the approximant
+4. The `|v| = 3` row shows that MoO construction is path-sensitive: excluding
+   intermediate witnesses can erase nodes even when the node
    itself would fit inside the final numeric window.
 
 That last point is important. It supports the constructionist reading: the
@@ -291,7 +291,7 @@ showed that `-4/3` remains active, but a new `n=6` hub layer overtakes it:
 | `-13/5` | `424` | `6` | |
 | `-4/3` | `409` | `5, 6` | `34/21`, `87/32` |
 
-The inspected approximants still land in major operation motifs at `n=6`:
+The inspected speculative nodes still land in major operation motifs at `n=6`:
 
 | group | major parent hits | major motif hits | any major hits |
 | --- | ---: | ---: | ---: |
@@ -308,7 +308,7 @@ This does not write off the idea. It sharpens it.
 The current evidence says:
 
 1. MoO definitely has high-output rational influence structures.
-2. The inspected attractor approximants are not outside those structures.
+2. The inspected speculative nodes are not outside those structures.
 3. Final major operation motifs are broad enough that they also catch many
    controls.
 4. The specific `-4/3` hinge is strong, survives the bounded grid, and remains
@@ -323,9 +323,9 @@ The round-5 motifs prove transcendental convergence.
 It should be:
 
 ```text
-Round-5 attractor approximants appear inside a late-blooming mid-q motif layer;
-some of that layer is organized around high-output rational hinges such as
--4/3.
+Round-5 probe-selected speculative nodes appear inside a late-blooming mid-q
+motif layer; some of that layer is organized around high-output rational hinges
+such as -4/3.
 ```
 
 ## Next Question

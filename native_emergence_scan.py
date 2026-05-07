@@ -307,6 +307,12 @@ def native_emergence_scan(config: NativeScanConfig) -> Dict[str, object]:
     report: Dict[str, object] = {
         "schema_version": 1,
         "method": {
+            "status": "historical_exploratory_closure",
+            "alignment": (
+                "This scan reuses generated values as operands. It is not "
+                "aligned MoO computation; use strict_stage_moo.py for current "
+                "graph-first runs."
+            ),
             "target_blind": True,
             "recomputed_closure": True,
             "closure_rule": "Each round combines the previous delta with the previous retained set.",

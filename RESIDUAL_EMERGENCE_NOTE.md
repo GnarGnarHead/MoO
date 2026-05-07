@@ -9,7 +9,7 @@
 
 Raw derivation multiplicity mostly finds the arithmetic skeleton: `0`, `1`,
 `-1`, `1/2`, unit fractions, and boundary-denominator artifacts. That is useful,
-but too blunt for the transcendental-attractor question.
+but too blunt for the external constant-probe question.
 
 This study asks a narrower question:
 
@@ -72,7 +72,7 @@ The filter reasons overlap; a value may have more than one reason.
 
 ## Main Residual Signal
 
-The strongest residual values are not the named-constant approximants. The top
+The strongest residual values are not the external-probe-selected nodes. The top
 residuals are dominated by a small rational lattice around values such as:
 
 | value | first seen | derivation events | residual z | first witness |
@@ -88,12 +88,13 @@ residuals are dominated by a small rational lattice around values such as:
 This looks like an internal high-traffic rational lattice generated around
 round-4 values such as `-4/3`, `3/14`, `1/20`, `1/21`, and `-7/3`.
 
-## Inspected Attractor Approximants
+## Inspected Speculative Nodes
 
-The earlier named approximants are still present and constructively clean, but
-they are not generally top residual hubs under this metric.
+The earlier probe-selected speculative nodes are still present and
+constructively clean, but they are not generally top residual hubs under this
+metric.
 
-| value | later recognition | derivation events | residual z | note |
+| value | external probe reading | derivation events | residual z | note |
 | ---: | --- | ---: | ---: | --- |
 | `22/7` | near `pi` | `41` | `-0.77` | nontrivial parents, mixed operation signature |
 | `87/32` | near `e` | `24` | `0.46` | nontrivial parents, mixed operation signature |
@@ -104,23 +105,23 @@ they are not generally top residual hubs under this metric.
 This matters. It says:
 
 ```text
-being a good attractor approximant is not the same as being a residual
+being close to an external constant is not the same as being a residual
 derivation hub.
 ```
 
 ## Interpretation
 
-The residual study does not write off the attractor idea. It separates two
+The residual study does not write off the external-probe idea. It separates two
 phenomena:
 
 - **Residual prominence**: values unusually central after accounting for round
   and denominator band.
-- **Attractor approximation**: values that form high-quality rational shadows of
-  known or later-recognized constants.
+- **External probe selection**: speculative nodes that are later recognized as
+  close to known constants.
 
 The first residual study supports the existence of nontrivial MoO-native
 structure beyond the arithmetic skeleton. It does not, by itself, identify the
-transcendental approximants as the most prominent residual hubs.
+externally probe-selected nodes as the most prominent residual hubs.
 
 That is a useful constraint. The next metric should study chains and
 approximation direction, not isolated derivation count.
@@ -132,9 +133,8 @@ MoO closure appears to have at least three distinguishable layers:
 1. **Skeleton hubs**: `0`, `1`, `-1`, `1/2`, unit fractions.
 2. **Residual rational lattices**: internally high-traffic values like `3/8`,
    `7/60`, `9/56`, and `4/63`.
-3. **Attractor approximants**: values like `22/7`, `87/32`, `52/75`, `99/70`,
-   and `34/21`, which are meaningful through convergence behavior rather than
-   raw residual multiplicity.
+3. **Probe-selected speculative nodes**: values like `22/7`, `87/32`,
+   `52/75`, `99/70`, and `34/21`, which are meaningful only after an explicit
+   external test rather than through raw residual multiplicity.
 
 The science should keep these layers separate.
-
