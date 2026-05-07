@@ -12,6 +12,7 @@ circle-without-pi guardrail tests
 circle-square branch alignment tests
 prime/Euclid shell-alignment audits
 primitive Euclid branch sweeps
+branch-lineage audits for square/shell interaction interpretation
 ```
 
 The artifacts here do not claim that MoO defines the Euclidean circle or
@@ -29,6 +30,16 @@ value appears through the counting spine
 value appears through the inspected branch
 projected form organizes later witnessed emergence
 ```
+
+Branch-lineage rule:
+
+```text
+branch = same relation repeated along the unfolding of MoO
+```
+
+Primitive Euclid sweeps and circle-square reports are report machinery until
+translated through branch lineage. A retained edge row is a witness field, not
+the definition of the branch.
 
 Tool terms such as `provenance`, `retention`, and `aperture` are bookkeeping
 for order, witness, emergence, relation, and field of observation.

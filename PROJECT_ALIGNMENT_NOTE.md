@@ -38,11 +38,21 @@ The primary language of interpretation is witness language:
 ```text
 A value appearing is not enough.
 The same value can appear by different witnesses, and the witness matters.
+The value is not the object; the witnessed emergence is the object.
 ```
 
 Tool terms such as `provenance`, `retention`, `aperture`, and `controls` are
 bookkeeping. The MoO reading is order, witness, emergence, relation, and
 projected form. See `MOO_REALIGNMENT_NOTE.md`.
+
+Branch terms must also use the MoO reading:
+
+```text
+branch = same relation repeated along the unfolding of MoO
+```
+
+Formula-family and retained-edge reports are machinery. They do not define the
+branch by themselves. See `BRANCH_GLOSSARY.md`.
 
 Order-4 projected objects may be proposed from stable graph families, but they
 remain analysis-layer anchors. They are not runtime nodes, operands, confirmed

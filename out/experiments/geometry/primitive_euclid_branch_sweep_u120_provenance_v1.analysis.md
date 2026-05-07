@@ -9,9 +9,9 @@
 
 ## Question
 
-Of the visible square nodes in U120, how many are branch-local self-product
-constructions versus core-confirmed integer-spine nodes, other graph witnesses,
-or absent outputs?
+Of the visible square nodes in U120, how many are retained self-relation branch
+witness rows versus square values witnessed through the counting-spine branch,
+other graph witnesses, or absent outputs?
 
 MoO-native reading:
 
@@ -30,13 +30,21 @@ square_self_product_complete_count: 0
 strict_self_product_complete_branch_count: 0
 ```
 
-Square provenance across all target branches:
+Machine witness source counts across all target branches:
 
 ```text
 self_product_edge: 0
 core_confirmation_only: 7
 other_graph_witness: 0
 absent: 38
+```
+
+MoO translation:
+
+```text
+witnessed_through_self_relation_branch: 0 retained rows
+witnessed_through_counting_spine: 7 square values
+permitted_but_not_witnessed_or_not_visible_in_field: 38 square positions
 ```
 
 Failure category counts:
@@ -48,16 +56,18 @@ square_components_missing: 14
 
 ## Main Result
 
-U120 completes generator and shell visibility for all target branches, but it
-does not produce branch-local square self-product evidence.
+U120 completes generator and shell visibility for all target formula-family
+cases, but it does not retain self-relation branch witness rows for the square
+values.
 
-The visible square nodes are still all classified as:
+The visible square nodes are still all classified by the machine field as:
 
 ```text
 core_confirmation_only
 ```
 
-No square component in the `m <= 8` branch sweep is classified as:
+No square component in the `m <= 8` branch sweep is classified by the machine
+field as:
 
 ```text
 self_product_edge
@@ -76,8 +86,8 @@ U120 core_confirmation_only:  7
 U120 absent:                 38
 ```
 
-U120 adds one more visible square node, but it enters by core confirmation, not
-by retained branch-local self-product construction.
+U120 adds one more visible square node. In MoO language, it is witnessed
+through the counting-spine branch, not by a retained self-relation branch row.
 
 The major U120 improvement remains generator/shell visibility:
 
@@ -116,16 +126,17 @@ This report supports:
 
 ```text
 In the U120 strict corpus, primitive Euclid targets with m<=8 have complete
-generator and shell visibility, but the square layer is not branch-locally
-constructed. All visible square nodes are core-confirmation-only, and absent
-square nodes are explained by output retention bounds.
+generator and shell visibility, but the square values are not retained as
+self-relation branch witnesses. All visible square values are witnessed through
+the counting-spine branch by the current report machinery, and absent square
+values are outside the current field of observation.
 ```
 
 This report does not support:
 
 ```text
-3,4,5 is branch-locally squared.
-The next primitive branch has emerged as a branch-local square construction.
+3,4,5 has a characterized shell/square interaction branch.
+The next primitive formula-family case has emerged as branch interaction.
 Primitive Euclid branches emerge in a graph-native ordering law.
 Primes explain MoO geometry.
 MoO squares the circle.
@@ -137,9 +148,9 @@ MoO constructs pi.
 
 The next decisive experiment should not merely increase U, and it should not
 change the observation field only to rescue a desired geometry result. It
-should either accept the current finding as unwitnessed branch-square emergence
-under this field of observation, or preregister a general observation field and
-ask the same witness question again:
+should either accept the current finding as counting-spine visibility without a
+characterized shell/square interaction branch, or preregister a general
+branch-lineage audit and ask the same witness question again:
 
 ```text
 use a general square-output field for all eligible confirmed operands
@@ -151,7 +162,7 @@ relations without promoting speculative square outputs to operands
 The clean next target is Tier C:
 
 ```text
-x*x, y*y, r*r witnessed by branch-local strict self-product edges
+x*x, y*y, r*r witnessed by retained self-relation branch rows
 ```
 
 Additive closure:

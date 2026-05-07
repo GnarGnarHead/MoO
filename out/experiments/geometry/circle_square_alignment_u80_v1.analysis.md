@@ -61,6 +61,13 @@ candidates: rational quadratic-shell families whose associated square
 components are present with graph-native timing and witness fields.
 ```
 
+MoO correction:
+
+```text
+This is report machinery for value families.
+It is not yet a branch-lineage result.
+```
+
 It does not support:
 
 ```text
@@ -96,7 +103,7 @@ Highest family witness mass:
 
 ## Interpretation
 
-The first strong observation is not surprising, but it is useful:
+The first strong machine observation is not surprising, but it is useful:
 
 ```text
 the 3,4,5 shell is the strongest complete family by witness mass
@@ -115,8 +122,18 @@ baseline envelope max component height: 25
 ```
 
 The `phase_delta` result is important. In this corpus, shell components become
-visible much earlier than the full square-component family. The square branch
-lags the shell branch by about 20 stages for the low-spread candidates.
+visible much earlier than the full square-component value family. Square-value
+visibility lags shell-value visibility by about 20 stages for the low-spread
+candidates.
+
+MoO-native caution:
+
+```text
+square-component value visibility is not the same as square-branch witnessing
+```
+
+The branch question is where the shell-relation branch and self-relation /
+square branch interact, not merely whether the six component values are present.
 
 ## Self-Product Caveat
 
@@ -129,16 +146,23 @@ speculative rational nodes are not operands in strict-stage MoO
 ```
 
 For the integer `3,4,5` family, the report still does not find retained
-`3*3`, `4*4`, or `5*5` edges. That is a retention/generator caveat, not a
+`3*3`, `4*4`, or `5*5` rows. That is a field/generator caveat, not a
 mathematical absence: at the first possible strict stages, those square outputs
-fall outside the corpus output-retention value cap, and later core-loop
-confirmation does not retroactively store that original self-product edge.
+fall outside the corpus field of observation, and later core-loop confirmation
+does not retroactively store that original self-product row.
 
-So the right reading is:
+So the right machine reading is:
 
 ```text
 square nodes are present
 literal self-product edge evidence is bound/generator-conditioned
+```
+
+MoO reading:
+
+```text
+the square values may be witnessed through the counting-spine branch while the
+self-relation branch witness is permitted but not retained in this field
 ```
 
 ## Decision
@@ -151,21 +175,23 @@ lead only for geometry interpretation
 no upgrade to circle, pi, or classical squaring claims
 ```
 
-The report validates the research object:
+The report validates the report object:
 
 ```text
-circle-like shell branch and square-like component branch can be inspected in
-one strict graph corpus with shared invariant language.
+shell-relation candidates and square-like component readings can be inspected
+in one strict graph corpus with shared invariant language.
 ```
+
+It does not yet validate branch interaction in the MoO sense.
 
 ## Next Question
 
 The next scan should separate two questions:
 
 ```text
-1. bound-sensitive self-product recovery:
-   rebuild a strict corpus variant that retains square outputs at their first
-   possible stage, then test whether integer square witnesses return.
+1. branch-lineage audit:
+   use `branch_lineage.py` to establish square/even/prime-branch readings
+   before interpreting shell-square interaction.
 
 2. rational branch alignment:
    ignore literal self-product edges for speculative rational components and

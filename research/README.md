@@ -12,6 +12,19 @@ Tooling terms such as `provenance`, `retention`, `aperture`, and `controls`
 are bookkeeping. Research interpretation should translate them back into
 order, witness, emergence, relation, and projected form.
 
+Branch research must also distinguish:
+
+```text
+branch lineage:
+  same relation repeated along the unfolding of MoO
+
+report machinery:
+  retained rows, value presence, coverage fields, and formula-family summaries
+```
+
+Report machinery can support a branch study, but it is not the branch study by
+itself.
+
 ## Families
 
 - `dynamics/`: stage-sensitive construction bloom, persistence, threshold
@@ -19,9 +32,9 @@ order, witness, emergence, relation, and projected form.
 - `euler/`: quadratic-shell, reciprocal-square, finite-product, and delayed
   pi-shadow probes under Order-4 discipline.
 - `geometry/`: circle, square, area, rational shell, circle-square branch
-  alignment, prime/Euclid shell-normalization, and primitive Euclid
-  branch-sweep constraints as analysis-layer filters over already-recorded
-  rational graph structure.
+  alignment, prime/Euclid shell-normalization, shell / prime-branch
+  interaction, and primitive Euclid branch-sweep constraints as analysis-layer
+  filters over already-recorded rational graph structure.
 - `number_theory/`: rational baselines, continued fractions, prime/conjecture
   probes, Fermat-style corridors, and construction-cost comparisons.
 - `spectral/`: Fourier, edge-signal, null-path, and graph-spectral scouting

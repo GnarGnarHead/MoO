@@ -33,6 +33,7 @@ A shorter MoO-native rule:
 ```text
 A value appearing is not enough.
 The same value can appear by different witnesses, and the witness matters.
+The value is not the object; the witnessed emergence is the object.
 ```
 
 Projected-object claims also need:
@@ -136,13 +137,14 @@ It is an analysis-layer abstraction over graph evidence:
 
 ```text
 Order 4:
-  projected limit/invariant anchors inferred from stable Order-3 families
+  projected forms: subsets or repeated structures of MoO whose shadows can be
+  read as higher forms
 ```
 
-An Order-4 projected object is:
+An Order-4 projected form is:
 
 ```text
-a non-operational analysis-layer anchor inferred from a named family of exact
+a non-operational analysis-layer shadow inferred from a named family of exact
 MoO graph evidence by an explicit projection rule
 ```
 
@@ -162,9 +164,9 @@ Order 4 is more abstract than Order 3, not more certain.
 Governing rule:
 
 ```text
-Order-4 objects are projected inspection anchors, not certainties or operands;
-they gain credibility only when they predict or organize held-out strict graph
-structure better than controls.
+Order-4 forms are projected shadows, not certainties or operands; they gain
+credibility only when they predict or organize held-out strict graph structure
+better than controls.
 ```
 
 The strongest evidence is not approximation accuracy. It is predictive
@@ -224,6 +226,41 @@ branch emergence:
 Value presence is the weakest reading. Witnessed emergence is the object of
 study.
 
+### Branch Lineage
+
+A branch is not a formula family, value list, single edge, or ordinary graph
+path.
+
+```text
+A MoO branch is a repeated witnessed relation that emerges along the recurrence
+of 1.
+```
+
+Examples:
+
+```text
+even branch:
+  n -> n+n
+
+square branch:
+  n -> n*n
+
+product branch:
+  nontrivial multiplicative landings a*b -> n
+
+prime branch:
+  counting-spine values sharing the repeated irreducibility relation:
+  no nontrivial product-branch landing exists
+
+shell-relation branch:
+  repeated witnessed cases where x, y, and r enter self-relation,
+  x*x and y*y enter addition, and that result agrees with r*r
+```
+
+The same value may participate in multiple branch readings. A square value can
+be witnessed through the counting spine while the square-branch witness is
+permitted but not retained in the current field of observation.
+
 ## Current Strong Claims
 
 MoO can currently claim:
@@ -244,8 +281,8 @@ are primary evidence.
 
 External concepts are scrutiny lenses, not runtime foundations.
 
-MoO may propose projected inspection anchors from stable graph families, but
-those anchors are not certainties or operands.
+MoO may propose projected forms from stable graph families, but those shadows
+are not certainties or operands.
 ```
 
 ## Corpus-Conditioned Observations
@@ -287,19 +324,19 @@ persistent accumulation candidates:
   and controls
 
 unit-quadratic-shell candidates:
-  exact rational x*x + y*y = r*r structures present in strict graph corpora
+  exact rational square/addition agreements present in strict graph corpora
 
 Euler reciprocal-mass candidates:
   exact finite reciprocal-square term and partial-sum structures when their
   nodes and construction edges are present
 
-Order-4 projected anchors:
-  non-operational projected constants, circle-like invariants, or asymptotic
-  anchors inferred from exact graph evidence by explicit projection rules
+Order-4 projected forms:
+  non-operational projected constants, shape-like shadows, or asymptotic
+  shadows inferred from exact graph evidence by explicit projection rules
 
 non-rational projected constants:
   pi and e as transcendental anchors; sqrt(2) and phi as algebraic irrational
-  anchors; all remain projected anchors rather than completed runtime objects
+  anchors; all remain projected forms rather than completed runtime objects
 
 operation-word recurrence:
   repeated symbolic edge patterns under strict-stage construction
@@ -375,10 +412,10 @@ objects by themselves.
 Analysis-layer projection:
 
 ```text
-exact graph family -> explicit projection rule -> inferred inspection anchor
+exact graph family -> explicit projection rule -> inferred shadow/form
 ```
 
-Projected anchors may guide further inspection. They do not become strict-stage
+Projected forms may guide further inspection. They do not become strict-stage
 operands, certainties, or theorems.
 
 ## Verification Trail

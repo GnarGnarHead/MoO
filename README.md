@@ -13,10 +13,8 @@ probes only after the native structure has been recorded.
 Primary inspection rule:
 
 ```text
-MoO is inspected as a graph.
-Values are not meaningful by themselves.
-The object of study is the node plus its construction edges, repeated paths,
-input neighborhoods, confirmation status, and relation to other nodes.
+The value is not the object.
+The witnessed emergence is the object.
 ```
 
 Any report that lists values without graph context is only a summary or scouting
@@ -32,8 +30,9 @@ The same value can appear by different witnesses, and the witness matters.
 
 The tools may track `aperture`, `retention`, `provenance`, `controls`, and
 `baselines`, but those are bookkeeping terms. The theory speaks in order,
-witness, emergence, relation, and projected form. See `MOO_REALIGNMENT_NOTE.md`
-before interpreting branch/projection reports.
+witness, emergence, relation, branch interaction, and projected form. See
+`MOO_REALIGNMENT_NOTE.md` and `BRANCH_GLOSSARY.md` before interpreting
+branch/projection reports.
 
 Philosophically, MoO begins from:
 
@@ -67,10 +66,23 @@ MoO speculates from promoted certainty; it does not speculate on speculations.
 Current epistemic order:
 
 ```text
-Order 1: 1, the only certainty
-Order 2: core-loop iterations confirmed from 1
-Order 3: unconfirmed or relational constructions from iterations of 1
+Order 1: immediate certainty, 1
+Order 2: recurrence of 1 through memory and iteration
+Order 3: relational emergence from confirmed recurrence
+Order 4: projected form, a stable MoO subset or repeated structure whose
+         shadow can be read as a higher form
 ```
+
+A branch is a repeated witnessed relation that emerges along the recurrence of
+`1`. Values are shadows of branches; witnesses show where a value enters a
+branch. For example, the even branch is `n -> n+n`, the square branch is
+`n -> n*n`, composites are product-branch landings, and the prime branch is
+the repeated irreducibility relation where the counting spine is witnessed but
+no nontrivial product-branch landing exists.
+
+Recurrence frames, such as Fibonacci/two-memory recurrence or doubling as an
+iteration system, are parked as future study. They are not active branch
+targets in the current branch-lineage tooling.
 
 ## Alignment Layers
 
@@ -122,6 +134,15 @@ iteration of `1`.
   research lenses, and quarantined historical notes.
 - `MOO_REALIGNMENT_NOTE.md`: canonical language correction: a value is not the
   result by itself; the witnessed emergence of the value is the result.
+- `BRANCH_GLOSSARY.md`: canonical branch vocabulary: counting-spine reference,
+  even branch, square branch, product-branch landing, prime branch,
+  shell-relation branch, interaction branch, witness, field of observation,
+  and projected form.
+- `SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md`: active conceptual note for the early
+  ladder from certainty to successor span, additive triad closure, and first
+  nontrivial square emergence.
+- `RECURRENCE_FRAMES_NOTE.md`: parked future-study note separating recurrence
+  frames such as Fibonacci/two-memory recurrence from active branch lineage.
 - `CORE_CLAIMS.md`: current claim boundary: what MoO can claim now, what is
   corpus-conditioned, what is candidate-only, and what is not yet earned.
 - `VISION.md`: implementation-aligned specification and roadmap.
@@ -130,8 +151,8 @@ iteration of `1`.
   probes.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical framing for certainty, core-loop
   confirmation, unconfirmed constructions, and promotion by `n`.
-- `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for projected objects:
-  non-rational constants, circle-like invariants, asymptotic anchors, and
+- `ORDER4_PROJECTION_PROTOCOL.md`: active protocol for projected forms:
+  non-rational constants, shape-like shadows, asymptotic anchors, and
   predictive organization tests.
 - `GRAPH_INVARIANTS_PROTOCOL.md`: shared vocabulary for graph-native invariant
   fields such as arrival, witness diversity, operation signature, neighborhood
@@ -154,7 +175,8 @@ iteration of `1`.
 - `out/experiments/geometry/`: narrowly tracked saved reports,
   preregistration notes, and paired interpretation notes for rational shell and
   circle-without-pi experiments, including circle-square, prime/Euclid shell
-  alignment, and primitive Euclid branch-sweep probes.
+  alignment, shell/prime-branch interaction, and primitive Euclid branch-sweep
+  probes.
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
 - `strict_stage_moo.py`: canonical graph-first strict-stage MoO runner.
 - `moo_graph_corpus.py`: graph-first SQLite schema/helpers for strict-stage MoO
@@ -163,12 +185,12 @@ iteration of `1`.
   in a strict-stage MoO SQLite corpus.
 - `moo_research_report.py`, `moo_circle_probe.py`,
   `moo_circle_square_probe.py`, `primitive_euclid_branch_sweep.py`,
-  `prime_shell_features.py`, and
+  `branch_lineage.py`, `prime_shell_features.py`, and
   `rational_baselines.py`: read-only
   research-layer reporting, circle/shell probing, circle-square branch
-  alignment probing, primitive branch sweeps, rational shell normalization /
-  prime-Euclid features, and rational baseline helpers over strict graph
-  corpora.
+  alignment probing, primitive branch sweeps, branch-lineage auditing,
+  rational shell normalization / prime-Euclid features, and rational baseline
+  helpers over strict graph corpora.
 - `moo_graph_invariants.py`: shared invariant helpers used by research reports
   so probes describe graph evidence with the same vocabulary.
 - `moo_observatory.py`: historical exploratory closure-round corpus runner.
@@ -255,7 +277,8 @@ iteration of `1`.
 - `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --pythagorean --max-denominator 40 --pretty` — scan existing rational node pairs for exact quadratic-shell relations.
 - `python3 moo_circle_square_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-denominator 20 --max-abs-value 5 --require-complete-family --pretty` — scan rational shell-square alignment candidates with primitive-triple, prime-factor, and Euclid-parameter fields.
 - `python3 primitive_euclid_branch_sweep.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-m 8 --pretty` — sweep target primitive Euclid branches and record complete, partial, or absent branch visibility.
-- `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat-prime branch non-collapse against a graph corpus.
+- `python3 branch_lineage.py --db out/experiments/strict_stage_graph_smoke.sqlite --branch square --limit 20 --pretty` — audit a repeated MoO branch relation such as `n -> n*n`, separating branch participation from retained edge rows.
+- `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat odd-prime non-collapse against a graph corpus.
 - `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.
 - `python3 stage_indexed_moo_ledger.py --max-stage 1000 --max-abs-p 1000 --max-abs-q 1000 --max-abs-value 4 --pretty` — bounded strict-stage MoO ledger with speculative rational nodes.
 

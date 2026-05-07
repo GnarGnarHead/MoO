@@ -16,7 +16,7 @@ Allowed now:
 MoO has unit-quadratic-shell probes over strict graph corpora.
 MoO can inspect rational quadratic-shell candidates through graph evidence.
 MoO can later inspect Euler-style reciprocal-square and product structures.
-MoO may later propose pi-shadow or circle-like Order-4 projected anchors only
+MoO may later propose pi-shadow or circle-like Order-4 shadows only
 after exact source families, projection rules, controls, and held-out tests.
 ```
 

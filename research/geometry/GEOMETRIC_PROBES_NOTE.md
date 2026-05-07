@@ -22,7 +22,8 @@ In short:
 ```text
 runtime emergence
 -> analysis-layer constraint filter
--> geometric probe subset
+-> MoO subset or repeated structure
+-> shape-like shadow
 -> possible concept label
 ```
 
@@ -40,7 +41,8 @@ The current MoO evidence is strongest when it stays target-blind first:
 
 Geometry probes should follow the same discipline. A square, circle, area
 relation, diagonal relation, or polygon-limit relation should be treated as a
-later interpretive lens over the arithmetic construction field.
+shadow cast by a subset or repeated structure of the arithmetic construction
+field.
 
 That keeps the research question measurable:
 
@@ -128,6 +130,33 @@ That framing is compatible with the classical impossibility of squaring the
 circle by compass and straightedge. MoO is not claiming a direct construction of
 one object from the other. It is asking whether their constrained projections
 share a construction address in a richer arithmetic map.
+
+## Branch And Shadow
+
+A branch is the repeated witnessed relation. A projected shape is the shadow
+cast by that branch or by a branch interaction.
+
+For squares:
+
+```text
+self-relation / square branch:
+  n -> n*n
+
+square-like projected form:
+  the geometric shadow of self-relation
+```
+
+For circles:
+
+```text
+shell-relation interaction:
+  x and y enter square relation
+  x*x and y*y enter addition
+  that result agrees with r*r
+
+circle-like shadow:
+  only if that interaction repeats, stabilizes, and organizes further emergence
+```
 
 ## Concept Branches
 

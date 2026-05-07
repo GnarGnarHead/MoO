@@ -45,6 +45,17 @@ square emerging through the Euclid branch. The report may use bookkeeping terms
 such as `provenance`, `retention`, and `bounds`, but interpretation should read
 them as witness and field of observation. See `../../MOO_REALIGNMENT_NOTE.md`.
 
+This sweep is report machinery for a formula family. It does not define branch
+lineage by itself. The MoO branch question is:
+
+```text
+Where do the square branch and shell-relation branch interact through repeated
+witnessed square/addition agreement?
+```
+
+Use `branch_lineage.py` to audit simple branch relations such as `n -> n+n`
+and `n -> n*n` before treating a Euclid sweep as branch evidence.
+
 ## First-Class Absence
 
 Each target branch receives a category:
@@ -160,7 +171,7 @@ First-pass rank definitions:
 
 ```text
 graph_cost_rank:
-  dense rank among node-complete branches by first_complete_stage,
+  dense rank among value-complete formula-family cases by first_complete_stage,
   then component_height, then m_plus_n
 
 radius_size_rank:
@@ -178,7 +189,7 @@ only after comparison across multiple strict corpora or held-out stages.
 
 ## Square Provenance
 
-Square node presence is not the same as branch-local construction.
+Square node presence is not the same as branch interaction.
 
 For each square component:
 
@@ -206,15 +217,18 @@ Allowed square provenance classes:
 
 ```text
 self_product_edge:
-  the square node has a strict branch-local edge v * v -> v*v
+  machine field: the square node has a retained strict v * v -> v*v row
+  MoO reading: witnessed through the self-relation / square branch
 
 core_confirmation_only:
-  the square node appears through the integer spine at its confirmation stage,
-  without an earlier graph witness
+  machine field: the square node appears through the integer spine at its
+  confirmation stage, without an earlier retained graph witness
+  MoO reading: witnessed through the counting-spine branch
 
 other_graph_witness:
-  the square node has graph provenance, but not from the branch-local
-  self-product edge
+  machine field: the square node has graph provenance, but not from the
+  retained self-product row
+  MoO reading: witnessed through another branch or relation that must be named
 
 absent:
   the square node is absent from the corpus
@@ -244,7 +258,7 @@ square_node_complete:
   x*x, y*y, r*r nodes are present
 
 square_self_product_complete:
-  x*x, y*y, r*r are each witnessed by branch-local self-product edges
+  x*x, y*y, r*r each have retained self-relation branch witness rows
 ```
 
 Do not treat `square_node_complete` as construction completion.
@@ -256,7 +270,7 @@ square_node_complete:
   the values appear
 
 square_self_product_complete:
-  the square layer is witnessed through the branch
+  the square values have retained self-relation branch witness rows
 ```
 
 ## First Experiment

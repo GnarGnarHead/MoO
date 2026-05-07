@@ -54,21 +54,43 @@ square witnessed through branch:
 
 Only the second reading supports branch-square emergence.
 
+This protocol is report machinery until read through branch lineage:
+
+```text
+square branch:
+  n -> n*n
+
+shell-relation branch:
+  repeated witnessed cases where x, y, and r enter square relation,
+  x*x and y*y enter addition, and that result agrees with r*r
+
+interaction branch:
+  where the square and shell relation-lineages produce, share, or illuminate
+  the same structure
+```
+
+Do not treat a missing retained `v*v -> v*v` row as proof that the square
+branch is absent. It may mean the relation was permitted but not witnessed in
+the current field of observation.
+
 ## Branch Definitions
 
-### Circle-Like Branch
+### Shell-Relation Interaction
 
 Current first object:
 
 ```text
-rational quadratic shell:
-  x*x + y*y = r*r
+rational shell-relation case:
+  x and y enter square relation
+  their square values enter additive relation
+  that additive result agrees with r's square value
 ```
 
 This is not yet a Euclidean circle. It is an exact rational constraint family
-inside a strict MoO graph corpus.
+inside a strict MoO graph corpus. A circle-like shadow would be cast by
+repeated shell-relation interaction, not by the formula itself.
 
-### Square-Like Branch
+### Square Branch And Square-Like Shadow
 
 Current first objects:
 
@@ -81,6 +103,9 @@ square components:
 self-product witness:
   a strict graph edge v * v -> v*v
 ```
+
+The square branch is direct MoO structure. A square-like projected form is the
+geometric shadow of that self-relation branch.
 
 Important strict-stage rule:
 
@@ -97,9 +122,9 @@ positive integer operand at the edge stage.
 A circle-square alignment candidate is:
 
 ```text
-a nondegenerate rational shell x*x + y*y = r*r
-whose shell components and square components are present in the same strict
-graph corpus with named graph-invariant support
+a nondegenerate rational shell-relation case whose shell components and square
+components are present in the same strict graph corpus with named
+graph-invariant support
 ```
 
 Candidate fields:
@@ -224,8 +249,9 @@ Allowed after a successful strict report:
 
 ```text
 This corpus contains circle-square alignment candidates: rational quadratic
-shell structures whose associated square components are present in the same
-strict graph corpus with bounded stage spread and graph-native witness support.
+shell-relation structures whose associated square components are present in the
+same strict graph corpus with bounded stage spread and graph-native witness
+support.
 ```
 
 Allowed for weak findings:

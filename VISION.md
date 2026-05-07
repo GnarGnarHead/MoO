@@ -38,9 +38,12 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
   scrutiny fields.
 - `primitive_euclid_branch_sweep.py`: read-only sweep of target primitive
   Euclid branches, preserving complete, partial, and absent branch visibility.
+- `branch_lineage.py`: read-only audit for MoO branch lineage as repeated
+  relation, including even, square, product-branch landing, and prime-branch
+  readings.
 - `prime_shell_features.py`: rational shell integerization, primitive triple,
-  prime-factor, and Euclid-parameter helpers for geometry/number-theory bridge
-  probes.
+  prime-branch / factor, and Euclid-parameter helpers for
+  geometry/number-theory bridge probes.
 - `moo_core_alignment_check.py`: small-run agreement check between the in-memory graph runtime and SQLite corpus path.
 - `fermat_prime_probe.py`: graph-first analysis probe for odd-prime Fermat branch non-collapse.
 - `fermat_little_probe.py`: graph-first analysis probe for Fermat Little return corridors; base `1` remains the certainty anchor.
@@ -54,13 +57,19 @@ It is a documentation alignment pass, not a claim of a new mathematical foundati
 - `MOO_REALIGNMENT_NOTE.md`: canonical language correction: MoO reads results
   by order, witness, emergence, relation, and projected form, not by value
   presence alone.
+- `BRANCH_GLOSSARY.md`: canonical branch vocabulary; branches are repeated
+  witnessed relations along the unfolding of MoO, not merely value lists,
+  formula families, or retained edge rows.
+- `RECURRENCE_FRAMES_NOTE.md`: parked future-study note for recurrence frames
+  such as Fibonacci/two-memory recurrence, kept separate from active branch
+  lineage work.
 - `CORE_CLAIMS.md`: current claim boundary for what MoO can say, cannot say, and must keep corpus-conditioned.
-- `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected objects inferred from stable graph families.
+- `ORDER4_PROJECTION_PROTOCOL.md`: protocol for non-operational projected forms inferred from stable graph families.
 - `PROJECT_ALIGNMENT_NOTE.md`: canonical layer map separating strict-stage MoO, exploratory closure, purged miscommunication artifacts, and external probes.
 - `ANALYSIS_TOOL_PROTOCOL.md`: shared protocol for probes, scouts, lenses, and speculative studies so external analysis returns to graph context.
 - `GRAPH_CORPUS_NOTE.md`: canonical graph-first storage note for aligned MoO.
 - `GRAPH_INVARIANTS_PROTOCOL.md`: shared graph-native invariant vocabulary for
-  strict reports and projected-anchor probes.
+  strict reports and projected-form probes.
 - `EPISTEMIC_ORDER_NOTE.md`: canonical order framing: `1` as the only certainty, confirmed core-loop iterations as second order, and unconfirmed or relational constructions as third order.
 - `RESEARCH_LENSES.md`: operational scrutiny matrix for strict, exploratory, and external-probe claims.
 - `research/`: active scrutiny lenses and strict-corpus research branches grouped by family.
@@ -178,10 +187,10 @@ emergent rationals. The MoO-native structure is the first-seen round,
 construction witness, derivation multiplicity, and speculative-node ancestry.
 Approximation error belongs to the external probe layer.
 
-Order-4 projected objects are allowed only as non-operational analysis anchors
-inferred from exact graph families by explicit projection rules. They are not
-runtime nodes, operands, confirmed facts, theorems, or completed objects inside
-strict MoO.
+Order-4 projected forms are allowed only as non-operational shadows inferred
+from exact graph families by explicit projection rules. They are not runtime
+nodes, operands, confirmed facts, theorems, or completed objects inside strict
+MoO.
 
 Use the category `non-rational projected constants` for anchors such as:
 
@@ -208,7 +217,8 @@ The intended direction is:
 ```text
 runtime rational emergence
 -> constraint signature
--> speculative geometric probe subset
+-> MoO subset or repeated structure
+-> shape-like shadow
 -> possible concept branch
 -> possible Order-4 projected invariant if held-out graph evidence supports it
 ```

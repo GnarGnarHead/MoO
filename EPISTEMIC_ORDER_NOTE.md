@@ -77,14 +77,27 @@ Order 1:
   the immediate certainty, 1
 
 Order 2:
-  confirmed positive whole-number iterations of 1
+  recurrence of 1 through memory and iteration
 
 Order 3:
-  unconfirmed constructions from iterations of 1
+  relational emergence from confirmed recurrence
+
+Order 4:
+  projected form inferred from stable relational emergence
 ```
 
-Previous instances of `1` are once removed from certainty. Confirmed positive
-whole-number iterations are second order. Fractions, relational removals such
+Order 2 has two projections:
+
+```text
+1, 1, 1, ...
+  raw recurrence
+
+1, 2, 3, ...
+  counted recurrence / counting spine
+```
+
+Previous instances of `1` are once removed from certainty. Confirmed
+counting-spine iterations are second order. Fractions, relational removals such
 as `0` or negative values, and unconfirmed positive whole-number constructions
 are third order unless a later analysis lens explicitly says otherwise.
 

@@ -1,21 +1,24 @@
 # Order-4 Projection Protocol
 
-> Status: active protocol for projected objects.
+> Status: active protocol for projected forms.
 >
-> This note defines how MoO may talk about projected constants, circle-like
-> invariants, asymptotic anchors, and other inferred objects without making them
+> This note defines how MoO may talk about projected constants, shape-like
+> shadows, asymptotic anchors, and other inferred objects without making them
 > runtime nodes, certainties, operands, or theorems.
 
 ## Core Definition
 
 Order 4 is not a new certainty tier.
 
-An Order-4 projected object is:
+An Order-4 projected form is:
 
 ```text
-a non-operational analysis-layer anchor inferred from a named family of exact
-MoO graph evidence by an explicit projection rule
+a subset or repeated structure of MoO whose shadow can be read as a higher
+form by an explicit projection rule
 ```
+
+Equivalently, a projected form is a stable shadow cast by witnessed emergence.
+It is not the branch itself.
 
 It is:
 
@@ -33,9 +36,9 @@ Order 4 is more abstract than Order 3, not more certain.
 Governing sentence:
 
 ```text
-Order-4 objects are projected inspection anchors, not certainties or operands;
-they gain credibility only when they predict or organize held-out strict graph
-structure better than controls.
+Order-4 forms are projected shadows, not certainties or operands; they gain
+credibility only when they predict or organize held-out strict graph structure
+better than controls.
 ```
 
 The strongest evidence is not approximation accuracy. It is predictive
@@ -46,6 +49,8 @@ MoO-native reading:
 ```text
 Order 4 is projected form.
 It is inferred from stable witnessed emergence.
+It is a shape-like, constant-like, or invariant-like shadow of a MoO subset or
+repeated structure.
 It does not repair missing witnesses inside the graph.
 ```
 
@@ -75,10 +80,10 @@ Order 4 describes an analysis-layer inference from graph evidence.
 Therefore:
 
 ```text
-Order-4 objects cannot be operands in strict-stage MoO.
-Order-4 objects cannot promote speculative nodes.
-Order-4 objects cannot replace graph inspection.
-Order-4 objects can guide what graph structure to inspect next.
+Order-4 forms cannot be operands in strict-stage MoO.
+Order-4 forms cannot promote speculative nodes.
+Order-4 forms cannot replace graph inspection.
+Order-4 forms can guide what graph structure to inspect next.
 ```
 
 ## Projection Certificate
@@ -114,7 +119,7 @@ selection_rule:
 
 projection_rule:
   deterministic recurrence, limit, invariant, product, sum, refinement, or
-  compression rule mapping the source family to the projected anchor
+  compression rule mapping the source family to the projected form
 
 primary_metric:
   one preregistered score, such as prediction lift, recurrence fit,
@@ -128,13 +133,13 @@ stability_checks:
   behavior across stages, bounds, or corpus variants
 
 controls:
-  matched baselines, shuffles, placebo anchors, and alternate explanations
+  matched baselines, shuffles, placebo forms, and alternate explanations
 
 holdout:
   strict graph data not used to define the projection
 
 prediction:
-  what graph structure the projected anchor expects to find next
+  what graph structure the projected form expects to find next
 
 kill_rule:
   exact conditions that downgrade or reject the anchor
@@ -145,12 +150,12 @@ external-probe lead.
 
 ## Evidence Standard
 
-Positive evidence for an Order-4 object looks like:
+Positive evidence for an Order-4 form looks like:
 
 ```text
 a graph-native family selected by an explicit rule
 the projection remains stable across U-checkpoints and nearby bounds
-the projected anchor predicts held-out nodes, edges, recurrences, or
+the projected form predicts held-out nodes, edges, recurrences, or
   neighborhoods better than matched controls
 the effect survives rational baselines and construction-cost controls
 placebo constants or placebo invariants do not produce the same signal
@@ -159,8 +164,8 @@ placebo constants or placebo invariants do not produce the same signal
 Negative evidence includes:
 
 ```text
-the projected anchor drifts strongly as U grows
-many unrelated anchors fit equally well
+the projected form drifts strongly as U grows
+many unrelated forms fit equally well
 the source family was target-selected after seeing the result
 denominator, low complexity, or exposure explains the signal
 graph or operation-label shuffles preserve the effect
@@ -192,14 +197,69 @@ sqrt(2) and phi:
 Safe language:
 
 ```text
-MoO can propose a non-rational projected constant as an inspection anchor from
-stable rational graph families.
+MoO can propose a non-rational projected constant as a shadow/form from
+stable MoO subsets or repeated rational graph structures.
 ```
 
 Unsafe language:
 
 ```text
 MoO directly constructs pi/e/sqrt(2)/phi as completed objects.
+```
+
+## Shape-Like Projected Forms
+
+Shape language must distinguish the branch from the shadow.
+
+For squares, MoO already has a direct branch:
+
+```text
+self-relation / square branch:
+  n -> n*n
+```
+
+The square-like projected form is the geometric shadow of that branch:
+
+```text
+self-relation
+equal-by-equal multiplication
+area-like value
+regular grid shadow
+```
+
+So:
+
+```text
+square:
+  direct branch first, projected geometric form second
+```
+
+For circles, MoO does not yet have an equally direct branch. The current
+candidate begins as branch interaction:
+
+```text
+x enters square branch: x*x
+y enters square branch: y*y
+r enters square branch: r*r
+x*x and y*y enter addition
+that additive result agrees with r*r
+```
+
+Only if that shell-relation interaction repeats, stabilizes, and organizes
+further emergence should MoO speak of a circle-like shadow.
+
+So:
+
+```text
+circle:
+  branch interaction first, projected geometric form later
+```
+
+Unsafe language:
+
+```text
+MoO has a circle because x*x + y*y = r*r holds.
+MoO defines the Euclidean circle from a shell report.
 ```
 
 ## Candidate Priority
@@ -308,7 +368,7 @@ Unsafe language:
 MoO replaces standard foundations.
 ```
 
-The stronger claim can be considered only if projected anchors organize
+The stronger claim can be considered only if projected forms organize
 multiple domains by predictive graph evidence, not by philosophical coherence
 alone.
 
@@ -334,14 +394,14 @@ holdout corpus
 kill rule
 ```
 
-The analysis note must include failed and negative findings. A projected anchor
+The analysis note must include failed and negative findings. A projected form
 that cannot fail is not an Order-4 research result.
 
 ## Short Version
 
 ```text
 Order 4 is a disciplined speculative instrument.
-It projects inspection anchors from exact graph evidence.
+It projects shadows/forms from exact graph evidence.
 It gains credibility through held-out predictive organization.
 It never becomes a strict operand, certainty, or theorem by wording alone.
 ```

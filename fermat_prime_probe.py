@@ -377,7 +377,7 @@ def fermat_prime_probe(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Probe Fermat-prime branch non-collapse against a MoO graph corpus."
+        description="Probe Fermat odd-prime non-collapse against a MoO graph corpus."
     )
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--primes", default="3,5,7")

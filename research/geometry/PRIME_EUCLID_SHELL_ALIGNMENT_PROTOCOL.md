@@ -15,8 +15,8 @@ The circle-square probe starts from exact rational shells:
 x*x + y*y = r*r
 ```
 
-Prime-factor logic is integer logic. Therefore a rational shell must be
-cleared before prime claims are attached.
+Prime-branch logic is integer logic. Therefore a rational shell must be cleared
+before prime-branch claims are attached.
 
 For each candidate, the protocol records:
 
@@ -121,6 +121,17 @@ odd 3 mod 4 prime exponents
 Fermat two-square obstruction flag
 ```
 
+MoO reading:
+
+```text
+composites are product-branch landings
+primes are prime-branch members
+prime-branch membership is witnessed by the irreducibility condition
+```
+
+The report should not treat a prime as merely a factor label. It should ask how
+product landings and prime-branch members organize the shell-relation case.
+
 Guardrail:
 
 ```text
@@ -154,8 +165,9 @@ control. A stronger result must state which controls were used.
 Safe current claim:
 
 ```text
-MoO can inspect whether prime and Euclid-parameter structure organizes rational
-shell-square alignment timing in strict construction graphs.
+MoO can inspect whether product landings, prime-branch membership, and Euclid
+parameters organize rational shell-square alignment timing in strict
+construction graphs.
 ```
 
 Candidate claim after a saved strict report:
@@ -173,6 +185,7 @@ Do not claim:
 ```text
 Primes are the missing piece.
 Prime factors explain MoO geometry.
+Prime-branch membership alone explains MoO geometry.
 MoO proves Fermat's two-square theorem.
 MoO squares the circle.
 MoO defines the Euclidean circle.

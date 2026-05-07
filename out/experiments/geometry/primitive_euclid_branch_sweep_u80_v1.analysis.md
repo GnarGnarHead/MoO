@@ -83,7 +83,10 @@ triple       m,n    category                            gen  shell  square  self
 
 ## Reading
 
-The first primitive branch `3,4,5` is node-complete:
+This first-pass report uses formula-family coverage fields. It should be read
+as report machinery, not as a full MoO branch-lineage test.
+
+The first primitive Euclid formula-family case `3,4,5` is value-complete:
 
 ```text
 generator_coverage: 1.0
@@ -100,10 +103,10 @@ self_product_witness_coverage: 0.0
 failure_category: self_product_witness_missing
 ```
 
-That should be read through the strict-stage retention guardrail. Integer square
-nodes can be present because the core loop later confirms them, while the
-literal `v * v -> v*v` edge may be absent because the square exceeded output
-retention bounds at the first possible strict edge stage.
+MoO reading: integer square values can be witnessed through the counting-spine
+branch, while the retained `v * v -> v*v` row may be absent because the square
+exceeded the field of observation at the first possible strict edge stage.
+That absence is not proof that the value is not part of the square branch.
 
 The next eleven branches are not blocked by generator or shell visibility.
 They have generator and shell components visible, but square components are
@@ -149,9 +152,10 @@ This report supports:
 
 ```text
 For primitive Euclid targets with m <= 8, the U80 strict corpus has one
-node-complete branch, 3,4,5, but no strict self-product-complete branch. Most
-later target branches have visible generator and shell components but missing
-square components; the largest targets in this range are shell-incomplete.
+value-complete formula-family case, 3,4,5, but no case with retained
+self-relation branch witness rows for all square values. Most later target
+cases have visible generator and shell components but missing square values;
+the largest targets in this range are shell-incomplete.
 ```
 
 This report does not support:

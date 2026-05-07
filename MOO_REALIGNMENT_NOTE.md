@@ -3,11 +3,131 @@
 > Status: canonical language correction.
 >
 > This note restores the theory language that should govern the tools,
-> protocols, and reports. Tooling may keep bookkeeping words such as
-> `aperture`, `retention`, `provenance`, `controls`, and `baselines`, but the
-> MoO reading is order, witness, emergence, relation, and projected form.
+> protocols, tests, and reports. Tooling may keep bookkeeping words such as
+> `node`, `edge`, `aperture`, `retention`, `provenance`, `control`,
+> `baseline`, `corpus`, and `metric`, but those words must remain subordinate
+> to MoO's grammar.
 
-## Core Correction
+## Governing Sentence
+
+```text
+The value is not the object.
+The witnessed emergence is the object.
+```
+
+MoO does not study values alone. It studies how values emerge from `1` through
+recurrence, memory, witness, relation, branch interaction, and projected form.
+
+## Core Problem
+
+MoO begins with the failed attempt to prove `2` from `1`.
+
+In ordinary arithmetic:
+
+```text
+1 + 1 = 2
+```
+
+MoO asks:
+
+```text
+What licenses the second 1?
+```
+
+The first `1` is immediate certainty. The second `1` depends on memory,
+recurrence, preservation, and identification. Therefore `2` is not a second
+certainty. It is the first structure beyond certainty.
+
+That is the heart of MoO.
+
+## Orders Are Grammar
+
+These orders are not labels for convenience. They are the grammar of MoO.
+
+```text
+Order 1:
+  immediate certainty: 1
+
+Order 2:
+  recurrence of 1 through memory and iteration
+
+Order 3:
+  relational emergence from confirmed recurrence
+
+Order 4:
+  projected form: a subset or repeated structure of MoO whose shadow can be
+  read as a higher form
+```
+
+Order 2 has two important projections:
+
+```text
+1, 1, 1, ...
+  raw recurrence
+
+1, 2, 3, ...
+  counted recurrence / counting spine
+```
+
+`U_n` is not merely a compute knob. It is a slice of the second-order recurrence
+field: the counting-spine projection confirmed through `n`.
+
+Order 4 is not a new certainty tier. It is projected form: the shadow cast by a
+stable subset or repeated structure of MoO. It cannot become a runtime operand,
+theorem, or certainty by wording alone.
+
+## Branch
+
+A branch is not a formula, not a value list, not one edge, and not merely a
+graph path.
+
+```text
+A MoO branch is a repeated witnessed relation that emerges along the recurrence
+of 1.
+```
+
+Equivalently:
+
+```text
+branch = same relation repeated along the unfolding of MoO
+```
+
+Its members may appear at different `U` stages, but they share a common
+relation-distance from certainty.
+
+Active branch examples:
+
+```text
+even branch:
+  n -> n+n
+
+self-relation / square branch:
+  n -> n*n
+
+product branch:
+  nontrivial multiplicative landing a*b -> n
+
+prime branch:
+  counting-spine values sharing the repeated irreducibility relation:
+  no nontrivial product-branch landing exists
+
+shell-relation branch:
+  repeated witnessed cases where x, y, and r enter self-relation,
+  x*x and y*y enter addition, and that result agrees with r*r
+
+interaction branch:
+  where two relation-lineages produce, share, or illuminate the same structure
+```
+
+Values are shadows of branches. Witnesses show where a value enters a branch.
+
+Recurrence frames are related but separate. Raw recurrence, the counting spine,
+Fibonacci/two-memory recurrence, doubling recurrence, and triangular
+accumulation are ways recurrence itself may unfold. They are parked as future
+study in `RECURRENCE_FRAMES_NOTE.md` so branch work does not flatten every
+recurrence system into the branch category.
+
+## Witness Before Value
 
 MoO does not chase values.
 
@@ -15,115 +135,120 @@ A value appearing is not enough.
 
 The same value can appear by different witnesses, and the witness matters.
 
-A square value appearing through the counting spine is not the same event as a
-square emerging through a Euclid branch.
-
-MoO must read every object by how it emerged.
-
-## Orders Are Grammar
-
-These orders are not decoration. They are the grammar of MoO.
+Example:
 
 ```text
-Order 1:
-  immediate certainty: 1
-
-Order 2:
-  confirmed recurrence of 1
-
-Order 3:
-  relational emergence from confirmed recurrence
-
-Order 4:
-  inferred form seen through stable relational emergence
+144 appears because the counting spine reaches 144
 ```
 
-Order 4 is not a new certainty tier. It is a projected form used for
-inspection. It cannot become a runtime operand by wording alone.
-
-## Witness Vocabulary
-
-Prefer MoO-native language when interpreting results:
+is not the same event as:
 
 ```text
-witnessed through spine:
-  the value appears through confirmed recurrence of 1
-
-witnessed through branch:
-  the value appears through the relation being inspected
-
-permitted but not witnessed:
-  the relation is allowed by the strict operand rule, but this corpus does not
-  contain the witness
-
-unwitnessed relation:
-  the relation is named or inferred but has no retained construction witness
-
-projected form:
-  an Order-4 inspection anchor inferred from stable witnessed structure
+12 * 12 -> 144
 ```
 
-Tool and report terms map underneath this vocabulary:
+Both point to the same value. They are different emergences.
+
+Therefore every report must distinguish:
 
 ```text
-provenance -> witness
-retention  -> field of observation
-aperture   -> field of observation
-controls   -> tests against ordinary explanations
-holdout    -> future witnessed structure not used to name the form
+same value
+different witness
+different branch
+different epistemological reading
 ```
 
-These tool terms are useful, but they are not the theory.
+## Tool Terms Mapped Back To MoO
+
+Machine fields may remain in code and JSON, but interpretation should translate
+them back:
+
+```text
+core_confirmation_only
+  -> witnessed through counting spine
+
+self_product_edge
+  -> witnessed through self-relation branch
+
+valid but not retained
+  -> permitted but not witnessed in this field
+
+provenance
+  -> witness
+
+retention / aperture
+  -> field of observation
+
+projected constant
+  -> projected form
+```
+
+The machine field is not the concept. The machine field is bookkeeping.
 
 ## Geometry Reading
 
-The current Euclid branch sweeps should be read through witness, not through
-value presence alone.
+The current Euclid and circle-square experiments must not be read as simple
+value-completion reports.
+
+Correct reading:
 
 ```text
-Euclid shell relations become visible.
-U240 lets 5,12,13 become square-node-complete through the counting spine.
-The square layer is still not witnessed through the branch.
+The counting-spine branch deepens from U80 to U480.
+
+As it deepens, more Euclid shell values become visible.
+
+Some square values also become visible through the counting spine.
+
+But the same square values have not yet been shown through the shell/square
+interaction branch under the current reports.
 ```
 
-Therefore:
+That is not failure. That is exactly the distinction MoO exists to make.
+
+Do not say:
 
 ```text
-The values appear.
-The branch-square emergence has not yet been witnessed.
+the branch is absent
 ```
 
-That is not a failure of MoO. It is the result that the current field of
-observation gives.
+when the accurate statement is:
+
+```text
+the value is visible through one branch, while the desired interaction branch
+remains unwitnessed or uncharacterized in this field of observation
+```
 
 ## Strengthening Ladder
 
-A MoO result strengthens when it moves from:
+A MoO result strengthens when it moves through this ladder:
 
 ```text
 value appears
 -> value appears with a witness
 -> witness belongs to the relevant branch
--> the branch organizes further emergence
--> the projected form predicts new witnessed structure
+-> branches interact through shared witnesses or timing
+-> the branch interaction organizes further emergence
+-> projected form predicts new witnessed structure
 ```
 
-This ladder keeps speculation alive without letting speculation become
-certainty by vocabulary.
+Do not optimize for impressive structures. Optimize for epistemic clarity.
 
-## Rule For Future Notes
+## Rule For Future Reports
 
 When a report is technically precise but conceptually cold, translate it back
 to MoO before interpreting it:
 
 ```text
 What order is this object?
+What branch relation is being tested?
 What witness produced it?
 Did it emerge through the branch being studied?
-Is it only visible through the counting spine?
-Is it merely permitted but not witnessed in the current field of observation?
+Is it visible through the counting spine?
+Is it permitted but not witnessed in the current field of observation?
+Is it a branch interaction?
+Is it an inferred projected form?
 Does it organize further emergence?
 ```
 
 If those questions are not answered, the report is bookkeeping, not a MoO
-claim.
+result.

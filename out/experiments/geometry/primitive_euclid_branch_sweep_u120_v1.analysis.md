@@ -80,8 +80,9 @@ U120 node_complete_branch_count: 1
 
 ## Main Change From U80
 
-U120 completes generator and shell visibility for all target branches in the
-`m <= 8` sweep.
+U120 completes generator and shell visibility for all target formula-family
+cases in the `m <= 8` sweep. This is report machinery; it does not by itself
+establish MoO branch lineage.
 
 The three U80 `generator_visible_shell_incomplete` branches become
 `square_components_missing`:
@@ -92,7 +93,7 @@ The three U80 `generator_visible_shell_incomplete` branches become
 15,112,113   gen/shell 0.71/0.33 -> 1.00/1.00
 ```
 
-No new node-complete branch appears.
+No new value-complete formula-family case appears.
 
 ## Branch Table
 
@@ -140,9 +141,10 @@ This report supports:
 
 ```text
 Under the U120 strict corpus with the same p/q/value bounds, all primitive
-Euclid targets with m <= 8 have complete generator and shell node visibility,
-but only 3,4,5 has all square component nodes. U120 extends shell visibility
-relative to U80 but does not produce the next node-complete primitive branch.
+Euclid targets with m <= 8 have complete generator and shell value visibility,
+but only 3,4,5 has all square component values. U120 extends shell visibility
+relative to U80 but does not produce the next value-complete primitive Euclid
+formula-family case.
 ```
 
 This report does not support:
@@ -158,14 +160,15 @@ MoO constructs pi.
 
 ## Next Use
 
-The next decisive experiment should change square-retention conditions rather
-than only increasing U. Under current settings, U120 makes the generator/shell
-side visible but leaves square components blocked for later branches.
+The next decisive experiment should use branch-lineage language rather than
+only formula-family coverage. Under current settings, U120 makes the
+generator/shell side visible but leaves square values outside the field for
+later cases.
 
 Useful next variants:
 
 ```text
-increase max_abs_p / max_abs_q enough to retain y_square and r_square
-or explicitly retain square outputs for target Euclid branches
-or run a wider value-bound corpus and compare square-component phase-in
+audit the square branch with branch_lineage.py
+then compare where shell-relation cases interact with square-branch readings
+only use wider fields under a general preregistered rule
 ```

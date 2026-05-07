@@ -9,9 +9,9 @@
 
 ## Question
 
-Of the visible square nodes in U80, how many are branch-local self-product
-constructions versus core-confirmed integer-spine nodes, other graph witnesses,
-or absent outputs?
+Of the visible square nodes in U80, how many are retained self-relation branch
+witness rows versus square values witnessed through the counting-spine branch,
+other graph witnesses, or absent outputs?
 
 MoO-native reading:
 
@@ -30,13 +30,21 @@ square_self_product_complete_count: 0
 strict_self_product_complete_branch_count: 0
 ```
 
-Square provenance across all target branches:
+Machine witness source counts across all target branches:
 
 ```text
 self_product_edge: 0
 core_confirmation_only: 6
 other_graph_witness: 0
 absent: 39
+```
+
+MoO translation:
+
+```text
+witnessed_through_self_relation_branch: 0 retained rows
+witnessed_through_counting_spine: 6 square values
+permitted_but_not_witnessed_or_not_visible_in_field: 39 square positions
 ```
 
 Failure category counts:
@@ -49,17 +57,17 @@ generator_visible_shell_incomplete: 3
 
 ## Main Result
 
-U80 has no branch-local square self-product evidence for the `m <= 8`
+U80 has no retained self-relation branch witness rows for the `m <= 8`
 primitive Euclid sweep.
 
-The visible square nodes are all classified as:
+The visible square nodes are all classified by the machine field as:
 
 ```text
 core_confirmation_only
 ```
 
-That means they entered through the positive-integer spine at their confirmation
-stage, not through a retained strict branch-local edge:
+MoO reading: they are witnessed through the counting-spine branch at their
+confirmation stage, not through a retained self-relation branch row:
 
 ```text
 x * x -> x*x
@@ -69,7 +77,7 @@ r * r -> r*r
 
 ## 3,4,5 Reading
 
-The `3,4,5` branch remains the only node-complete branch:
+The `3,4,5` formula-family case remains the only square-value-complete case:
 
 ```text
 generator_coverage: 1.0
@@ -89,8 +97,9 @@ But its square provenance is:
 So the stronger reading is:
 
 ```text
-U80 sees the 3,4,5 shell and its square nodes, but it does not witness the
-square layer as branch-local self-product construction.
+U80 sees the 3,4,5 shell and its square values. Those square values are
+witnessed through the counting-spine branch in this report. The shell/square
+interaction branch is not characterized by this report.
 ```
 
 ## Field-Of-Observation Diagnostics
@@ -125,16 +134,16 @@ This means U80 has two kinds of square absence:
 This report supports:
 
 ```text
-In the U80 strict corpus, primitive Euclid branch square-node visibility is not
-branch-local square construction. All visible square nodes in the m<=8 sweep
-are core-confirmation-only, and no branch has complete retained self-product
-square provenance.
+In the U80 strict corpus, primitive Euclid square-value visibility is
+counting-spine visibility by the current report machinery. No target case has
+retained self-relation branch witness rows for all three square values, and the
+shell/square interaction branch is not characterized by this report.
 ```
 
 This report does not support:
 
 ```text
-3,4,5 is branch-locally squared.
+3,4,5 has a characterized shell/square interaction branch.
 Primitive Euclid branches emerge in a graph-native ordering law.
 Primes explain MoO geometry.
 MoO squares the circle.
@@ -145,7 +154,7 @@ MoO constructs pi.
 ## Next Use
 
 The U80 result should be compared with U120 under the same field of
-observation. If U120 also shows zero branch-local self-product witnesses, then
-the next question is not how to force the square layer to appear, but whether a
-general, preregistered field of observation should be used to ask the same
-witness question again.
+observation. If U120 also shows zero retained self-relation branch witnesses,
+then the next question is not how to force the square layer to appear, but
+whether a general branch-lineage audit should be used to ask the same witness
+question again.
