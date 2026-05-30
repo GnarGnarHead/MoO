@@ -165,6 +165,9 @@ iteration of `1`.
   even branch, square branch, product-branch landing, prime branch,
   shell-relation branch, interaction branch, witness, field of observation,
   and projected form.
+- `BRANCH_FORMALIZATION_NOTE.md`: branch-card standard for naming the repeated
+  relation, active field, witness criterion, classical shadow, and weakening
+  rule before interpreting a branch probe.
 - `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`: canonical correction that MoO begins with
   the four-operator fan of `1` against itself; the positive spine is a branch,
   not the whole strict field.
@@ -205,9 +208,9 @@ iteration of `1`.
   Order-4 protocol experiments.
 - `out/experiments/geometry/`: narrowly tracked saved reports,
   preregistration notes, and paired interpretation notes for rational shell and
-  circle-without-pi experiments, including circle-square, prime/Euclid shell
-  alignment, shell/prime-branch interaction, and primitive Euclid branch-sweep
-  probes.
+  circle-without-pi experiments, including shell/square component reports,
+  prime/Euclid shell scrutiny, shell/prime-branch interaction, and primitive
+  Euclid formula-family sweeps.
 - `constructionist_math.py`: in-memory MoO graph runtime and demo/export surface (JSON/DOT/stats).
 - `strict_stage_moo.py`: positive-spine graph-first strict corpus runner;
   useful but not the full signed operator-fan MoO field.
@@ -219,8 +222,8 @@ iteration of `1`.
   `moo_circle_square_probe.py`, `primitive_euclid_branch_sweep.py`,
   `branch_lineage.py`, `prime_shell_features.py`, and
   `rational_baselines.py`: read-only
-  research-layer reporting, circle/shell probing, circle-square branch
-  alignment probing, primitive branch sweeps, branch-lineage auditing,
+  research-layer reporting, circle/shell probing, shell/square component
+  co-presence reporting, primitive Euclid formula-family sweeps, branch-lineage auditing,
   rational shell normalization / prime-Euclid features, and rational baseline
   helpers over strict graph corpora.
 - `moo_graph_invariants.py`: shared invariant helpers used by research reports
@@ -236,9 +239,9 @@ iteration of `1`.
 - `moo_research_report.py`: read-only research-layer node dossiers and corpus-wide baseline rankings over positive-spine strict graph corpora.
 - `moo_circle_probe.py`: read-only unit-quadratic-shell rational probes over positive-spine strict graph corpora.
 - `moo_circle_square_probe.py`: read-only rational shell / square-component
-  alignment probe with primitive-triple and Euclid-parameter scrutiny fields.
-- `primitive_euclid_branch_sweep.py`: read-only primitive Euclid branch sweep
-  that records complete, partial, and absent generator/shell/square branch
+  co-presence report with primitive-triple and Euclid-parameter scrutiny fields.
+- `primitive_euclid_branch_sweep.py`: read-only primitive Euclid formula-family
+  sweep that records complete, partial, and absent generator/shell/square row
   visibility over positive-spine strict graph corpora.
 - `prime_shell_features.py`: stdlib helpers for rational shell integerization,
   primitive triples, prime factor features, and Euclid parameter recovery.
@@ -312,8 +315,8 @@ iteration of `1`.
 - `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --node 3/4 --pretty` — inspect an exact unit quadratic-shell candidate from a rational parameter.
 - `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --unit-circle --only-complete --pretty` — summarize unit-shell candidates whose component nodes are present in the strict corpus.
 - `python3 moo_circle_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --pythagorean --max-denominator 40 --pretty` — scan existing rational node pairs for exact quadratic-shell relations.
-- `python3 moo_circle_square_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-denominator 20 --max-abs-value 5 --require-complete-family --pretty` — scan rational shell-square alignment candidates with primitive-triple, prime-factor, and Euclid-parameter fields.
-- `python3 primitive_euclid_branch_sweep.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-m 8 --pretty` — sweep target primitive Euclid branches and record complete, partial, or absent branch visibility.
+- `python3 moo_circle_square_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-denominator 20 --max-abs-value 5 --require-complete-family --pretty` — scan rational shell/square co-presence candidates with primitive-triple, prime-factor, and Euclid-parameter fields.
+- `python3 primitive_euclid_branch_sweep.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-m 8 --pretty` — sweep target primitive Euclid formula-family rows and record complete, partial, or absent row visibility.
 - `python3 branch_lineage.py --db out/experiments/strict_stage_graph_smoke.sqlite --branch square --limit 20 --pretty` — audit a repeated MoO branch relation such as `n -> n*n`, separating branch participation from retained edge rows.
 - `python3 fermat_prime_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --primes 3,5 --min-base 2 --max-base 5 --top-k 3 --pretty` — inspect Fermat odd-prime non-collapse against a graph corpus.
 - `python3 fermat_little_probe.py --db out/experiments/strict_stage_graph_smoke.sqlite --max-modulus 12 --max-base 8 --top-k 5 --pretty` — inspect Fermat Little return corridors; base `1` is included by default as the certainty anchor.

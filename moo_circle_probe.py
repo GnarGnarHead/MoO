@@ -224,15 +224,45 @@ def _claim_boundary(claim_status: str) -> Dict[str, object]:
         "evidence_layer": "strict",
         "claim_status": claim_status,
         "object_language": "unit_quadratic_shell",
+        "meaning_status": "algebraic_shell_lens_only",
         "allowed_claim_language": [
             "This report exposes exact rational unit-quadratic-shell candidates over a strict MoO graph corpus.",
             "A complete candidate means the relevant rational component nodes are present in this corpus.",
+            "This report does not yet identify which shell candidates are MoO-privileged, predictive, or structurally meaningful.",
             "The parametrization is an external probe until MoO-native orbit and refinement criteria are defined.",
         ],
         "disallowed_claim_language": [
             "Do not claim MoO defines the circle from x*x + y*y = r*r alone.",
             "Do not claim MoO constructs pi from this report.",
+            "Do not treat arbitrary algebraic shell hits as meaningful circle structure.",
+            "Do not treat node presence as a MoO-native selection rule.",
             "Do not treat the unit-shell parametrization as an internal MoO derivation.",
+        ],
+        "missing_standard": [
+            "A useful circle-adjacent probe must show a MoO-native selection rule: which valid shell alignments are privileged by witness cost, emergence order, recurrence, stability across U, or predictive power.",
+            "Until that standard exists, these reports are scouts over algebraic shell shadows, not evidence for a MoO circle definition.",
+        ],
+    }
+
+
+def _interpretation_limit() -> Dict[str, object]:
+    return {
+        "status": "not_a_circle_definition",
+        "current_probe_role": "algebraic_shell_scout",
+        "limitation": (
+            "The probe can find rational values satisfying a quadratic shell equation, "
+            "but that is too unconstrained to define a circle or make predictions."
+        ),
+        "why_this_is_weak": [
+            "Many arbitrary rational nodes can be placed into x*x + y*y = 1 or x*x + y*y = r*r by external algebra.",
+            "The report currently records component presence and graph metadata; it does not select which shell alignments matter.",
+            "Without a MoO-native ranking or exclusion rule, shell hits are post-hoc labels rather than predictive structure.",
+        ],
+        "future_meaningful_standard": [
+            "Rank candidate shell alignments by witnessed emergence order or branch witness cost.",
+            "Show that early privileged shell alignments predict later shell alignments.",
+            "Show stability of the same privileged shell families across deeper fields of observation.",
+            "Name which algebraically valid shell alignments fail to emerge, emerge late, or lack branch support.",
         ],
     }
 
@@ -369,6 +399,7 @@ def unit_shell_dossier_for_t(
         "report_type": "unit_shell_dossier",
         "corpus": _corpus_payload(conn),
         "claim_boundary": _claim_boundary("observation"),
+        "interpretation_limit": _interpretation_limit(),
         "relation_status": "external_parametrized_candidate_relation",
         "parameter": {
             "formula_role": "t",
@@ -521,6 +552,7 @@ def unit_shell_summary(
         "report_type": "unit_shell_summary",
         "corpus": _corpus_payload(conn),
         "claim_boundary": _claim_boundary("lead"),
+        "interpretation_limit": _interpretation_limit(),
         "parameters": {
             "max_denominator": int(max_denominator),
             "max_abs_value": float(max_abs_value) if max_abs_value is not None else None,
@@ -611,13 +643,19 @@ def pythagorean_shell_summary(
             x_key = fraction_key(x)
             y_key = fraction_key(y)
             metrics = _light_component_metrics((x_key, y_key, r_key), nodes, stats)
+            radius_node_present = r_key in nodes
             candidates.append(
                 {
                     "x": fraction_record(x),
                     "y": fraction_record(y),
                     "r": fraction_record(r),
-                    "r_node_present": r_key in nodes,
-                    "complete_shell": r_key in nodes,
+                    "r_node_present": radius_node_present,
+                    "complete_shell": radius_node_present,
+                    "completion_reading": (
+                        "radius_node_present_only_not_shell_relation_witness"
+                        if radius_node_present
+                        else "radius_node_absent"
+                    ),
                     "max_component_first_stage": metrics["max_component_first_stage"],
                     "component_derivation_events": metrics["component_derivation_events"],
                     "graph_invariant_summary": metrics["graph_invariant_summary"],
@@ -659,6 +697,7 @@ def pythagorean_shell_summary(
         "report_type": "pythagorean_shell_summary",
         "corpus": _corpus_payload(conn),
         "claim_boundary": _claim_boundary("lead"),
+        "interpretation_limit": _interpretation_limit(),
         "parameters": {
             "max_denominator": int(max_denominator),
             "max_abs_value": float(max_abs_value) if max_abs_value is not None else None,
@@ -685,7 +724,10 @@ def pythagorean_shell_summary(
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Read-only unit-quadratic-shell probes over a strict MoO graph corpus."
+        description=(
+            "Read-only algebraic shell scouts over a strict MoO graph corpus; "
+            "these reports do not define a MoO-native circle."
+        )
     )
     parser.add_argument("--db", type=Path, required=True)
     mode = parser.add_mutually_exclusive_group(required=True)

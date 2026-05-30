@@ -8,6 +8,10 @@ only when it returns to exact graph evidence, names controls or holdouts, and is
 read through `../MOO_REALIGNMENT_NOTE.md`, `../CORE_CLAIMS.md`, and
 `../RESEARCH_LENSES.md`.
 
+External mathematicians and research traditions are framing lenses only. They
+help ask better questions around witnessed emergence; they do not define MoO,
+validate MoO, or belong in the core grammar. See `FRAMING_LENSES_NOTE.md`.
+
 Tooling terms such as `provenance`, `retention`, `aperture`, and `controls`
 are bookkeeping. Research interpretation should translate them back into
 order, witness, emergence, relation, and projected form.
@@ -27,6 +31,8 @@ itself.
 
 ## Families
 
+- `FRAMING_LENSES_NOTE.md`: boundary note for using outside research as
+  peripheral framing rather than core authority or evidence.
 - `dynamics/`: stage-sensitive construction bloom, persistence, threshold
   shifts, recurrence, and neighborhood-divergence protocols.
 - `euler/`: quadratic-shell, reciprocal-square, finite-product, and delayed

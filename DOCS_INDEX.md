@@ -15,16 +15,17 @@ Use this order for a first pass:
 1. README.md
 2. MOO_REALIGNMENT_NOTE.md
 3. BRANCH_GLOSSARY.md
-4. FUNDAMENTAL_OPERATOR_FAN_NOTE.md
-5. SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
-6. CORE_CLAIMS.md
-7. PROJECT_ALIGNMENT_NOTE.md
-8. EPISTEMIC_ORDER_NOTE.md
-9. GRAPH_CORPUS_NOTE.md
-10. GRAPH_INVARIANTS_PROTOCOL.md
-11. ORDER4_PROJECTION_PROTOCOL.md
-12. RESEARCH_LENSES.md
-13. ANALYSIS_TOOL_PROTOCOL.md
+4. BRANCH_FORMALIZATION_NOTE.md
+5. FUNDAMENTAL_OPERATOR_FAN_NOTE.md
+6. SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
+7. CORE_CLAIMS.md
+8. PROJECT_ALIGNMENT_NOTE.md
+9. EPISTEMIC_ORDER_NOTE.md
+10. GRAPH_CORPUS_NOTE.md
+11. GRAPH_INVARIANTS_PROTOCOL.md
+12. ORDER4_PROJECTION_PROTOCOL.md
+13. RESEARCH_LENSES.md
+14. ANALYSIS_TOOL_PROTOCOL.md
 ```
 
 Then branch:
@@ -34,6 +35,7 @@ run code / inspect corpus       -> README.md, GRAPH_CORPUS_NOTE.md
 understand the theory           -> CORE_CLAIMS.md, VISION.md
 align report language           -> MOO_REALIGNMENT_NOTE.md
 define branch vocabulary        -> BRANCH_GLOSSARY.md
+formalize branch probes         -> BRANCH_FORMALIZATION_NOTE.md
 restore the operator-fan seed   -> FUNDAMENTAL_OPERATOR_FAN_NOTE.md
 place early shape-adjacent terms -> SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
 park recurrence-frame questions -> RECURRENCE_FRAMES_NOTE.md
@@ -75,6 +77,7 @@ When documents conflict, prefer:
 CORE_CLAIMS.md
 MOO_REALIGNMENT_NOTE.md
 BRANCH_GLOSSARY.md
+BRANCH_FORMALIZATION_NOTE.md
 FUNDAMENTAL_OPERATOR_FAN_NOTE.md
 SPAN_TRIAD_SQUARE_EMERGENCE_NOTE.md
 PROJECT_ALIGNMENT_NOTE.md
@@ -94,6 +97,8 @@ RESEARCH_LENSES.md
 - `BRANCH_GLOSSARY.md`: canonical vocabulary for recurrence, counting-spine,
   even, square, product-branch landing, prime branch, shell-relation, and
   interaction branch language.
+- `BRANCH_FORMALIZATION_NOTE.md`: branch-card standard for making branch probes
+  precise without reducing branches to ordinary arithmetic labels.
 - `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`: canonical correction that MoO begins from
   the operator fan `1+1`, `1-1`, `1*1`, and `1/1`; the positive spine is one
   branch, not the whole strict field.
@@ -146,6 +151,9 @@ Research notes are scrutiny lenses or strict-corpus branches. They do not change
 runtime semantics unless a future core document explicitly promotes a rule.
 
 - `research/README.md`: directory-level map for active research notes.
+- `research/FRAMING_LENSES_NOTE.md`: boundary note keeping outside
+  mathematicians and research traditions as peripheral framings, not core MoO
+  authority or evidence.
 - `research/euler/EULER_RECIPROCAL_MASS_AND_CIRCLE_LENS_NOTE.md`: governance
   note for unit-quadratic-shell, reciprocal-square, finite-product, and delayed
   pi-shadow probes.

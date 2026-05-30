@@ -1,20 +1,21 @@
-# Primitive Euclid Branch Sweep Protocol
+# Primitive Euclid Formula-Family Sweep Protocol
 
 > Status: active geometry / number-theory bridge protocol.
 >
-> This note defines the branch-level follow-up to circle-square alignment. It
-> tracks complete, partial, and absent primitive Euclid branches in a strict MoO
-> graph corpus. It does not claim a branch-ordering law from one corpus.
+> This note defines a formula-family follow-up to the shell/square component
+> report. It tracks complete, partial, and absent primitive Euclid rows in a
+> strict MoO graph corpus. It does not claim a branch-ordering law from one
+> corpus.
 
 ## Purpose
 
-The earlier circle-square probe detects rational shell candidates:
+The earlier shell/square component report detects rational shell candidates:
 
 ```text
 x*x + y*y = r*r
 ```
 
-The branch sweep instead starts from primitive Euclid parameters:
+The formula-family sweep instead starts from primitive Euclid parameters:
 
 ```text
 m > n
@@ -29,7 +30,7 @@ r = m*m + n*n
 Then it asks:
 
 ```text
-Which primitive branches are complete, partial, or absent in this strict graph
+Which primitive Euclid formula-family rows are complete, partial, or absent in this strict graph
 corpus, and what is missing?
 ```
 
@@ -46,7 +47,7 @@ such as `provenance`, `retention`, and `bounds`, but interpretation should read
 them as witness and field of observation. See `../../MOO_REALIGNMENT_NOTE.md`.
 
 This sweep is report machinery for a formula family. It does not define branch
-lineage by itself. The MoO branch question is:
+lineage by itself. The later MoO branch question is:
 
 ```text
 Where do the square branch and shell-relation branch interact through repeated
@@ -58,10 +59,10 @@ and `n -> n*n` before treating a Euclid sweep as branch evidence.
 
 ## First-Class Absence
 
-Each target branch receives a category:
+Each target formula-family row receives a category:
 
 ```text
-complete_branch
+complete_formula_family_row
 generator_visible_shell_incomplete
 shell_visible_generator_unrecovered
 square_components_missing
@@ -69,11 +70,12 @@ self_product_witness_missing
 absent_under_bounds
 ```
 
-This makes a small corpus useful even when later branches are not complete.
+This makes a small corpus useful even when later formula-family rows are not
+complete.
 
 ## Required Fields
 
-Every branch report preserves:
+Every row report preserves:
 
 ```text
 primitive_triple
@@ -278,7 +280,7 @@ square_self_product_complete:
 Initial report:
 
 ```text
-primitive_euclid_branch_sweep_u80_v1
+primitive_euclid_formula_family_sweep_u80_v1
 ```
 
 Target range:
@@ -293,10 +295,10 @@ m - n odd
 The analysis note should answer only:
 
 ```text
-In U80, which primitive Euclid branches are complete, partial, or absent, and
+In U80, which primitive Euclid formula-family rows are complete, partial, or absent, and
 are the failures explained by missing generator nodes, shell nodes, square
 components, or self-product witnesses?
 ```
 
-Do not use the U80 report alone to claim that primitive Euclid branches emerge
+Do not use the U80 report alone to claim that primitive Euclid formula-family rows emerge
 in a reproducible graph-native order.

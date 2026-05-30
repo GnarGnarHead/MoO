@@ -14,6 +14,11 @@ branch = same relation repeated along the unfolding of MoO
 A branch is a structural lineage. Its members may appear at different `U`
 stages, but they share a common relation-distance from certainty.
 
+For probe work, each branch should also have a branch card: the repeated
+relation, active field, witness criterion, membership reading, interaction
+reading, ordinary shadow label, and weakening rule. See
+`BRANCH_FORMALIZATION_NOTE.md`.
+
 ## Operator Fan Before Branch Work
 
 MoO is not born as the positive counting spine. Its first structural event is:

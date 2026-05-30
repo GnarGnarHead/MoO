@@ -1,15 +1,15 @@
-# Prime-Euclid Shell Alignment Protocol
+# Prime-Euclid Shell Scrutiny Protocol
 
 > Status: active geometry / number-theory bridge protocol.
 >
-> This note extends circle-square alignment by adding rational normalization,
+> This note extends shell/square component reporting by adding rational normalization,
 > primitive integer triples, Euclid parameters, and prime-factor scrutiny. It
 > does not claim that primes explain MoO structure until graph timing survives
 > explicit controls.
 
 ## Purpose
 
-The circle-square probe starts from exact rational shells:
+The shell/square component report starts from exact rational shells:
 
 ```text
 x*x + y*y = r*r
@@ -209,8 +209,8 @@ strict generator-witness audit
 
 The expected first signal is classical: small shell candidates reduce to the
 `3,4,5` primitive family. The MoO question is whether the graph sees the
-Euclid/prime grammar early and coherently enough to explain branch alignment
-beyond ordinary size and denominator baselines.
+Euclid/prime grammar early and coherently enough to explain shell/square
+co-presence beyond ordinary size and denominator baselines.
 
 ## Branch Sweep Follow-Up
 

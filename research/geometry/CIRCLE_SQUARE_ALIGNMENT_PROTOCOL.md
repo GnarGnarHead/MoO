@@ -1,10 +1,10 @@
-# Circle-Square Alignment Protocol
+# Shell / Square Component Report Protocol
 
 > Status: active geometry research protocol.
 >
-> This note defines a MoO-internal circle-square branch-intersection problem. It
-> does not claim classical squaring of the circle, Euclidean circle definition,
-> or construction of `pi`.
+> This note defines a shell/square component co-presence report. It does not
+> yet define circle-square alignment, classical squaring of the circle,
+> Euclidean circle definition, or construction of `pi`.
 
 ## Core Distinction
 
@@ -26,13 +26,15 @@ signatures, neighborhoods, or predictive organization?
 Safe short name:
 
 ```text
-circle-square alignment
+shell/square component report
 ```
 
 Avoid as a primary claim:
 
 ```text
+circle-square alignment
 squaring the circle
+MoO circle
 ```
 
 MoO-native correction:
@@ -117,9 +119,9 @@ In strict-stage MoO, speculative rational nodes are not operands. Therefore a
 literal `v * v` witness is expected only when `v` is an allowed confirmed
 positive integer operand at the edge stage.
 
-## Alignment Candidate
+## Co-Presence Candidate
 
-A circle-square alignment candidate is:
+A shell/square co-presence candidate is:
 
 ```text
 a nondegenerate rational shell-relation case whose shell components and square
@@ -194,7 +196,7 @@ attractor without a separate dynamics protocol.
 Primary first-pass metrics:
 
 ```text
-complete_family:
+component_family_complete:
   x, y, r, x*x, y*y, and r*r are all present
 
 self_product_witness_count:
@@ -248,17 +250,16 @@ Euclid-parameter-size matched shells
 Allowed after a successful strict report:
 
 ```text
-This corpus contains circle-square alignment candidates: rational quadratic
-shell-relation structures whose associated square components are present in the
-same strict graph corpus with bounded stage spread and graph-native witness
-support.
+This corpus contains shell/square co-presence candidates: rational quadratic
+shell structures whose associated square components are present in the same
+strict graph corpus with bounded stage spread and named witness fields.
 ```
 
 Allowed for weak findings:
 
 ```text
-This report identifies shell-square branch-overlap leads that need stronger
-controls before geometric interpretation.
+This report identifies shell/square co-presence leads. They need a MoO-native
+selection, ranking, or prediction rule before geometric interpretation.
 ```
 
 ## Disallowed Claims
@@ -287,4 +288,5 @@ low stage-spread ranking
 
 The expected low-hanging examples include classical Pythagorean structure such
 as `3, 4, 5`. The MoO question is not whether those identities exist, but how
-their shell and square branches phase into the strict graph corpus.
+their shell values and square-component witnesses phase into the strict graph
+corpus.

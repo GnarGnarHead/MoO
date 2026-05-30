@@ -77,14 +77,17 @@ def _claim_boundary(claim_status: str) -> Dict[str, object]:
     return {
         "evidence_layer": "strict",
         "claim_status": claim_status,
-        "object_language": "circle_square_alignment",
+        "object_language": "shell_square_component_report",
+        "meaning_status": "shell_square_co_presence_lens_only",
         "allowed_claim_language": [
             "This report exposes rational quadratic-shell candidates and their associated square components in a strict MoO graph corpus.",
-            "A circle-square alignment candidate means shell and square component nodes are present with named graph-invariant timing and witness fields.",
+            "A shell/square co-presence candidate means shell and square component nodes are present with named graph-invariant timing and witness fields.",
+            "This report does not yet establish a MoO-native circle, a circle-square alignment, or a witnessed shell-relation branch.",
             "Prime and Euclid-parameter features are scrutiny fields computed after rational shells are cleared to primitive integer triples.",
             "Literal self-product witnesses are audited under the strict operand rule; rational square nodes may be present without rational self-product edges.",
         ],
         "disallowed_claim_language": [
+            "Do not treat shell/square component co-presence as circle-square alignment.",
             "Do not claim MoO squares the circle from this report.",
             "Do not claim MoO defines the Euclidean circle.",
             "Do not claim MoO constructs pi.",
@@ -493,7 +496,8 @@ def circle_square_candidate(
         "completion": {
             "shell_components_present": all(row is not None for row in shell_rows),
             "square_components_present": all(row is not None for row in square_rows),
-            "complete_family": all(row is not None for row in [*shell_rows, *square_rows]),
+            "component_family_complete": all(row is not None for row in [*shell_rows, *square_rows]),
+            "component_family_complete_reading": "shell_and_square_components_present_only_not_branch_interaction",
             "strict_self_product_witness_count": int(self_product_count),
             "all_square_components_have_strict_self_product_witness": self_product_count == 3,
         },
@@ -508,7 +512,7 @@ def circle_square_candidate(
     }
 
 
-def circle_square_alignment_summary(
+def shell_square_component_report_summary(
     conn: sqlite3.Connection,
     *,
     max_denominator: int,
@@ -531,7 +535,7 @@ def circle_square_alignment_summary(
     estimated_pair_count = len(rows) * (len(rows) + 1) // 2
     if not full_scan and estimated_pair_count > int(max_pairs):
         raise SystemExit(
-            "Refusing circle-square scan over "
+            "Refusing shell/square component scan over "
             f"{estimated_pair_count} candidate pairs; raise --max-pairs or pass --full-scan."
         )
 
@@ -552,11 +556,11 @@ def circle_square_alignment_summary(
             ):
                 continue
             candidate = circle_square_candidate(conn, x, y, r, nodes)
-            if require_complete_family and not bool(candidate["completion"]["complete_family"]):
+            if require_complete_family and not bool(candidate["completion"]["component_family_complete"]):
                 continue
             candidates.append(candidate)
 
-    complete = [candidate for candidate in candidates if bool(candidate["completion"]["complete_family"])]
+    complete = [candidate for candidate in candidates if bool(candidate["completion"]["component_family_complete"])]
     with_any_self_product = [
         candidate
         for candidate in candidates
@@ -619,7 +623,7 @@ def circle_square_alignment_summary(
         ),
     )
     return {
-        "report_type": "circle_square_alignment_summary",
+        "report_type": "shell_square_component_report_summary",
         "corpus": _corpus_payload(conn),
         "claim_boundary": _claim_boundary("lead"),
         "parameters": {
@@ -627,7 +631,7 @@ def circle_square_alignment_summary(
             "max_abs_value": float(max_abs_value) if max_abs_value is not None else None,
             "include_negative": bool(include_negative),
             "include_degenerate": bool(include_degenerate),
-            "require_complete_family": bool(require_complete_family),
+            "require_component_family_complete": bool(require_complete_family),
             "eligible_node_count": len(rows),
             "estimated_pair_count": int(estimated_pair_count),
             "max_pairs": int(max_pairs),
@@ -635,7 +639,8 @@ def circle_square_alignment_summary(
         },
         "summary": {
             "candidate_count": len(candidates),
-            "complete_family_count": len(complete),
+            "component_family_complete_count": len(complete),
+            "component_family_complete_count_reading": "shell_and_square_components_present_only",
             "with_any_strict_self_product_witness_count": len(with_any_self_product),
             "with_all_strict_self_product_witnesses_count": len(with_all_self_product),
             "with_euclid_parameter_count": len(with_euclid_parameters),
@@ -643,15 +648,18 @@ def circle_square_alignment_summary(
             "with_any_euclid_generator_witness_count": len(with_any_euclid_generator_witness),
             "nondegenerate": not include_degenerate,
         },
-        "top_low_stage_spread_complete_families": low_spread[:limit],
-        "top_high_witness_complete_families": high_witness[:limit],
+        "top_low_stage_spread_component_complete_families": low_spread[:limit],
+        "top_high_witness_component_complete_families": high_witness[:limit],
         "top_strict_self_product_families": high_self_product[:limit],
     }
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Read-only circle-square branch alignment probe over a strict MoO graph corpus."
+        description=(
+            "Read-only shell/square component co-presence report over a strict "
+            "MoO graph corpus; not a MoO circle definition."
+        )
     )
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--max-denominator", type=positive_int, default=20)
@@ -659,7 +667,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limit", type=positive_int, default=12)
     parser.add_argument("--include-negative", action="store_true")
     parser.add_argument("--include-degenerate", action="store_true")
-    parser.add_argument("--require-complete-family", action="store_true")
+    parser.add_argument(
+        "--require-complete-family",
+        action="store_true",
+        help="Only include rows whose shell and square components are present.",
+    )
     parser.add_argument(
         "--max-pairs",
         type=positive_int,
@@ -694,7 +706,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(list(argv) if argv is not None else None)
     with closing(_connect(Path(args.db))) as conn:
         require_strict_alignment(conn)
-        payload = circle_square_alignment_summary(
+        payload = shell_square_component_report_summary(
             conn,
             max_denominator=int(args.max_denominator),
             max_abs_value=args.max_abs_value,
@@ -711,7 +723,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         tool_path=Path(__file__),
         db_path=Path(args.db),
         argv=argv,
-        schema_version="moo_circle_square_probe.v2",
+        schema_version="shell_square_component_report.v1",
         include_checksums=bool(args.write or args.with_checksums),
     )
     emit_json(payload, pretty=bool(args.pretty), write=args.write)

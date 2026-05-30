@@ -5,6 +5,8 @@
 > A research lens is admissible only if it compiles down to a graph query, a
 > measurable score, a null/control comparison, or an explicit speculative-only
 > lead. Names from outside mathematics are labels for scrutiny, not authority.
+> External researchers and traditions are peripheral framing lenses; they do
+> not enter MoO's core grammar. See `research/FRAMING_LENSES_NOTE.md`.
 
 ## Claim Discipline
 

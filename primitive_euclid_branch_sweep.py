@@ -121,15 +121,18 @@ def _claim_boundary() -> Dict[str, object]:
     return {
         "evidence_layer": "strict",
         "claim_status": "lead",
-        "object_language": "primitive_euclid_branch_sweep",
+        "object_language": "primitive_euclid_formula_family_sweep",
+        "meaning_status": "formula_family_lens_only",
         "allowed_claim_language": [
-            "This report records complete, partial, and absent primitive Euclid branches in a strict MoO graph corpus.",
-            "A branch is inspected through exact node presence, graph stages, Euclid-generator fields, shell-square fields, and strict self-product witnesses.",
+            "This report records complete, partial, and absent primitive Euclid formula-family cases in a strict MoO graph corpus.",
+            "A formula-family case is inspected through exact node presence, graph stages, Euclid-generator fields, shell-square fields, and strict self-product witnesses.",
+            "This report does not by itself establish a witnessed MoO branch or branch-interaction law.",
             "Square node presence is separated from branch-local self-product provenance.",
             "Absence and partial visibility are first-class data, not discarded failures.",
         ],
         "disallowed_claim_language": [
             "Do not claim a primitive-branch ordering law from one corpus.",
+            "Do not treat a complete formula-family row as a witnessed MoO branch.",
             "Do not claim primes explain MoO geometry without size, denominator, parameter-size, and graph-cost controls.",
             "Do not treat a square node as branch-constructed merely because the integer spine eventually confirmed it.",
             "Do not claim MoO squares the circle, defines the Euclidean circle, constructs pi, or proves new number theory from this report.",
@@ -523,7 +526,7 @@ def _failure_category(
         return "absent_under_bounds"
     if generator_complete and shell_complete and square_complete:
         if all_self_products_present:
-            return "complete_branch"
+            return "complete_formula_family_row"
         return "self_product_witness_missing"
     if generator_complete and shell_complete and not square_complete:
         return "square_components_missing"
@@ -682,11 +685,11 @@ def branch_payload(
         "generator_phase_spread": _stage_spread(generator_rows),
         "shell_phase_spread": _stage_spread(shell_rows),
         "square_phase_spread": _stage_spread(square_rows),
-        "node_complete_branch": first_complete_stage is not None,
+        "node_complete_formula_family_row": first_complete_stage is not None,
         "square_node_complete": bool(square_provenance_summary["square_node_complete"]),
         "square_self_product_complete": bool(square_provenance_summary["square_self_product_complete"]),
-        "branch_constructed_square_layer": bool(square_provenance_summary["square_self_product_complete"]),
-        "strict_self_product_complete_branch": first_complete_stage is not None and all_self_products_present,
+        "self_relation_square_layer_witnessed": bool(square_provenance_summary["square_self_product_complete"]),
+        "strict_self_product_complete_formula_family_row": first_complete_stage is not None and all_self_products_present,
         "failure_category": failure_category,
         "graph_cost_rank": None,
         "radius_size_rank": None,
@@ -770,8 +773,10 @@ def primitive_branch_sweep(
         category_counts[category] = category_counts.get(category, 0) + 1
         for source, count in row["square_provenance_summary"]["source_counts"].items():
             square_source_counts[str(source)] += int(count)
-    node_complete = [row for row in branch_rows if bool(row["node_complete_branch"])]
-    strict_complete = [row for row in branch_rows if bool(row["strict_self_product_complete_branch"])]
+    node_complete = [row for row in branch_rows if bool(row["node_complete_formula_family_row"])]
+    strict_complete = [
+        row for row in branch_rows if bool(row["strict_self_product_complete_formula_family_row"])
+    ]
     generator_complete = [
         row for row in branch_rows if int(row["coverage_counts"]["generator"]["missing"]) == 0
     ]
@@ -782,19 +787,19 @@ def primitive_branch_sweep(
         row for row in branch_rows if int(row["coverage_counts"]["square_components"]["missing"]) == 0
     ]
     return {
-        "report_type": "primitive_euclid_branch_sweep",
+        "report_type": "primitive_euclid_formula_family_sweep",
         "corpus": _corpus_payload(conn),
         "claim_boundary": _claim_boundary(),
         "parameters": {
             "max_m": int(max_m),
             "n_rule": "1 <= n < m",
             "primitive_rule": "gcd(m,n)=1 and m-n odd",
-            "branch_count": len(branch_rows),
+            "formula_family_row_count": len(branch_rows),
         },
         "rank_definitions": {
             "graph_cost_rank": (
-                "Dense rank among node-complete branches by first_complete_stage, "
-                "then component_height, then m_plus_n. Incomplete branches have null rank."
+                "Dense rank among node-complete formula-family rows by first_complete_stage, "
+                "then component_height, then m_plus_n. Incomplete rows have null rank."
             ),
             "radius_size_rank": "Dense rank by primitive radius r=m*m+n*n.",
             "component_height_rank": "Dense rank by max(x,y,r).",
@@ -807,9 +812,9 @@ def primitive_branch_sweep(
             "absent": "The square node is absent from the corpus.",
         },
         "summary": {
-            "branch_count": len(branch_rows),
-            "node_complete_branch_count": len(node_complete),
-            "strict_self_product_complete_branch_count": len(strict_complete),
+            "formula_family_row_count": len(branch_rows),
+            "node_complete_formula_family_row_count": len(node_complete),
+            "strict_self_product_complete_formula_family_row_count": len(strict_complete),
             "generator_complete_count": len(generator_complete),
             "shell_complete_count": len(shell_complete),
             "square_complete_count": len(square_complete),
@@ -824,13 +829,16 @@ def primitive_branch_sweep(
                 key: category_counts[key] for key in sorted(category_counts)
             },
         },
-        "branches": branch_rows,
+        "formula_family_rows": branch_rows,
     }
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Sweep primitive Euclid branches over a strict MoO graph corpus."
+        description=(
+            "Sweep primitive Euclid formula-family cases over a strict MoO graph corpus; "
+            "not a branch-ordering proof."
+        )
     )
     parser.add_argument("--db", type=Path, required=True)
     parser.add_argument("--max-m", type=positive_int, default=8)
@@ -864,7 +872,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         tool_path=Path(__file__),
         db_path=Path(args.db),
         argv=argv,
-        schema_version="primitive_euclid_branch_sweep.v2",
+        schema_version="primitive_euclid_formula_family_sweep.v1",
         include_checksums=bool(args.write or args.with_checksums),
     )
     emit_json(payload, pretty=bool(args.pretty), write=args.write)
