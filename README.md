@@ -13,6 +13,8 @@ This repository is rough and incomplete, but I am releasing it as a timestamped
 record of prior work, and as context for how seemingly novel model outputs may
 not be that novel.
 
+---
+
 MoO is an experimental arithmetic project that asks what structure appears when
 number is built outward from a single certainty: `1`.
 
