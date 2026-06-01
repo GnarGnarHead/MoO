@@ -15,12 +15,12 @@ not be that novel.
 
 ---
 
-MoO is an experimental arithmetic project that asks what structure appears when
-number is built outward from a single certainty: `1`.
+MoO is a construction-first arithmetic framework that asks what structure
+appears when number is built outward from a single certainty: `1`.
 
-It does not replace ordinary mathematics. It records how rational values become
-constructible through `+`, `-`, `*`, and `/`, preserving the paths, motifs, and
-speculative nodes that appear along the way.
+It records how rational values become constructible through `+`, `-`, `*`, and
+`/`, preserving the paths, motifs, and speculative nodes that appear along the
+way.
 
 The aim is to study arithmetic as a construction process, then use external
 probes only after the native structure has been recorded.
@@ -32,22 +32,22 @@ The value is not the object.
 The witnessed emergence is the object.
 ```
 
-Any report that lists values without graph context is only a summary or scouting
-artifact. It is not the primary MoO evidence.
+Graph context is the primary MoO evidence. Value summaries and scouting reports
+are useful when read through construction edges, witnesses, and confirmation
+status.
 
 Language alignment rule:
 
 ```text
-MoO does not chase values.
-A value appearing is not enough.
-The same value can appear by different witnesses, and the witness matters.
+MoO studies values through witnessed emergence.
+The same value can appear by different witnesses.
+The witness matters.
 ```
 
-The tools may track `aperture`, `retention`, `provenance`, `controls`, and
-`baselines`, but those are bookkeeping terms. The theory speaks in order,
-witness, emergence, relation, branch interaction, and projected form. See
-`MOO_REALIGNMENT_NOTE.md` and `BRANCH_GLOSSARY.md` before interpreting
-branch/projection reports.
+Tooling fields such as `aperture`, `retention`, `provenance`, `controls`, and
+`baselines` support the theory vocabulary: order, witness, emergence, relation,
+branch interaction, and projected form. See `MOO_REALIGNMENT_NOTE.md` and
+`BRANCH_GLOSSARY.md` for branch/projection reports.
 
 Philosophically, MoO begins from:
 
@@ -55,14 +55,14 @@ Philosophically, MoO begins from:
 I think, therefore 1.
 ```
 
-`1` is the only certainty. MoO began as an attempt to prove `2` from `1`, and
-that attempt fails as certainty: `2` already requires a previous instance of
-`1` to be preserved and used again. That previous instance is once removed from
-the immediate certainty. In this framing, `2` is not a second certainty. It is
-infinite distance from `1`.
+`1` is the only immediate certainty. MoO began as an attempt to prove `2` from
+`1`: `2` already requires a previous instance of `1` to be preserved and used
+again. That previous instance is once removed from the immediate certainty. In
+this framing, `2` is the first structure beyond certainty: infinite distance
+from `1`.
 
-MoO is not born as positive counting. It is born as the fundamental operator
-fan of `1` against itself:
+MoO begins before positive counting, with the fundamental operator fan of `1`
+against itself:
 
 ```text
 1 + 1 -> 2
@@ -81,14 +81,13 @@ This is the first asymmetry:
 ```
 
 The positive counting spine is one branch/projection of this
-operator-generated field. Zero and negative values are not optional artifacts;
-they are native to cancellation, removal, opposition, and crossing. See
-`FUNDAMENTAL_OPERATOR_FAN_NOTE.md`.
+operator-generated field. Zero and negative values are native to cancellation,
+removal, opposition, and crossing. See `FUNDAMENTAL_OPERATOR_FAN_NOTE.md`.
 
-The implementation therefore keeps `Ref(1)` as the only primitive. Everything
-else is generated from iterations and relations of `1`. Point, line, triangle,
-square, and circle language in these notes is analysis-layer framing over that
-construction, not built-in geometry.
+The implementation keeps `Ref(1)` as the only primitive. Everything else is
+generated from iterations and relations of `1`. Point, line, triangle, square,
+and circle language in these notes is analysis-layer framing over that
+construction.
 
 The current saved strict corpora are stage-indexed along the positive spine:
 before that selected field rule has iterated twice, there is no confirmed `2`
@@ -96,13 +95,11 @@ in the positive-spine corpus. Once `2` and `3` exist, a construction such as
 `2 * 3` may produce `6`, but `6` remains speculative until the positive spine
 reaches `6`.
 
-Speculative nodes are still MoO nodes. They are not false, discarded, or outside
-the project; they have a weaker epistemic status than `1` or a confirmed
-selected field iteration. They are inspected and speculated on, not operated
-on. In the current positive-spine corpus, only confirmed positive-spine
-iterations act as operands; a speculative node becomes available for operation
-only if the selected confirmation rule later promotes it. MoO speculates from
-promoted certainty; it does not speculate on speculations.
+Speculative nodes are real MoO nodes with weaker epistemic status than `1` or a
+confirmed selected-field iteration. They are inspected as generated structure.
+In the current positive-spine corpus, confirmed positive-spine iterations act as
+operands; a speculative node becomes available for operation when the selected
+confirmation rule later promotes it. MoO speculates from promoted certainty.
 
 Current epistemic order:
 
@@ -122,8 +119,8 @@ the repeated irreducibility relation where the counting spine is witnessed but
 no nontrivial product-branch landing exists.
 
 Recurrence frames, such as Fibonacci/two-memory recurrence or doubling as an
-iteration system, are parked as future study. They are not active branch
-targets in the current branch-lineage tooling.
+iteration system, are parked as future study. Current branch-lineage tooling
+focuses on repeated relations inside the selected field.
 
 ## Alignment Layers
 
@@ -299,12 +296,6 @@ iteration of `1`.
   implement the full signed operator-fan field.
 - Epistemic annotations: every node/report includes `epistemic_order` (`1|2|3`) and `constructible_from_one`; see `EPISTEMIC_ORDER_NOTE.md` for the intended reading.
 - Prototype injection: `speculate_ref()` can inject speculative integer claims for demo/testing flows, but those claims are not operands until promoted.
-
-## What It Is Not
-
-- Not a replacement for established mathematical foundations.
-- Not a geometric/dimensional embedding (any “space” language here is interpretive).
-- Not a proof that classical arithmetic is invalid.
 
 ## Project Focus
 
