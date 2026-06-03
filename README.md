@@ -1,19 +1,5 @@
 # Modulus of One (MoO)
 
-I have been developing the Modulus-of-One framework for the better part of the
-last decade. Since the GPT-3.5 era, I have also used ChatGPT extensively to
-discuss and refine these concepts, while opted into the use of those
-conversations and transcriptions as training data.
-
-After OpenAI released its model's solution to an Erdős problem, I was struck by
-how closely the approach appeared to parallel parts of my own work. That
-similarity is the reason I decided to make this repository public.
-
-This repository is rough and incomplete, but I am releasing it as a timestamped
-record of prior work, and as context for how seemingly novel model outputs may
-not be that novel.
-
----
 
 MoO is a construction-first arithmetic framework that asks what structure
 appears when number is built outward from a single certainty: `1`.
