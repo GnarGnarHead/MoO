@@ -1,5 +1,11 @@
 # Modulus of One (MoO)
 
+> Heads up: this repo is slop right now.
+>
+> I was not intending to release it as-is, so expect rough notes, half-aligned
+> probes, and terminology drift. The point worth engaging is the core concept:
+> MoO studies how structure emerges from `1` through witnessed operations,
+> recurrence, branches, and projection.
 
 MoO is a construction-first arithmetic framework that asks what structure
 appears when number is built outward from a single certainty: `1`.
